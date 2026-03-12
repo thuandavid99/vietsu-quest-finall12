@@ -2321,3 +2321,25 @@ body {
 }
 .nav-game-item:hover { background: var(--orange-50) !important; color: var(--orange-700) !important; }
 .nav-game-item::after { display: none !important; }
+.hero-history-bg {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(248, 243, 236, 0.78), rgba(248, 243, 236, 0.86)),
+    url('/images/hero-history-bg.jpg') center/cover no-repeat;
+}
+
+.hero-history-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 35%, rgba(255, 122, 26, 0.16), transparent 30%),
+    linear-gradient(90deg, rgba(248, 243, 236, 0.72) 0%, rgba(248, 243, 236, 0.45) 45%, rgba(248, 243, 236, 0.70) 100%);
+  pointer-events: none;
+}
+
+.hero-history-bg > * {
+  position: relative;
+  z-index: 1;
+}
