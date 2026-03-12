@@ -1,0 +1,49 @@
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="brand footer-brand">
+        <span class="brand-mark">VS</span>
+        <span>
+          <strong><%= brand.name %></strong>
+          <small><%= brand.tagline %></small>
+        </span>
+      </div>
+      <p>
+        Website mẫu theo định hướng học Lịch sử Việt Nam dành cho học sinh THCS và THPT,
+        kết hợp khóa học, mini game, bản đồ sự kiện và trợ lý AI demo.
+      </p>
+    </div>
+
+    <div>
+      <h4>Liên kết nhanh</h4>
+      <ul class="footer-links">
+        <li><a href="#courses">Khóa học</a></li>
+        <li><a href="#methods">Phương pháp học</a></li>
+        <li><a href="#games">Trò chơi</a></li>
+        <li><a href="#map">Bản đồ lịch sử</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>Tài nguyên nổi bật</h4>
+      <ul class="footer-links">
+        <% resources.slice(0, 3).forEach((item) => { %>
+          <li><a href="#resources"><%= item.title %></a></li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <div>
+      <h4>Thiết lập nhanh</h4>
+      <ul class="footer-links">
+        <li><code>npm install</code></li>
+        <li><code>npm run dev</code></li>
+        <li><code>http://localhost:3000</code></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© <%= currentYear %> <%= brand.name %>. Demo giao diện màu cam trắng.</span>
+    <span><%= dbEnabled ? 'Đang bật MongoDB' : 'Đang chạy bằng dữ liệu mẫu' %></span>
+  </div>
+</footer>

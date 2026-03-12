@@ -1,0 +1,31 @@
+{
+  "name": "vietsu-quest",
+  "version": "1.0.0",
+  "description": "Website hoc lich su Viet Nam cho hoc sinh THCS va THPT voi giao dien cam trang, Express, EJS, MongoDB",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "history",
+    "education",
+    "express",
+    "mongodb",
+    "ejs"
+  ],
+  "author": "FPT Schools Hue",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}

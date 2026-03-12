@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="vi">
+<%- include('../partials/head', { pageTitle, siteName: brand.name }) %>
+<body>
+<%- include('../partials/header', { brand }) %>
+<main class="fc-page">
+  <div class="fc-intro-bar">
+    <div class="container fc-intro-inner">
+      <nav class="breadcrumb">
+        <a href="/">Trang chủ</a><span>›</span>
+        <a href="/#games">Trò chơi</a><span>›</span>
+        <span>Flashcard</span>
+      </nav>
+      <div class="game-meta-row">
+        <span class="pill">Flashcard</span>
+        <span class="pill pill-badge">MỚI</span>
+        <span class="game-meta-note">3 chế độ học · Tự tạo bộ thẻ · Upload CSV · Kiểu Quizlet</span>
+      </div>
+    </div>
+  </div>
+  <section class="fc-section"><div class="container"><div id="fcApp"></div></div></section>
+  <section class="game-info-section section-soft">
+    <div class="container game-info-grid">
+      <article class="game-info-card">
+        <span class="game-info-icon">🃏</span>
+        <h3>Thẻ ghi nhớ</h3>
+        <ul>
+          <li>Click thẻ để lật xem đáp án</li>
+          <li>Tự đánh giá: <strong>Biết</strong> / <strong>Chưa nhớ</strong></li>
+          <li>Hệ thống ưu tiên thẻ chưa thuộc</li>
+          <li>Xem tiến độ theo progress bar</li>
+        </ul>
+      </article>
+      <article class="game-info-card">
+        <span class="game-info-icon">❓</span>
+        <h3>Trắc nghiệm</h3>
+        <ul>
+          <li>4 lựa chọn tự động tạo</li>
+          <li>Giải thích đáp án sau mỗi câu</li>
+          <li>Điểm số và xếp loại cuối game</li>
+          <li>Chơi lại với thứ tự ngẫu nhiên</li>
+        </ul>
+      </article>
+      <article class="game-info-card">
+        <span class="game-info-icon">🎯</span>
+        <h3>Nối cột</h3>
+        <ul>
+          <li>Ghép thuật ngữ với định nghĩa</li>
+          <li>Đồng hồ đếm thời gian</li>
+          <li>Hiệu ứng đúng/sai tức thì</li>
+          <li>Phá kỷ lục thời gian cá nhân</li>
+        </ul>
+      </article>
+      <article class="game-info-card">
+        <span class="game-info-icon">📤</span>
+        <h3>Tự tạo bộ thẻ</h3>
+        <ul>
+          <li>Nhập thủ công từng thẻ</li>
+          <li>Upload file CSV (Thuật ngữ,Định nghĩa)</li>
+          <li>4 bộ thẻ lịch sử có sẵn</li>
+          <li>Học bất cứ môn nào cũng được</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+  <div class="container" style="padding:1.5rem 0 3rem"><a href="/#games" class="text-link">← Quay lại danh sách trò chơi</a></div>
+</main>
+<%- include('../partials/footer', { brand, resources: [] }) %>
+
+<style>
+.fc-page{background:linear-gradient(180deg,#fff8f2,#fff)}
+.fc-section{padding:44px 0 60px}
+#fcApp{max-width:900px;margin:0 auto}
+.fc-splash{background:#fff;border-radius:28px;border:1px solid rgba(255,122,26,.1);box-shadow:0 18px 48px rgba(255,122,26,.08);animation:fcFadeUp .5s ease;overflow:hidden}
+.fc-splash-hero{background:linear-gradient(135deg,#fff5eb,#ffe7cc);padding:40px 40px 32px;text-align:center}
+.fc-splash-hero h1{font-size:2rem;margin:0 0 8px;color:#1f2937}
+.fc-splash-hero p{color:#475467;margin:0;font-size:1.05rem}
+.fc-splash-emoji{font-size:4rem;display:block;margin-bottom:14px;animation:fcFloat 3s ease-in-out infinite}
+.fc-sets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;padding:28px 32px}
+.fc-set-card{padding:18px 20px;border-radius:16px;border:2px solid #eaecf0;background:#fff;cursor:pointer;transition:all .22s;text-align:left;width:100%}
+.fc-set-card:hover,.fc-set-card.active{border-color:#ff7a1a;transform:translateY(-3px);box-shadow:0 10px 28px rgba(255,122,26,.12)}
+.fc-set-card.active{background:#fff5eb}
+.fc-set-icon{font-size:2rem;display:block;margin-bottom:8px}
+.fc-set-name{font-size:1rem;font-weight:700;color:#1f2937;margin-bottom:4px}
+.fc-set-count{font-size:.8rem;color:#667085}
+.fc-set-custom{border-style:dashed}
+.fc-divider{display:flex;align-items:center;gap:14px;padding:0 32px;color:#667085;font-size:.85rem}
+.fc-divider::before,.fc-divider::after{content:"";flex:1;height:1px;background:#eaecf0}
+.fc-modes{display:flex;gap:12px;padding:20px 32px 28px;flex-wrap:wrap}
+.fc-mode-btn{flex:1;min-width:130px;padding:16px 12px;border-radius:16px;border:2px solid #eaecf0;background:#fff;cursor:pointer;text-align:center;transition:all .22s}
+.fc-mode-btn:hover,.fc-mode-btn.selected{border-color:#ff7a1a;transform:translateY(-2px)}
+.fc-mode-btn.selected{background:#fff5eb}
+.fc-mode-icon{font-size:1.8rem;display:block;margin-bottom:6px}
+.fc-mode-label{font-size:.9rem;font-weight:700;color:#1f2937}
+.fc-mode-sub{font-size:.75rem;color:#667085;margin-top:2px}
+.fc-start-row{padding:0 32px 32px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.fc-btn-primary{background:linear-gradient(135deg,#ff7a1a,#e96508);color:#fff;padding:13px 32px;border-radius:999px;font-weight:700;font-size:1rem;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(255,122,26,.3);transition:all .22s}
+.fc-btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(255,122,26,.4)}
+.fc-btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.fc-btn-secondary{background:#f2f4f7;color:#344054;padding:13px 24px;border-radius:999px;font-weight:700;font-size:.95rem;border:1.5px solid #eaecf0;cursor:pointer;transition:all .2s}
+.fc-btn-secondary:hover{background:#eaecf0}
+.fc-custom-panel{padding:24px 32px 0}
+.fc-custom-panel h3{font-size:1.1rem;font-weight:700;color:#1f2937;margin-bottom:14px}
+.fc-csv-upload{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding:14px 18px;border-radius:14px;border:2px dashed rgba(255,122,26,.3);background:#fff5eb}
+.fc-csv-upload input[type=file]{display:none}
+.fc-csv-label{display:inline-flex;align-items:center;gap:8px;background:#ff7a1a;color:#fff;padding:8px 18px;border-radius:999px;font-size:.85rem;font-weight:700;cursor:pointer;flex-shrink:0;transition:background .2s}
+.fc-csv-label:hover{background:#e96508}
+.fc-csv-hint{font-size:.8rem;color:#667085}
+.fc-cards-input{display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto;padding-right:4px}
+.fc-card-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center}
+.fc-card-row input{padding:10px 14px;border-radius:10px;border:1.5px solid #eaecf0;font-size:.9rem;color:#1f2937;background:#fff;transition:border-color .2s;font-family:inherit}
+.fc-card-row input:focus{outline:none;border-color:#ff7a1a;box-shadow:0 0 0 3px rgba(255,122,26,.1)}
+.fc-card-row input::placeholder{color:#d0d5dd}
+.btn-remove-card{width:30px;height:30px;border-radius:50%;background:#fef2f2;border:none;color:#e74c3c;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0}
+.btn-remove-card:hover{background:#fecaca}
+.fc-add-row{display:flex;gap:10px;margin-top:10px;padding-bottom:24px}
+.btn-add-card{padding:8px 18px;border-radius:999px;background:rgba(255,122,26,.1);color:#ff7a1a;border:1.5px solid rgba(255,122,26,.25);font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s}
+.btn-add-card:hover{background:rgba(255,122,26,.18)}
+.fc-hud{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border-radius:16px;padding:13px 20px;margin-bottom:20px;border:1px solid rgba(255,122,26,.1);box-shadow:0 4px 16px rgba(255,122,26,.05)}
+.fc-hud-set{font-size:.82rem;font-weight:700;color:#ff7a1a}
+.fc-hud-mode{font-size:.8rem;color:#667085}
+.fc-hud-prog{flex:1;min-width:100px}
+.fc-prog-label{font-size:.7rem;color:#667085;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.fc-prog-bar{height:6px;background:#f2f4f7;border-radius:999px;overflow:hidden}
+.fc-prog-fill{height:100%;background:linear-gradient(90deg,#ff7a1a,#ffb067);border-radius:999px;transition:width .5s ease}
+.fc-hud-score{font-size:1.1rem;font-weight:800;color:#ff7a1a}
+.fc-hud-back{background:none;border:1.5px solid #eaecf0;color:#667085;padding:6px 14px;border-radius:999px;cursor:pointer;font-size:.82rem;font-weight:600;transition:all .2s}
+.fc-hud-back:hover{border-color:#ff7a1a;color:#ff7a1a}
+.fc-flip-wrap{perspective:1200px;cursor:pointer;margin-bottom:20px}
+.fc-flip-inner{position:relative;width:100%;min-height:260px;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);border-radius:24px}
+.fc-flip-inner.flipped{transform:rotateY(180deg)}
+.fc-flip-front,.fc-flip-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:24px;padding:40px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 18px 48px rgba(255,122,26,.1);border:1px solid rgba(255,122,26,.12)}
+.fc-flip-front{background:linear-gradient(145deg,#fff5eb,#fff)}
+.fc-flip-back{background:linear-gradient(145deg,#1f2937,#344054);transform:rotateY(180deg)}
+.fc-flip-front-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;color:#ff7a1a;font-weight:800;margin-bottom:14px}
+.fc-flip-back-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.45);font-weight:800;margin-bottom:14px}
+.fc-flip-front-text{font-size:clamp(1.1rem,3vw,1.6rem);font-weight:700;color:#1f2937;line-height:1.4}
+.fc-flip-back-text{font-size:clamp(.95rem,2.5vw,1.2rem);font-weight:500;color:#fff;line-height:1.7}
+.fc-flip-hint{font-size:.78rem;color:#bbb;margin-top:18px}
+.fc-card-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.fc-nav-btn{width:44px;height:44px;border-radius:50%;border:2px solid #eaecf0;background:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.fc-nav-btn:hover{border-color:#ff7a1a;color:#ff7a1a;transform:scale(1.08)}
+.fc-nav-btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
+.fc-card-counter{font-size:.9rem;font-weight:700;color:#344054}
+.fc-know-row{display:flex;gap:12px;justify-content:center;margin-top:6px}
+.fc-btn-know{flex:1;max-width:200px;padding:12px 20px;border-radius:999px;font-weight:700;font-size:.9rem;border:none;cursor:pointer;transition:all .22s;display:flex;align-items:center;justify-content:center;gap:8px}
+.fc-btn-know.yes{background:#f0fdf4;color:#166534;border:2px solid #bbf7d0}
+.fc-btn-know.yes:hover{background:#dcfce7;transform:translateY(-2px)}
+.fc-btn-know.no{background:#fef2f2;color:#991b1b;border:2px solid #fecaca}
+.fc-btn-know.no:hover{background:#fee2e2;transform:translateY(-2px)}
+.fc-quiz-question{background:linear-gradient(135deg,#fff5eb,#fff);border-radius:20px;padding:28px;margin-bottom:18px;border:1px solid rgba(255,122,26,.12);box-shadow:0 8px 32px rgba(255,122,26,.06);animation:fcFadeUp .35s ease}
+.fc-quiz-q-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:#ff7a1a;font-weight:800;margin-bottom:10px}
+.fc-quiz-q-text{font-size:clamp(1rem,2.5vw,1.3rem);font-weight:700;color:#1f2937;line-height:1.5}
+.fc-quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.fc-quiz-opt{padding:13px 16px;border-radius:14px;border:2px solid #eaecf0;background:#fff;font-size:.9rem;font-weight:600;color:#344054;cursor:pointer;text-align:left;display:flex;align-items:flex-start;gap:10px;transition:all .2s;line-height:1.45;font-family:inherit}
+.fc-quiz-opt:hover:not(:disabled){border-color:#ff7a1a;background:#fff5eb;color:#bf4f04;transform:translateY(-2px)}
+.fc-quiz-opt .opl{width:26px;height:26px;flex-shrink:0;border-radius:50%;background:#f2f4f7;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .2s}
+.fc-quiz-opt:hover:not(:disabled) .opl{background:#ff7a1a;color:#fff}
+.fc-quiz-opt.correct{border-color:#2ecc71;background:#f0fdf4;color:#166534}
+.fc-quiz-opt.correct .opl{background:#2ecc71;color:#fff}
+.fc-quiz-opt.wrong{border-color:#e74c3c;background:#fef2f2;color:#991b1b}
+.fc-quiz-opt.wrong .opl{background:#e74c3c;color:#fff}
+.fc-quiz-opt:disabled{cursor:not-allowed}
+.fc-quiz-explain{padding:13px 16px;border-radius:12px;font-size:.9rem;font-weight:600;display:flex;align-items:flex-start;gap:8px;margin-bottom:14px;animation:fcFadeUp .3s ease;line-height:1.5}
+.fc-quiz-explain.ok{background:#f0fdf4;color:#166534;border:1.5px solid #bbf7d0}
+.fc-quiz-explain.bad{background:#fef2f2;color:#991b1b;border:1.5px solid #fecaca}
+.fc-next-btn-row{text-align:right;margin-top:4px}
+.fc-match-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.fc-match-timer{font-size:1.3rem;font-weight:800;color:#ff7a1a}
+.fc-match-board{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fc-match-item{padding:13px 16px;border-radius:13px;border:2px solid #eaecf0;background:#fff;cursor:pointer;font-size:.88rem;font-weight:600;color:#344054;transition:all .22s;user-select:none;min-height:56px;display:flex;align-items:center;font-family:inherit;line-height:1.4;text-align:left}
+.fc-match-item:hover:not(.matched){border-color:#ff7a1a;background:#fff5eb}
+.fc-match-item.selected{border-color:#ff7a1a;background:#fff5eb;color:#bf4f04;transform:scale(1.02);box-shadow:0 6px 20px rgba(255,122,26,.2)}
+.fc-match-item.matched{border-color:#2ecc71;background:#f0fdf4;color:#166534;cursor:default;animation:fcMatchPop .4s ease}
+.fc-match-item.wrong-flash{border-color:#e74c3c;background:#fef2f2;animation:fcWrongShake .4s ease}
+.fc-match-item.term-item{border-left:4px solid #ff7a1a}
+.fc-match-item.def-item{border-left:4px solid #344054;font-size:.8rem}
+.fc-match-item.term-item.matched,.fc-match-item.def-item.matched{border-left-color:#2ecc71}
+.fc-result{background:#fff;border-radius:28px;text-align:center;padding:52px 36px 44px;border:1px solid rgba(255,122,26,.1);box-shadow:0 18px 48px rgba(255,122,26,.1);animation:fcFadeUp .5s ease}
+.fc-result-trophy{font-size:5rem;display:block;margin-bottom:12px;animation:fcTrophy 1s ease}
+.fc-result-score{font-size:4rem;font-weight:900;background:linear-gradient(135deg,#ff7a1a,#bf4f04);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:4px}
+.fc-result-label{font-size:.95rem;color:#667085;margin-bottom:14px}
+.fc-result-rank{display:inline-block;padding:8px 24px;border-radius:999px;background:linear-gradient(135deg,#fff5eb,#ffe7cc);color:#bf4f04;font-weight:800;font-size:1rem;border:2px solid rgba(255,122,26,.2);margin-bottom:28px}
+.fc-result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:400px;margin:0 auto 28px}
+.fc-r-stat{background:#f9fafb;border-radius:14px;padding:14px 10px}
+.fc-r-val{font-size:1.8rem;font-weight:800;color:#ff7a1a;display:block;line-height:1}
+.fc-r-lbl{font-size:.7rem;color:#667085;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.fc-result-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+@keyframes fcFadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes fcFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes fcMatchPop{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
+@keyframes fcWrongShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes fcTrophy{0%{transform:scale(0)rotate(-180deg)}70%{transform:scale(1.15)rotate(8deg)}100%{transform:scale(1)rotate(0)}}
+@media(max-width:620px){
+  .fc-quiz-opts{grid-template-columns:1fr}
+  .fc-match-board{grid-template-columns:1fr}
+  .fc-flip-front,.fc-flip-back{padding:28px 20px}
+  .fc-sets-grid{padding:18px}
+  .fc-modes{padding:14px 18px 20px}
+  .fc-start-row{padding:0 18px 24px}
+  .fc-custom-panel{padding:20px 18px 0}
+}
+</style>
+
+<script>
+/* Việt Sử Quest — Flashcard Game (Quizlet-style)
+   Modes: Flashcard | Quiz | Match
+   Custom sets: manual + CSV upload */
+
+const PRESETS=[{id:"moc",name:"Mốc thời gian Việt Nam",icon:"⏳",cards:[{term:"Năm 938",def:"Ngô Quyền đánh tan quân Nam Hán trên sông Bạch Đằng, mở ra thời kỳ độc lập tự chủ lâu dài."},{term:"Năm 968",def:"Đinh Bộ Lĩnh dẹp 12 sứ quân, lên ngôi Hoàng đế, đặt quốc hiệu Đại Cồ Việt."},{term:"Năm 1010",def:"Lý Công Uẩn ban Chiếu dời đô từ Hoa Lư ra Thăng Long — mở kỷ nguyên Đại Việt hưng thịnh."},{term:"Năm 1075–1077",def:"Lý Thường Kiệt chống Tống, lập phòng tuyến sông Như Nguyệt và viết Nam quốc sơn hà."},{term:"Năm 1258",def:"Nhà Trần lần đầu đánh thắng quân Nguyên Mông, giữ vững Đại Việt."},{term:"Năm 1285",def:"Trần Hưng Đạo lãnh đạo đánh tan quân Nguyên lần thứ hai, tiêu diệt Thoát Hoan."},{term:"Năm 1288",def:"Trận Bạch Đằng lần ba — Trần Hưng Đạo đại thắng quân Nguyên, kết thúc 3 cuộc xâm lược."},{term:"Năm 1418–1428",def:"Khởi nghĩa Lam Sơn — Lê Lợi lãnh đạo 10 năm kháng Minh, giải phóng Đại Việt."},{term:"Năm 1789",def:"Quang Trung đại phá 29 vạn quân Thanh trong 5 ngày Tết Kỷ Dậu — Ngọc Hồi–Đống Đa."},{term:"Năm 1858",def:"Thực dân Pháp tấn công Đà Nẵng, bắt đầu quá trình xâm lược Việt Nam."},{term:"Năm 1930",def:"Đảng Cộng sản Việt Nam thành lập tại Hương Cảng do Nguyễn Ái Quốc triệu tập."},{term:"Ngày 2/9/1945",def:"Hồ Chí Minh đọc Tuyên ngôn Độc lập, khai sinh VNDCCH tại Quảng trường Ba Đình."},{term:"Năm 1946–1954",def:"Kháng chiến chống Pháp kết thúc bằng Chiến thắng Điện Biên Phủ 7/5/1954."},{term:"Ngày 30/4/1975",def:"Giải phóng miền Nam — Chiến dịch Hồ Chí Minh toàn thắng, thống nhất đất nước."}]},{id:"nv",name:"Nhân vật lịch sử",icon:"👑",cards:[{term:"Ngô Quyền (898–944)",def:"Người khai sáng độc lập sau 1000 năm Bắc thuộc. Chiến thuật cọc nhọn sông Bạch Đằng 938 bất hủ."},{term:"Đinh Bộ Lĩnh (924–979)",def:"Dẹp 12 sứ quân, lập Đại Cồ Việt. Thuở nhỏ dùng bông lau làm cờ tập trận cùng trẻ chăn trâu."},{term:"Lý Thường Kiệt (1019–1105)",def:"Thái úy nhà Lý, tác giả bài thơ Nam quốc sơn hà — tuyên ngôn độc lập đầu tiên của Việt Nam."},{term:"Trần Hưng Đạo (1228–1300)",def:"Quốc công Tiết chế, 3 lần thắng Nguyên Mông. Tác giả Hịch tướng sĩ và Binh thư yếu lược."},{term:"Nguyễn Trãi (1380–1442)",def:"Tác giả Bình Ngô đại cáo, mưu sĩ của Lê Lợi. Danh nhân văn hóa thế giới UNESCO."},{term:"Lê Lợi (1385–1433)",def:"Lãnh đạo khởi nghĩa Lam Sơn 10 năm. Trả gươm thần hồ Hoàn Kiếm sau khi đánh đuổi quân Minh."},{term:"Nguyễn Huệ – Quang Trung (1753–1792)",def:"Hoàng đế thiên tài, đại phá 29 vạn quân Thanh 5 ngày Tết 1789. Mất sớm ở tuổi 39."},{term:"Hồ Chí Minh (1890–1969)",def:"Chủ tịch nước, lãnh tụ cách mạng VN. Ra đi tìm đường cứu nước 1911 từ Bến Nhà Rồng."},{term:"Võ Nguyên Giáp (1911–2013)",def:"Đại tướng đầu tiên. Chỉ huy chiến dịch Điện Biên Phủ 1954. Mất năm 102 tuổi."},{term:"Phan Bội Châu (1867–1940)",def:"Lãnh tụ phong trào Đông Du, tổ chức thanh niên sang Nhật học tập cứu nước đầu thế kỷ XX."},{term:"Lý Công Uẩn (974–1028)",def:"Vua khai sáng nhà Lý. Năm 1010 ban Chiếu dời đô xây Thăng Long — kinh thành nghìn năm."},{term:"Bà Triệu (225–248)",def:"Nhụy Kiều Tướng Quân cưỡi voi ra trận chống nhà Ngô. Câu nói: Tôi muốn cưỡi gió đạp sóng…"}]},{id:"td",name:"Triều đại Việt Nam",icon:"🏯",cards:[{term:"Nhà Ngô (939–965)",def:"Đầu tiên sau Bắc thuộc. Ngô Quyền lập sau chiến thắng 938. Kinh đô Cổ Loa, tồn tại 26 năm."},{term:"Nhà Đinh (968–980)",def:"Đinh Bộ Lĩnh thống nhất đất nước sau loạn 12 sứ quân. Tên nước Đại Cồ Việt, đô Hoa Lư."},{term:"Nhà Tiền Lê (980–1009)",def:"Lê Hoàn lên ngôi, đánh thắng Tống 981. Tồn tại 29 năm ngắn ngủi."},{term:"Nhà Lý (1009–1225)",def:"Thịnh trị 216 năm. Lý Công Uẩn dời đô Thăng Long, phát triển Phật giáo, nho học."},{term:"Nhà Trần (1225–1400)",def:"Ba lần thắng Nguyên Mông. Kéo dài 175 năm, kinh tế nông nghiệp và điền trang phát triển."},{term:"Nhà Hồ (1400–1407)",def:"Hồ Quý Ly cải cách táo bạo nhưng mất nước vào tay Minh. Tồn tại chỉ 7 năm."},{term:"Nhà Hậu Lê (1428–1789)",def:"Dài nhất 361 năm. Lê Lợi khai sáng sau Lam Sơn. Lê Thánh Tông là vị vua rực rỡ nhất."},{term:"Nhà Tây Sơn (1778–1802)",def:"Ba anh em Tây Sơn. Nguyễn Huệ lên ngôi Quang Trung, đại phá Thanh 1789."},{term:"Nhà Nguyễn (1802–1945)",def:"Triều đại cuối cùng. Gia Long thống nhất, đô Huế. Bảo Đại thoái vị tháng 8/1945."}]},{id:"dd",name:"Địa danh lịch sử",icon:"🗺️",cards:[{term:"Sông Bạch Đằng",def:"Ba trận đánh lịch sử: Ngô Quyền 938, Lê Hoàn 981, Trần Hưng Đạo 1288. Chiến thuật cọc nhọn."},{term:"Thành Thăng Long",def:"Kinh đô từ 1010 (Lý Công Uẩn). Ngày nay là trung tâm Hà Nội. Di sản Hoàng thành UNESCO."},{term:"Hoa Lư (Ninh Bình)",def:"Kinh đô thời Đinh và Tiền Lê (968–1010). Nằm trong thung lũng đá vôi — Hạ Long trên cạn."},{term:"Lam Sơn (Thanh Hóa)",def:"Nơi Lê Lợi phất cờ khởi nghĩa 1418. Tên Lam Sơn nghĩa là rừng núi xanh."},{term:"Cố đô Huế",def:"Kinh đô nhà Nguyễn 1802–1945. Di sản Văn hóa Thế giới UNESCO năm 1993."},{term:"Điện Biên Phủ",def:"Thung lũng tỉnh Điện Biên. Trận 56 ngày đêm 1954 đập tan cứ điểm Pháp."},{term:"Quảng trường Ba Đình",def:"Hồ Chí Minh đọc Tuyên ngôn 2/9/1945. Lăng Bác, Quốc hội, Phủ Chủ tịch tọa lạc tại đây."},{term:"Thành Cổ Quảng Trị",def:"81 ngày đêm chiến đấu ác liệt năm 1972. Biểu tượng tinh thần bất khuất trong kháng Mỹ."},{term:"Bến Nhà Rồng (TP.HCM)",def:"Ngày 5/6/1911, Nguyễn Tất Thành xuống tàu ra đi tìm đường cứu nước. Nay là Bảo tàng HCM."}]}];
+
+let S={phase:"splash",setData:null,mode:"flash",cardIdx:0,flipped:false,known:[],unknown:[],fcCards:[],quizCards:[],qIdx:0,score:0,answered:false,correctCount:0,matchPairs:[],matchedCount:0,matchStart:null,matchInterval:null,timeTaken:0,customCards:[{term:"",def:""},{term:"",def:""}]};
+const app=document.getElementById("fcApp");
+let AC;
+function beep(f,d,v=.14,t="sine",dl=0){if(!AC)try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return}const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,AC.currentTime+dl);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+dl+d);o.start(AC.currentTime+dl);o.stop(AC.currentTime+dl+d+.05)}
+function sfxFlip(){beep(440,.08)}
+function sfxOk(){beep(520,.1);beep(660,.15,.14,"sine",.1)}
+function sfxWrong(){beep(220,.2,.14,"sawtooth")}
+function sfxMatch(){beep(520,.07);beep(660,.07,.14,"sine",.08);beep(800,.14,.14,"sine",.16)}
+function sfxWin(){[523,659,784,659,784,1047].forEach((f,i)=>beep(f,.12,.16,"sine",i*.1))}
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+
+function renderSplash(){
+  S.phase="splash";
+  const preH=PRESETS.map(p=>`<button class="fc-set-card${S.setData&&S.setData.id===p.id?" active":""}" onclick="selPreset('${p.id}',this)"><span class="fc-set-icon">${p.icon}</span><div class="fc-set-name">${p.name}</div><div class="fc-set-count">${p.cards.length} thẻ · Có sẵn</div></button>`).join("")+`<button class="fc-set-card fc-set-custom" onclick="showCustom()"><span class="fc-set-icon">✏️</span><div class="fc-set-name">Tự tạo bộ thẻ</div><div class="fc-set-count">Nhập tay hoặc upload CSV</div></button>`;
+  const modeH=[["flash","🃏","Thẻ ghi nhớ","Click lật thẻ"],["quiz","❓","Trắc nghiệm","4 lựa chọn"],["match","🎯","Nối cột","Ghép đôi nhanh"]].map(([id,ic,lb,sb])=>`<button class="fc-mode-btn${S.mode===id?" selected":""}" onclick="selMode('${id}',this)"><span class="fc-mode-icon">${ic}</span><div class="fc-mode-label">${lb}</div><div class="fc-mode-sub">${sb}</div></button>`).join("");
+  const hasSet=!!S.setData;
+  app.innerHTML=`<div class="fc-splash"><div class="fc-splash-hero"><span class="fc-splash-emoji">🃏</span><h1>Flashcard Lịch sử</h1><p>Chọn bộ thẻ, chọn chế độ và bắt đầu học như Quizlet!</p></div><div style="padding:24px 32px 0"><p style="font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:#667085;font-weight:800;margin-bottom:12px">📦 Chọn bộ thẻ</p></div><div class="fc-sets-grid">${preH}</div><div class="fc-divider">Chọn chế độ học</div><div class="fc-modes">${modeH}</div><div class="fc-start-row"><button class="fc-btn-primary" onclick="startGame()" ${hasSet?"":"disabled"}>${hasSet?"▶ Bắt đầu học ngay":"▶ Chọn bộ thẻ trước"}</button>${hasSet?`<span style="font-size:.83rem;color:#667085">Bộ: <strong style="color:#ff7a1a">${S.setData.name}</strong> (${S.setData.cards.length} thẻ)</span>`:""}</div></div>`;
+}
+
+function selPreset(id,el){
+  const p=PRESETS.find(x=>x.id===id);if(!p)return;
+  S.setData={id:p.id,name:p.name,cards:p.cards};
+  document.querySelectorAll(".fc-set-card").forEach(c=>c.classList.remove("active"));
+  el.classList.add("active");
+  renderSplash();
+}
+function selMode(m,el){S.mode=m;document.querySelectorAll(".fc-mode-btn").forEach(b=>b.classList.remove("selected"));el.classList.add("selected")}
+
+function showCustom(){
+  S.phase="custom";
+  const rows=S.customCards.map((c,i)=>`<div class="fc-card-row"><input type="text" placeholder="Thuật ngữ" value="${c.term.replace(/"/g,'&quot;')}" oninput="upCard(${i},'term',this.value)"/><input type="text" placeholder="Định nghĩa" value="${c.def.replace(/"/g,'&quot;')}" oninput="upCard(${i},'def',this.value)"/><button class="btn-remove-card" onclick="rmCard(${i})">✕</button></div>`).join("");
+  app.innerHTML=`<div class="fc-splash"><div class="fc-splash-hero" style="text-align:left;padding:28px 32px 20px"><div style="display:flex;gap:12px;align-items:center;margin-bottom:10px"><button onclick="renderSplash()" style="background:rgba(255,255,255,.8);border:1.5px solid rgba(255,122,26,.2);padding:6px 14px;border-radius:999px;font-weight:700;font-size:.83rem;cursor:pointer;color:#ff7a1a">← Quay lại</button><h2 style="margin:0;font-size:1.2rem">Tự tạo bộ thẻ</h2></div><p style="margin:0;font-size:.9rem;color:#475467">Nhập thuật ngữ + định nghĩa, hoặc tải CSV.</p></div><div class="fc-custom-panel"><div class="fc-csv-upload"><label class="fc-csv-label" for="csvF">📤 Upload CSV</label><input type="file" id="csvF" accept=".csv,.txt" onchange="loadCSV(this)"><span class="fc-csv-hint">Format: Thuật ngữ,Định nghĩa (mỗi dòng 1 thẻ)</span></div><p style="font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#667085;margin-bottom:10px">📋 Thẻ (<span id="cardCL">${S.customCards.length}</span>)</p><div style="display:grid;grid-template-columns:1fr 1fr auto;gap:6px;margin-bottom:6px"><span style="font-size:.72rem;font-weight:700;color:#aaa;text-transform:uppercase">THUẬT NGỮ</span><span style="font-size:.72rem;font-weight:700;color:#aaa;text-transform:uppercase">ĐỊNH NGHĨA</span><span></span></div><div class="fc-cards-input" id="cardsI">${rows}</div><div class="fc-add-row"><button class="btn-add-card" onclick="addCard()">+ Thêm thẻ</button></div></div><div class="fc-start-row" style="border-top:1px solid #f2f4f7;padding-top:18px"><button class="fc-btn-primary" onclick="applyCustom()">✓ Dùng bộ thẻ này</button><button class="fc-btn-secondary" onclick="renderSplash()">Hủy</button></div></div>`;
+}
+
+function upCard(i,f,v){S.customCards[i][f]=v}
+function addCard(){
+  S.customCards.push({term:"",def:""});
+  const i=S.customCards.length-1;
+  const row=document.createElement("div");row.className="fc-card-row";
+  row.innerHTML=`<input type="text" placeholder="Thuật ngữ" oninput="upCard(${i},'term',this.value)"/><input type="text" placeholder="Định nghĩa" oninput="upCard(${i},'def',this.value)"/><button class="btn-remove-card" onclick="rmCard(${i})">✕</button>`;
+  document.getElementById("cardsI")?.appendChild(row);
+  const lbl=document.getElementById("cardCL");if(lbl)lbl.textContent=S.customCards.length;
+  row.querySelector("input")?.focus();
+}
+function rmCard(i){if(S.customCards.length<=2){showToast("⚠️ Cần ít nhất 2 thẻ!");return}S.customCards.splice(i,1);showCustom()}
+function loadCSV(input){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{const lines=e.target.result.split("\n").filter(l=>l.trim());const cards=lines.map(l=>{const p=l.split(",");return{term:p[0]?.trim()||"",def:p.slice(1).join(",").trim()}}).filter(c=>c.term&&c.def);if(cards.length<2){showToast("⚠️ Cần ít nhất 2 dòng hợp lệ!");return}S.customCards=cards;showToast("✅ Đã tải "+cards.length+" thẻ từ CSV!");showCustom()};
+  r.readAsText(f,"UTF-8");
+}
+function applyCustom(){
+  const v=S.customCards.filter(c=>c.term.trim()&&c.def.trim());
+  if(v.length<2){showToast("⚠️ Cần ít nhất 2 thẻ có nội dung!");return}
+  S.setData={id:"custom",name:"Bộ thẻ của tôi",cards:v};
+  renderSplash();showToast("✅ Bộ thẻ đã sẵn sàng ("+v.length+" thẻ)!");
+}
+
+function startGame(){
+  if(!S.setData)return;
+  try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}
+  const cards=shuffle(S.setData.cards);
+  if(S.mode==="flash")startFlash(cards);
+  else if(S.mode==="quiz")startQuiz(cards);
+  else startMatch(cards);
+}
+
+/* ── FLASHCARD ── */
+function startFlash(cards){S.phase="playing";S.fcCards=cards;S.cardIdx=0;S.flipped=false;S.known=[];S.unknown=[];renderFlash()}
+function renderFlash(){
+  S.flipped=false;
+  const c=S.fcCards[S.cardIdx],n=S.fcCards.length,pct=(S.cardIdx/n)*100;
+  app.innerHTML=hud("🃏 Thẻ ghi nhớ",pct,S.known.length+"/"+n+" thuộc")+
+  `<div class="fc-card-nav"><button class="fc-nav-btn" onclick="prevC()" ${S.cardIdx===0?"disabled":""}>←</button><span class="fc-card-counter">Thẻ ${S.cardIdx+1} / ${n}</span><button class="fc-nav-btn" onclick="nextC()" ${S.cardIdx===n-1?"disabled":""}>→</button></div>
+  <div class="fc-flip-wrap" id="fw" onclick="flipCard()"><div class="fc-flip-inner" id="fi"><div class="fc-flip-front"><div class="fc-flip-front-label">THUẬT NGỮ / CÂU HỎI</div><div class="fc-flip-front-text">${c.term}</div><div class="fc-flip-hint">👆 Click để xem đáp án</div></div><div class="fc-flip-back"><div class="fc-flip-back-label">ĐỊNH NGHĨA / ĐÁP ÁN</div><div class="fc-flip-back-text">${c.def}</div></div></div></div>
+  <div class="fc-know-row" id="kr" style="display:none"><button class="fc-btn-know no" onclick="markC(false)">✗ Chưa nhớ</button><button class="fc-btn-know yes" onclick="markC(true)">✓ Đã biết</button></div>`;
+}
+function flipCard(){sfxFlip();S.flipped=!S.flipped;document.getElementById("fi")?.classList.toggle("flipped",S.flipped);const kr=document.getElementById("kr");if(kr)kr.style.display=S.flipped?"flex":"none";const h=document.querySelector(".fc-flip-hint");if(h)h.style.display=S.flipped?"none":"block"}
+function markC(ok){if(ok){S.known.push(S.cardIdx);sfxOk()}else{S.unknown.push(S.cardIdx);sfxWrong()}if(S.cardIdx<S.fcCards.length-1){S.cardIdx++;renderFlash()}else{S.correctCount=S.known.length;showFlashRes()}}
+function prevC(){if(S.cardIdx>0){S.cardIdx--;renderFlash()}}
+function nextC(){if(S.cardIdx<S.fcCards.length-1){S.cardIdx++;renderFlash()}}
+function reviewWrong(){startFlash(S.unknown.map(i=>S.fcCards[i]))}
+function showFlashRes(){
+  sfxWin();const p=S.known.length/S.fcCards.length;
+  const rank=p>=.9?"⭐⭐⭐ Xuất sắc!":p>=.6?"⭐⭐ Tốt!":"⭐ Cần ôn thêm";
+  app.innerHTML=`<div class="fc-result"><span class="fc-result-trophy">${p>=.9?"🏆":p>=.6?"🥇":"📚"}</span><div class="fc-result-score">${S.known.length}/${S.fcCards.length}</div><div class="fc-result-label">thẻ đã thuộc</div><div class="fc-result-rank">${rank}</div><div class="fc-result-stats"><div class="fc-r-stat"><span class="fc-r-val">${S.known.length}</span><span class="fc-r-lbl">Đã biết</span></div><div class="fc-r-stat"><span class="fc-r-val">${S.unknown.length}</span><span class="fc-r-lbl">Chưa nhớ</span></div><div class="fc-r-stat"><span class="fc-r-val">${S.fcCards.length}</span><span class="fc-r-lbl">Tổng</span></div></div><div class="fc-result-actions">${S.unknown.length>0?'<button class="fc-btn-primary" onclick="reviewWrong()">📖 Ôn lại '+S.unknown.length+' thẻ sai</button>':""}<button class="fc-btn-primary" onclick="startGame()">🔄 Học lại</button><button class="fc-btn-secondary" onclick="renderSplash()">← Menu</button></div></div>`;
+}
+
+/* ── QUIZ ── */
+function startQuiz(cards){S.phase="playing";S.quizCards=cards;S.qIdx=0;S.score=0;S.correctCount=0;renderQuiz()}
+function renderQuiz(){
+  S.answered=false;
+  const c=S.quizCards[S.qIdx],n=S.quizCards.length,pct=(S.qIdx/n)*100;
+  const wr=shuffle(S.quizCards.filter((_,i)=>i!==S.qIdx)).slice(0,3).map(x=>x.def);
+  const opts=shuffle([c.def,...wr]);
+  const lets=["A","B","C","D"];
+  const opH=opts.map((o,i)=>`<button class="fc-quiz-opt" id="op${i}" onclick="ansQ(${i},this,'${o.replace(/'/g,"&#39;").replace(/"/g,"&quot;")}','${c.def.replace(/'/g,"&#39;").replace(/"/g,"&quot;")}')"><span class="opl">${lets[i]}</span>${o}</button>`).join("");
+  app.innerHTML=hud("❓ Trắc nghiệm",pct,S.score+" điểm")+`<div class="fc-quiz-question"><div class="fc-quiz-q-label">Câu ${S.qIdx+1} / ${n}</div><div class="fc-quiz-q-text">${c.term}</div></div><div class="fc-quiz-opts">${opH}</div><div id="qEx"></div><div class="fc-next-btn-row"><button class="fc-btn-secondary" id="nxBtn" onclick="nextQ()" style="display:none">Câu tiếp →</button></div>`;
+}
+function ansQ(i,btn,chosen,correct){
+  if(S.answered)return;S.answered=true;
+  const isOk=chosen===correct;
+  document.querySelectorAll(".fc-quiz-opt").forEach(b=>{b.disabled=true;if(b.textContent.slice(1).trim()===correct)b.classList.add("correct")});
+  if(!isOk){btn.classList.add("wrong");sfxWrong()}else{sfxOk()}
+  if(isOk){S.score+=10;S.correctCount++}
+  const ex=document.getElementById("qEx");
+  if(ex)ex.innerHTML=`<div class="fc-quiz-explain ${isOk?"ok":"bad"}">${isOk?"✅ Chính xác! +10 điểm":"❌ Sai. Đáp án: <strong>"+correct.slice(0,80)+(correct.length>80?"…":"")+"</strong>"}</div>`;
+  const nb=document.getElementById("nxBtn");if(nb)nb.style.display="inline-flex";
+}
+function nextQ(){S.qIdx++;if(S.qIdx>=S.quizCards.length)showQuizRes();else renderQuiz()}
+function showQuizRes(){
+  sfxWin();const p=S.correctCount/S.quizCards.length;
+  const rank=p>=.9?"⭐⭐⭐ Sử gia xuất sắc":p>=.6?"⭐⭐ Học giả lịch sử":p>=.3?"⭐ Người yêu Sử":"📚 Cần ôn thêm";
+  app.innerHTML=`<div class="fc-result"><span class="fc-result-trophy">${p>=.9?"🏆":p>=.6?"🥇":"📖"}</span><div class="fc-result-score">${S.score}</div><div class="fc-result-label">điểm (${S.correctCount}/${S.quizCards.length} đúng)</div><div class="fc-result-rank">${rank}</div><div class="fc-result-stats"><div class="fc-r-stat"><span class="fc-r-val">${S.correctCount}</span><span class="fc-r-lbl">Đúng</span></div><div class="fc-r-stat"><span class="fc-r-val">${S.quizCards.length-S.correctCount}</span><span class="fc-r-lbl">Sai</span></div><div class="fc-r-stat"><span class="fc-r-val">${Math.round(p*100)}%</span><span class="fc-r-lbl">Tỉ lệ</span></div></div><div class="fc-result-actions"><button class="fc-btn-primary" onclick="startGame()">🔄 Chơi lại</button><button class="fc-btn-secondary" onclick="renderSplash()">← Menu</button></div></div>`;
+}
+
+/* ── MATCH ── */
+let _st=null,_sd=null;
+function startMatch(cards){
+  S.phase="playing";S.matchPairs=shuffle(cards).slice(0,Math.min(6,cards.length));
+  S.matchedCount=0;S.matchStart=Date.now();_st=null;_sd=null;
+  if(S.matchInterval)clearInterval(S.matchInterval);
+  S.matchInterval=setInterval(()=>{const el=document.getElementById("mTimer");if(el)el.textContent="⏱ "+((Date.now()-S.matchStart)/1000).toFixed(1)+"s"},100);
+  renderMatch();
+}
+function renderMatch(){
+  const terms=shuffle(S.matchPairs.map((c,i)=>({txt:c.term,pi:i,type:"t"})));
+  const defs=shuffle(S.matchPairs.map((c,i)=>({txt:c.def,pi:i,type:"d"})));
+  const mixed=[];let ti=0,di=0;
+  while(ti<terms.length||di<defs.length){if(ti<terms.length&&(di>=defs.length||Math.random()>.5))mixed.push(terms[ti++]);else if(di<defs.length)mixed.push(defs[di++])}
+  const iH=mixed.map((item,i)=>`<button class="fc-match-item ${item.type==="t"?"term-item":"def-item"}" id="mi${i}" data-type="${item.type}" data-pi="${item.pi}" onclick="clickM(${i},'${item.type}',${item.pi})">${item.txt}</button>`).join("");
+  app.innerHTML=hud("🎯 Nối cột",(S.matchedCount/S.matchPairs.length)*100,S.matchedCount+"/"+S.matchPairs.length+" đôi")+`<div class="fc-match-header"><span style="font-size:.83rem;color:#667085">Nối <span style="color:#ff7a1a;font-weight:700">thuật ngữ</span> với <span style="color:#344054;font-weight:700">định nghĩa</span></span><div class="fc-match-timer" id="mTimer">⏱ 0.0s</div></div><div class="fc-match-board">${iH}</div>`;
+}
+function clickM(idx,type,pi){
+  const el=document.getElementById("mi"+idx);if(!el||el.classList.contains("matched"))return;
+  if(type==="t"){if(_st!==null)document.getElementById("mi"+_st)?.classList.remove("selected");_st=idx;el.classList.add("selected")}
+  else{if(_sd!==null)document.getElementById("mi"+_sd)?.classList.remove("selected");_sd=idx;el.classList.add("selected")}
+  if(_st!==null&&_sd!==null){
+    const te=document.getElementById("mi"+_st),de=document.getElementById("mi"+_sd);
+    if(parseInt(te.dataset.pi)===parseInt(de.dataset.pi)){
+      sfxMatch();te.classList.remove("selected");te.classList.add("matched");de.classList.remove("selected");de.classList.add("matched");
+      S.matchedCount++;_st=null;_sd=null;
+      if(S.matchedCount>=S.matchPairs.length){clearInterval(S.matchInterval);S.timeTaken=(Date.now()-S.matchStart)/1000;setTimeout(showMatchRes,600)}
+    }else{
+      sfxWrong();te.classList.add("wrong-flash");de.classList.add("wrong-flash");
+      setTimeout(()=>{te.classList.remove("wrong-flash","selected");de.classList.remove("wrong-flash","selected");_st=null;_sd=null},500);
+    }
+  }
+}
+function showMatchRes(){
+  sfxWin();const t=S.timeTaken.toFixed(1);
+  const rank=t<20?"⭐⭐⭐ Siêu nhanh!":t<45?"⭐⭐ Nhanh!":"⭐ Hoàn thành!";
+  app.innerHTML=`<div class="fc-result"><span class="fc-result-trophy">🎯</span><div class="fc-result-score">${t}s</div><div class="fc-result-label">${S.matchPairs.length} đôi hoàn thành</div><div class="fc-result-rank">${rank}</div><div class="fc-result-stats"><div class="fc-r-stat"><span class="fc-r-val">${S.matchPairs.length}</span><span class="fc-r-lbl">Đôi nối</span></div><div class="fc-r-stat"><span class="fc-r-val">${t}s</span><span class="fc-r-lbl">Thời gian</span></div><div class="fc-r-stat"><span class="fc-r-val">100%</span><span class="fc-r-lbl">Hoàn thành</span></div></div><div class="fc-result-actions"><button class="fc-btn-primary" onclick="startGame()">🔄 Chơi lại</button><button class="fc-btn-secondary" onclick="renderSplash()">← Menu</button></div></div>`;
+}
+
+function hud(label,pct,score){return`<div class="fc-hud"><span class="fc-hud-set">${S.setData?.name||""}</span><span class="fc-hud-mode">${label}</span><div class="fc-hud-prog"><div class="fc-prog-label">Tiến độ</div><div class="fc-prog-bar"><div class="fc-prog-fill" style="width:${pct}%"></div></div></div><span class="fc-hud-score">${score}</span><button class="fc-hud-back" onclick="if(S.matchInterval)clearInterval(S.matchInterval);renderSplash()">✕</button></div>`}
+
+renderSplash();
+</script>
+</body>
+</html>
+<script>
+const DECKS=[
+  {id:'trieudai',name:'Các triều đại Việt Nam',emoji:'👑',grade:'6-9',cards:[
+    {q:'Nước Văn Lang tồn tại trong khoảng thời gian nào?',a:'Khoảng thế kỷ VII TCN – 179 TCN, trải qua 18 đời vua Hùng'},
+    {q:'Ngô Quyền thắng quân Nam Hán năm nào?',a:'Năm 938, trận Bạch Đằng – kết thúc hơn 1000 năm Bắc thuộc'},
+    {q:'Nhà Lý dời đô từ đâu về Thăng Long?',a:'Từ Hoa Lư (Ninh Bình) về Thăng Long (Hà Nội) năm 1010'},
+    {q:'Ba lần kháng chiến chống Nguyên Mông diễn ra năm nào?',a:'1258, 1285 và 1288 – cả ba lần quân ta đều chiến thắng'},
+    {q:'Khởi nghĩa Lam Sơn do ai lãnh đạo và diễn ra bao lâu?',a:'Lê Lợi lãnh đạo 10 năm (1418–1427) chống quân Minh'},
+    {q:'Nhà Nguyễn tồn tại trong khoảng thời gian nào?',a:'1802–1945, do Nguyễn Ánh (Gia Long) sáng lập, 13 đời vua'},
+    {q:'Tên nước Đại Cồ Việt do ai đặt và khi nào?',a:'Đinh Bộ Lĩnh đặt năm 968 sau khi dẹp loạn 12 sứ quân'},
+    {q:'Nhà Trần kéo dài bao nhiêu năm?',a:'175 năm (1225–1400), nổi tiếng với ba lần chống Nguyên Mông'},
+    {q:'Chiến thắng Ngọc Hồi – Đống Đa diễn ra năm nào?',a:'Tết Kỷ Dậu 1789, Quang Trung đại phá 29 vạn quân Thanh'},
+    {q:'Vị vua nào xây dựng Bộ Luật Hồng Đức?',a:'Lê Thánh Tông, bộ luật tiến bộ nhất thời phong kiến Việt Nam'}
+  ]},
+  {id:'nhvat',name:'Anh hùng dân tộc',emoji:'⚔️',grade:'6-12',cards:[
+    {q:'Trần Hưng Đạo nổi tiếng với tác phẩm nào?',a:'Hịch tướng sĩ – áng hùng văn kêu gọi tinh thần chiến đấu'},
+    {q:'Nguyễn Trãi sinh và mất năm nào?',a:'Sinh 1380 – mất 1442, UNESCO công nhận danh nhân văn hóa TG'},
+    {q:'Bà Triệu khởi nghĩa năm nào và ở đâu?',a:'Năm 248 tại Thanh Hóa, câu nói: "Tôi muốn cưỡi cơn gió mạnh..."'},
+    {q:'Lý Thường Kiệt lập phòng tuyến ở đâu để chống Tống?',a:'Sông Như Nguyệt (sông Cầu) năm 1077, đánh tan đại quân Tống'},
+    {q:'Hai Bà Trưng khởi nghĩa năm bao nhiêu?',a:'Năm 40 sau Công nguyên tại Mê Linh, trị vì 3 năm'},
+    {q:'Võ Nguyên Giáp sinh năm bao nhiêu và quê ở đâu?',a:'1911 tại Quảng Bình, từng là thầy giáo dạy sử'},
+    {q:'Đinh Bộ Lĩnh dẹp loạn bao nhiêu sứ quân?',a:'12 sứ quân, thống nhất đất nước năm 968'},
+    {q:'Hồ Chí Minh rời cảng nào để ra đi tìm đường cứu nước?',a:'Cảng Nhà Rồng (Sài Gòn), năm 1911'},
+    {q:'Quang Trung tên thật là gì?',a:'Nguyễn Huệ, em của Nguyễn Nhạc – phong trào Tây Sơn'},
+    {q:'Ngô Quyền sử dụng kế sách gì để thắng Nam Hán?',a:'Đóng cọc nhọn trên sông Bạch Đằng, dụ thuyền địch vào bẫy năm 938'}
+  ]},
+  {id:'sk20',name:'Lịch sử thế kỷ XX',emoji:'⭐',grade:'9-12',cards:[
+    {q:'Đảng CSVN thành lập năm nào và ở đâu?',a:'3/2/1930 tại Hương Cảng (Hồng Kông), do Nguyễn Ái Quốc sáng lập'},
+    {q:'Cách mạng tháng Tám thành công vào ngày nào?',a:'19/8/1945 Hà Nội giành chính quyền; 2/9/1945 đọc Tuyên ngôn Độc lập'},
+    {q:'Hiệp định Genève chia đôi VN ở vĩ tuyến nào?',a:'Vĩ tuyến 17 – sông Bến Hải, ký ngày 21/7/1954'},
+    {q:'Chiến dịch Điện Biên Phủ kéo dài bao nhiêu ngày?',a:'56 ngày đêm, từ 13/3 đến 7/5/1954'},
+    {q:'Tổng tiến công Tết Mậu Thân diễn ra năm nào?',a:'1968, tấn công đồng loạt vào các thành phố miền Nam'},
+    {q:'Chiến dịch Hồ Chí Minh kết thúc ngày nào?',a:'30/4/1975, giải phóng Sài Gòn – thống nhất đất nước'},
+    {q:'Hiệp định Paris ký kết năm nào?',a:'27/1/1973, Mỹ cam kết rút quân khỏi Việt Nam'},
+    {q:'Xô Viết Nghệ Tĩnh diễn ra năm nào?',a:'1930–1931, phong trào đấu tranh mạnh mẽ ở Nghệ An và Hà Tĩnh'},
+    {q:'Pháp đánh vào Đà Nẵng năm nào?',a:'1/9/1858, mở đầu quá trình xâm lược Việt Nam'},
+    {q:'Chính sách Đổi Mới được đề ra năm nào?',a:'Đại hội VI năm 1986, mở cửa kinh tế thị trường định hướng XHCN'}
+  ]},
+  {id:'diadam',name:'Địa danh lịch sử',emoji:'🗺️',grade:'6-9',cards:[
+    {q:'Sông Bạch Đằng gắn với những chiến thắng nào?',a:'938 (Ngô Quyền) và 1288 (Trần Hưng Đạo) – chống xâm lược phương Bắc'},
+    {q:'Cổ Loa là kinh đô của nhà nước nào?',a:'Nước Âu Lạc, do An Dương Vương xây dựng khoảng 257 TCN'},
+    {q:'Hoa Lư là kinh đô của những triều đại nào?',a:'Đinh (968–980) và Tiền Lê (980–1009), nay thuộc Ninh Bình'},
+    {q:'Quảng Trị gắn với sự kiện nào năm 1972?',a:'81 ngày đêm bảo vệ Thành Cổ Quảng Trị – biểu tượng anh dũng'},
+    {q:'Địa đạo Củ Chi ở đâu và dài bao nhiêu?',a:'Củ Chi, TP. HCM – hệ thống đường hầm dài hơn 200km'},
+    {q:'Lam Sơn (khởi nghĩa Lam Sơn) ở tỉnh nào?',a:'Thanh Hóa, nay là huyện Thọ Xuân'},
+    {q:'Tuyên ngôn Độc lập 2/9/1945 được đọc tại đâu?',a:'Quảng trường Ba Đình, Hà Nội'},
+    {q:'Vĩnh Linh – Bến Hải nổi tiếng với sự kiện gì?',a:'Vĩ tuyến 17 chia cắt Nam – Bắc theo Hiệp định Genève 1954'},
+    {q:'Cố đô Huế là kinh đô triều đại nào?',a:'Nhà Nguyễn (1802–1945), di sản văn hóa thế giới UNESCO 1993'},
+    {q:'Đèo Hải Vân là ranh giới giữa hai tỉnh nào?',a:'Thừa Thiên Huế và Đà Nẵng'}
+  ]},
+  {id:'vanhoa',name:'Văn hóa & Tư tưởng',emoji:'📜',grade:'10-12',cards:[
+    {q:'Bình Ngô đại cáo do ai viết và nội dung chính là gì?',a:'Nguyễn Trãi viết 1428, khẳng định nền văn hiến và độc lập Đại Việt'},
+    {q:'Hịch tướng sĩ được viết vào khoảng năm nào?',a:'Khoảng 1282–1285, trước kháng chiến chống Nguyên Mông lần 2'},
+    {q:'Văn Miếu – Quốc Tử Giám được xây dựng năm nào?',a:'1070 dưới thời vua Lý Thánh Tông, trường đại học đầu tiên Việt Nam'},
+    {q:'Nam quốc sơn hà là bài thơ của ai?',a:'Lý Thường Kiệt, được coi là bản tuyên ngôn độc lập đầu tiên'},
+    {q:'Truyện Kiều do ai sáng tác?',a:'Nguyễn Du, khoảng đầu thế kỷ XIX, tác phẩm văn học kinh điển'},
+    {q:'Đại Việt sử ký toàn thư do ai biên soạn?',a:'Ngô Sĩ Liên hoàn chỉnh năm 1479 dưới thời vua Lê Thánh Tông'},
+    {q:'Tứ bất tử trong tín ngưỡng dân gian Việt Nam gồm những ai?',a:'Tản Viên, Thánh Gióng, Chử Đồng Tử, Liễu Hạnh'},
+    {q:'Đạo Phật cực thịnh dưới triều đại nào ở Việt Nam?',a:'Nhà Lý (1009–1225), nhiều chùa lớn được xây dựng như chùa Một Cột'},
+    {q:'Chữ Quốc ngữ được phổ biến rộng rãi vào thế kỷ nào?',a:'Thế kỷ XIX–XX, được xây dựng từ thế kỷ XVII bởi các giáo sĩ'},
+    {q:'Áo dài Việt Nam xuất hiện từ thời nào?',a:'Thế kỷ XVIII dưới thời chúa Nguyễn Phúc Khoát, phổ biến từ đầu XX'}
+  ]},
+  {id:'ththu',name:'Kiến thức tổng hợp',emoji:'🧠',grade:'6-12',cards:[
+    {q:'Việt Nam gia nhập ASEAN năm nào?',a:'28/7/1995, là thành viên thứ 7 của tổ chức'},
+    {q:'Chính sách Đổi Mới được đề ra tại Đại hội nào?',a:'Đại hội VI (1986), mở cửa kinh tế thị trường định hướng XHCN'},
+    {q:'Cố đô Huế được UNESCO công nhận di sản năm nào?',a:'1993, là di sản văn hóa thế giới đầu tiên của Việt Nam'},
+    {q:'Ngày Quốc khánh Việt Nam là ngày mấy?',a:'2/9, ngày Bác Hồ đọc Tuyên ngôn Độc lập năm 1945'},
+    {q:'Vịnh Hạ Long được UNESCO công nhận lần đầu năm nào?',a:'1994, là kỳ quan thiên nhiên thế giới, lần 2 là 2000'},
+    {q:'Điện Biên Phủ thuộc tỉnh nào?',a:'Tỉnh Điện Biên (trước 2004 là tỉnh Lai Châu)'},
+    {q:'Sông Hồng bắt nguồn từ nước nào?',a:'Trung Quốc (tỉnh Vân Nam), chảy qua Lào Cai vào Việt Nam'},
+    {q:'Tên cũ của TP. Hồ Chí Minh là gì?',a:'Sài Gòn, đổi tên ngày 2/7/1976 tôn vinh Chủ tịch Hồ Chí Minh'},
+    {q:'Việt Nam có bao nhiêu tỉnh thành trực thuộc Trung ương?',a:'63 tỉnh, thành phố (5 thành phố trực thuộc TW)'},
+    {q:'Kỳ quan thiên nhiên thứ 7 của thế giới ở Việt Nam là gì?',a:'Vịnh Hạ Long, được bình chọn năm 2011 qua bình chọn toàn cầu'}
+  ]}
+];
+
+let S={screen:'home',activeTab:'builtin',deck:null,mode:null,idx:0,cards:[],score:0,total:0,log:[],flipped:false,answered:false,matchLeft:[],matchRight:[],selectedL:null,selectedR:null,speedShown:false,customPairs:[{q:'',a:''},{q:'',a:''}],customName:''};
+const app=document.getElementById('fcApp');
+let AC;
+function beep(f,d,v=.15,t='sine',dy=0){if(!AC)try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return}const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,AC.currentTime+dy);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+dy+d);o.start(AC.currentTime+dy);o.stop(AC.currentTime+dy+d+.05)}
+const sfxOk=()=>{beep(440,.08);beep(660,.12,.15,'sine',.09)};
+const sfxWrong=()=>beep(200,.25,.12,'sawtooth');
+const sfxFlip=()=>beep(700,.06,.1);
+const sfxMatch=()=>{beep(523,.08);beep(659,.1,.15,'sine',.1)};
+const sfxWin=()=>[523,659,784,1047].forEach((f,i)=>beep(f,.2,.18,'sine',i*.12));
+function shuffle(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]]}return r}
+function el(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+
+function renderHome(){
+  S.screen='home';
+  const decksHTML=DECKS.map(d=>`<div class="fc-deck-card" onclick="selectDeck('${d.id}')"><span class="fc-deck-emoji">${d.emoji}</span><div class="fc-deck-name">${esc(d.name)}</div><div class="fc-deck-count">${d.cards.length} thẻ</div><span class="fc-deck-grade">${d.grade}</span></div>`).join('');
+  app.innerHTML=`<div class="fc-screen">
+<div class="fc-home-header"><h1>🃏 Flashcard Quizlet</h1><p>Chọn bộ thẻ lịch sử sẵn có hoặc tự tạo bộ thẻ riêng để ôn bài</p></div>
+<div class="fc-home-tabs">
+  <button class="fc-tab active" onclick="switchTab('builtin',this)">📚 Bộ thẻ sẵn có</button>
+  <button class="fc-tab" onclick="switchTab('create',this)">✏️ Tự tạo bộ thẻ</button>
+</div>
+<div id="fcTabBuiltin"><div class="fc-deck-grid">${decksHTML}</div></div>
+<div id="fcTabCreate" style="display:none">
+  <div class="fc-create-section">
+    <h3>✏️ Tự tạo bộ thẻ của bạn</h3>
+    <div class="fc-create-row"><input type="text" id="deckNameInput" placeholder="Tên bộ thẻ..." oninput="S.customName=this.value"/></div>
+    <div class="fc-pair-list" id="pairList"></div>
+    <div class="fc-create-actions">
+      <button class="fc-btn-add" onclick="addPair()">＋ Thêm thẻ</button>
+      <button class="fc-btn-secondary" onclick="showPasteModal()">📋 Nhập từ bảng</button>
+      <span class="fc-import-hint">Định dạng: Câu hỏi, Đáp án (mỗi dòng 1 thẻ)</span>
+    </div>
+    <button class="fc-btn-primary" id="btnStart" style="opacity:.5;margin-top:16px" disabled onclick="startCustomDeck()">▶ Bắt đầu học</button>
+  </div>
+</div>
+</div>
+<div class="fc-modal-bg" id="pasteModal">
+  <div class="fc-modal-box">
+    <h3>📋 Nhập từ bảng / CSV</h3>
+    <p>Mỗi dòng một thẻ, dùng dấu phẩy hoặc tab: <code>Câu hỏi, Đáp án</code></p>
+    <textarea class="fc-paste-area" id="pasteArea" placeholder="Dán nội dung vào đây..."></textarea>
+    <div style="display:flex;gap:10px"><button class="fc-btn-primary" onclick="importPaste()">Nhập</button><button class="fc-btn-secondary" onclick="closePasteModal()">Hủy</button></div>
+  </div>
+</div>`;
+  renderPairList();
+  document.addEventListener('click',()=>{if(!AC)try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}},{once:true});
+}
+
+function switchTab(tab,btn){
+  document.querySelectorAll('.fc-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');S.activeTab=tab;
+  if(el('fcTabBuiltin'))el('fcTabBuiltin').style.display=tab==='builtin'?'':'none';
+  if(el('fcTabCreate'))el('fcTabCreate').style.display=tab==='create'?'':'none';
+}
+function addPair(q='',a=''){S.customPairs.push({q,a});renderPairList()}
+function removePair(i){if(S.customPairs.length<=1)return;S.customPairs.splice(i,1);renderPairList()}
+function renderPairList(){const l=el('pairList');if(!l)return;l.innerHTML=S.customPairs.map((p,i)=>`<div class="fc-pair"><input type="text" placeholder="Câu hỏi" value="${esc(p.q)}" oninput="S.customPairs[${i}].q=this.value;checkCustomValid()"/><input type="text" placeholder="Đáp án" value="${esc(p.a)}" oninput="S.customPairs[${i}].a=this.value;checkCustomValid()"/><button class="fc-pair-del" onclick="removePair(${i})">✕</button></div>`).join('');checkCustomValid()}
+function checkCustomValid(){const ok=S.customPairs.filter(p=>p.q.trim()&&p.a.trim()).length>=2;const b=el('btnStart');if(b){b.disabled=!ok;b.style.opacity=ok?'1':'.5'}}
+function startCustomDeck(){const cards=S.customPairs.filter(p=>p.q.trim()&&p.a.trim());if(cards.length<2){showToast('⚠️ Cần ít nhất 2 thẻ có nội dung!');return;}selectDeckObj({id:'custom',name:S.customName||'Bộ thẻ của tôi',emoji:'✏️',cards})}
+function showPasteModal(){el('pasteModal')?.classList.add('open')}
+function closePasteModal(){el('pasteModal')?.classList.remove('open')}
+function importPaste(){const raw=el('pasteArea')?.value||'';const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);const pairs=[];lines.forEach(line=>{const sep=line.includes('\t')?'\t':',';const parts=line.split(sep);if(parts.length<2)return;const q=parts[0].trim(),a=parts.slice(1).join(sep).trim();if(q&&a)pairs.push({q,a})});if(!pairs.length){showToast('⚠️ Không nhận ra định dạng');return}S.customPairs=[...S.customPairs,...pairs];renderPairList();closePasteModal();showToast('✅ Đã nhập '+pairs.length+' thẻ!')}
+function selectDeck(id){const d=DECKS.find(d=>d.id===id);if(d)selectDeckObj(d)}
+function selectDeckObj(deck){S.deck=deck;renderModeSelect()}
+
+function renderModeSelect(){S.screen='mode';const d=S.deck;app.innerHTML=`<div class="fc-screen">
+<div class="fc-mode-header"><div style="font-size:2.8rem;margin-bottom:10px">${d.emoji}</div><div class="deck-title">${esc(d.name)}</div><div class="deck-info">${d.cards.length} thẻ · Chọn chế độ học</div></div>
+<div class="fc-mode-grid">
+  <div class="fc-mode-card" onclick="startStudy('flashcard')"><span class="fc-mode-badge">Cổ điển</span><span class="fc-mode-icon">🃏</span><div class="fc-mode-name">Lật thẻ ghi nhớ</div><div class="fc-mode-desc">Xem câu hỏi → tự nhớ → lật thẻ xem đáp án. Tự đánh giá đã nhớ hay chưa.</div></div>
+  <div class="fc-mode-card" onclick="startStudy('quiz')"><span class="fc-mode-icon">🎯</span><div class="fc-mode-name">Trắc nghiệm</div><div class="fc-mode-desc">4 đáp án mỗi câu. Điểm số tự động, phản hồi ngay sau mỗi câu.</div></div>
+  <div class="fc-mode-card" onclick="startStudy('match')"><span class="fc-mode-icon">🔗</span><div class="fc-mode-name">Ghép đôi</div><div class="fc-mode-desc">Ghép thuật ngữ với định nghĩa. Rèn trí nhớ thị giác hiệu quả nhất.</div></div>
+  <div class="fc-mode-card" onclick="startStudy('speed')"><span class="fc-mode-badge">Thách thức</span><span class="fc-mode-icon">⚡</span><div class="fc-mode-name">Đua tốc độ</div><div class="fc-mode-desc">Có timer đếm ngược. Cố nhớ trước khi xem đáp án và tự đánh giá.</div></div>
+</div>
+<div class="fc-start-row"><button class="fc-btn-secondary" onclick="renderHome()">← Bộ thẻ khác</button></div>
+</div>`}
+
+function startStudy(mode){S.mode=mode;S.cards=shuffle([...S.deck.cards]);S.idx=0;S.score=0;S.total=S.cards.length;S.log=[];S.flipped=false;S.answered=false;S.screen='study';if(mode==='flashcard')renderFlashcard();else if(mode==='quiz')renderQuiz();else if(mode==='match')renderMatch();else renderSpeed()}
+function hudHTML(){const pct=Math.round(S.idx/S.total*100);const ml={flashcard:'🃏 Lật thẻ',quiz:'🎯 Trắc nghiệm',match:'🔗 Ghép đôi',speed:'⚡ Tốc độ'}[S.mode];return`<div class="fc-hud"><div class="fc-hud-stat"><span class="fc-hud-val">${S.score}</span><span class="fc-hud-lbl">Điểm</span></div><div class="fc-hud-stat"><span class="fc-hud-val">${S.idx}/${S.total}</span><span class="fc-hud-lbl">Câu</span></div><div class="fc-hud-progress"><div class="fc-hud-lbl">${ml}</div><div class="fc-prog-track"><div class="fc-prog-bar" style="width:${pct}%"></div></div></div><button class="fc-btn-secondary" style="font-size:.78rem;padding:6px 14px" onclick="renderModeSelect()">✕ Thoát</button></div>`}
+
+function renderFlashcard(){if(S.idx>=S.total){renderResult();return}const card=S.cards[S.idx];S.flipped=false;app.innerHTML=`<div class="fc-screen">${hudHTML()}<div class="fc-flip-area" id="flipArea" onclick="flipCard()"><div class="fc-flip-inner"><div class="fc-face fc-face-front"><div class="fc-face-label">Câu hỏi</div><div class="fc-face-text">${esc(card.q)}</div><div class="fc-face-hint">Click để xem đáp án →</div></div><div class="fc-face fc-face-back"><div class="fc-face-label">Đáp án</div><div class="fc-face-text">${esc(card.a)}</div><div class="fc-face-hint">Tự đánh giá bên dưới</div></div></div></div><div class="fc-flip-nav"><button class="fc-nav-btn" onclick="fcPrev()" ${S.idx===0?'disabled':''}>◀</button><span class="fc-card-counter">${S.idx+1} / ${S.total}</span><button class="fc-nav-btn" onclick="fcSkip()">▶</button></div><div class="fc-flip-hint">Click vào thẻ để lật</div><div class="fc-self-mark" id="selfMark" style="display:none"><button class="fc-mark-btn fc-mark-learn" onclick="fcMark(false)">❌ Chưa nhớ</button><button class="fc-mark-btn fc-mark-know" onclick="fcMark(true)">✅ Đã nhớ</button></div></div>`}
+function flipCard(){sfxFlip();S.flipped=!S.flipped;el('flipArea')?.classList.toggle('flipped',S.flipped);if(S.flipped){const sm=el('selfMark');if(sm)sm.style.display='flex'}}
+function fcMark(know){const card=S.cards[S.idx];if(know){S.score++;sfxOk()}else sfxWrong();S.log.push({q:card.q,a:card.a,correct:know});S.idx++;renderFlashcard()}
+function fcSkip(){const card=S.cards[S.idx];S.log.push({q:card.q,a:card.a,correct:false});S.idx++;renderFlashcard()}
+function fcPrev(){if(S.idx>0){S.idx--;if(S.log.length>S.idx)S.log.pop()}renderFlashcard()}
+
+function renderQuiz(){if(S.idx>=S.total){renderResult();return}S.answered=false;const card=S.cards[S.idx];const pool=S.cards.filter((_,i)=>i!==S.idx).map(c=>c.a);const wrongs=shuffle(pool).slice(0,3);S.opts=shuffle([card.a,...wrongs]);const letters=['A','B','C','D'];const optsHTML=S.opts.map((o,i)=>`<button class="fc-opt" id="opt${i}" onclick="quizAnswer(${i},this)"><span class="opt-letter">${letters[i]}</span>${esc(o)}</button>`).join('');app.innerHTML=`<div class="fc-screen">${hudHTML()}<div class="fc-quiz-question"><div class="fc-quiz-q-label">Câu ${S.idx+1}</div><div class="fc-quiz-q-text">${esc(card.q)}</div></div><div class="fc-quiz-opts">${optsHTML}</div><div id="quizFeedback"></div></div>`}
+function quizAnswer(i,btn){if(S.answered)return;S.answered=true;const card=S.cards[S.idx];const correct=S.opts[i]===card.a;document.querySelectorAll('.fc-opt').forEach(b=>{b.disabled=true;if(b.textContent.includes(card.a))b.classList.add('opt-correct')});if(!correct){btn.classList.add('opt-wrong');sfxWrong()}else{S.score++;sfxOk()}S.log.push({q:card.q,a:card.a,correct});const fb=el('quizFeedback');fb.innerHTML=`<div class="fc-quiz-feedback ${correct?'fb-ok':'fb-bad'}">${correct?'✅ Chính xác!':'❌ Sai — Đáp án đúng đã được tô xanh'}</div>`;setTimeout(()=>{S.idx++;renderQuiz()},1500)}
+
+function renderMatch(){const N=Math.min(6,S.total);const picked=S.cards.slice(0,N);S.matchLeft=shuffle(picked.map((c,i)=>({id:i,text:c.q,matched:false})));S.matchRight=shuffle(picked.map((c,i)=>({id:i,text:c.a,matched:false})));S.selectedL=null;S.selectedR=null;S.score=0;S.total=N;renderMatchBoard()}
+function renderMatchBoard(){const lH=S.matchLeft.map((item,i)=>`<div class="fc-match-item ${item.matched?'matched':''}" id="ml${i}" onclick="selL(${i})">${esc(item.text)}</div>`).join('');const rH=S.matchRight.map((item,i)=>`<div class="fc-match-item ${item.matched?'matched':''}" id="mr${i}" onclick="selR(${i})">${esc(item.text)}</div>`).join('');app.innerHTML=`<div class="fc-screen">${hudHTML()}<div class="fc-match-hint">Click thẻ bên TRÁI rồi click thẻ khớp bên PHẢI để ghép đôi</div><div class="fc-match-grid"><div class="fc-match-col">${lH}</div><div class="fc-match-col">${rH}</div></div></div>`;if(S.selectedL!==null)el('ml'+S.selectedL)?.classList.add('selected');if(S.selectedR!==null)el('mr'+S.selectedR)?.classList.add('selected')}
+function selL(i){if(S.matchLeft[i].matched)return;S.selectedL=i;renderMatchBoard();tryMatch()}
+function selR(i){if(S.matchRight[i].matched)return;S.selectedR=i;renderMatchBoard();tryMatch()}
+function tryMatch(){if(S.selectedL===null||S.selectedR===null)return;const li=S.matchLeft[S.selectedL],ri=S.matchRight[S.selectedR];if(li.id===ri.id){li.matched=ri.matched=true;S.score++;sfxMatch();S.selectedL=S.selectedR=null;renderMatchBoard();if(S.matchLeft.every(i=>i.matched)){setTimeout(()=>{S.log=S.matchLeft.map(l=>({q:l.text,a:S.matchRight.find(r=>r.id===l.id)?.text||'',correct:true}));S.idx=S.total;renderResult()},600)}}else{sfxWrong();const lEl=el('ml'+S.selectedL),rEl=el('mr'+S.selectedR);lEl?.classList.add('mismatch-anim');rEl?.classList.add('mismatch-anim');setTimeout(()=>{lEl?.classList.remove('mismatch-anim');rEl?.classList.remove('mismatch-anim');S.selectedL=S.selectedR=null;renderMatchBoard()},400)}}
+
+let speedTmr=null;
+function renderSpeed(){clearInterval(speedTmr);if(S.idx>=S.total){renderResult();return}S.speedShown=false;const card=S.cards[S.idx];let tLeft=15;app.innerHTML=`<div class="fc-screen">${hudHTML()}<div class="fc-speed-timer-bar"><div class="fc-speed-timer-fill" id="spBar" style="width:100%"></div></div><div class="fc-speed-card"><div class="fc-speed-card-label">Hãy nhớ đáp án…</div><div class="fc-speed-card-text">${esc(card.q)}</div><div class="fc-speed-answer" id="spAns"><strong>${esc(card.a)}</strong></div><div class="fc-speed-btns" id="spBtns"><button class="fc-speed-show" onclick="speedReveal()">👁 Xem đáp án</button></div></div></div>`;speedTmr=setInterval(()=>{tLeft--;const b=el('spBar');if(b)b.style.width=(tLeft/15*100)+'%';if(tLeft<=0){clearInterval(speedTmr);speedReveal()}},1000)}
+function speedReveal(){clearInterval(speedTmr);if(S.speedShown)return;S.speedShown=true;const a=el('spAns');if(a)a.style.display='block';const b=el('spBtns');if(b)b.innerHTML='<button class="fc-speed-bad" onclick="speedMark(false)">❌ Chưa nhớ</button><button class="fc-speed-ok" onclick="speedMark(true)">✅ Đã nhớ</button>'}
+function speedMark(ok){const card=S.cards[S.idx];if(ok){S.score++;sfxOk()}else sfxWrong();S.log.push({q:card.q,a:card.a,correct:ok});S.idx++;renderSpeed()}
+
+function renderResult(){clearInterval(speedTmr);sfxWin();const tot=S.total;const pct=Math.round(S.score/tot*100);let trophy='🥉',rank='Cần ôn thêm';if(pct>=90){trophy='🏆';rank='Xuất sắc ⭐⭐⭐'}else if(pct>=70){trophy='🥇';rank='Tốt ⭐⭐'}else if(pct>=50){trophy='🥈';rank='Khá ⭐'}const correct=S.log.filter(r=>r.correct).length;const rows=S.log.slice(0,8).map(r=>`<div class="fc-review-row ${r.correct?'rr-ok':'rr-bad'}"><span>${r.correct?'✅':'❌'}</span><span class="fc-review-row-q">${esc(r.q.slice(0,50))}${r.q.length>50?'…':''}</span><span class="fc-review-row-a">${esc(r.a.slice(0,35))}${r.a.length>35?'…':''}</span></div>`).join('');app.innerHTML=`<div class="fc-result"><span class="fc-result-trophy">${trophy}</span><div class="fc-result-score">${pct}%</div><div class="fc-result-fraction">${S.score}/${tot} câu đúng</div><div class="fc-result-rank">${rank}</div><div class="fc-result-grid"><div class="fc-res-stat"><span class="fc-res-val">${correct}</span><span class="fc-res-lbl">Đúng</span></div><div class="fc-res-stat"><span class="fc-res-val">${tot-correct}</span><span class="fc-res-lbl">Sai</span></div><div class="fc-res-stat"><span class="fc-res-val">${pct}%</span><span class="fc-res-lbl">Tỉ lệ</span></div></div><div class="fc-result-deck-review"><h4>Xem lại ${Math.min(8,S.log.length)} câu</h4>${rows}${S.log.length>8?'<div style="text-align:center;font-size:.78rem;color:#9ca3af;margin-top:6px">...và '+(S.log.length-8)+' câu nữa</div>':''}</div><div class="fc-result-actions"><button class="fc-btn-primary" onclick="startStudy(S.mode)">🔄 Học lại</button><button class="fc-btn-secondary" onclick="renderModeSelect()">Đổi chế độ</button><button class="fc-btn-secondary" onclick="renderHome()">← Bộ thẻ khác</button></div></div>`}
+
+function showToast(msg){let w=document.getElementById('vsToasts');if(!w){w=document.createElement('div');w.id='vsToasts';document.body.appendChild(w)}const t=document.createElement('div');t.className='vs-toast';t.textContent=msg;w.appendChild(t);requestAnimationFrame(()=>t.classList.add('toast-show'));setTimeout(()=>{t.classList.remove('toast-show');setTimeout(()=>t.remove(),350)},3000)}
+renderHome();
+</script>
+</body>
+</html>

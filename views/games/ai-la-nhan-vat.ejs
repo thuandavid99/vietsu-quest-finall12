@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="vi">
+<%- include('../partials/head', { pageTitle, siteName: brand.name }) %>
+<body>
+<%- include('../partials/header', { brand }) %>
+
+<main class="game-page alnv-page">
+  <!-- Breadcrumb -->
+  <div class="game-intro-bar">
+    <div class="container game-intro-inner">
+      <nav class="breadcrumb">
+        <a href="/">Trang chủ</a><span>›</span>
+        <a href="/#games">Trò chơi</a><span>›</span>
+        <span>Ai là nhân vật?</span>
+      </nav>
+      <div class="game-meta-row">
+        <span class="pill">Guessing Game</span>
+        <span class="pill pill-grade">Lớp 6 – 12</span>
+        <span class="pill pill-badge">MỚI</span>
+        <span class="game-meta-note">10 nhân vật · 3 gợi ý mỗi câu · Chấm điểm theo tốc độ</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game container -->
+  <section class="alnv-section">
+    <div class="container">
+      <div id="alnvApp"></div>
+    </div>
+  </section>
+
+  <!-- Info strip -->
+  <section class="game-info-section section-soft">
+    <div class="container game-info-grid">
+      <article class="game-info-card">
+        <span class="game-info-icon">🎯</span>
+        <h3>Cách chơi</h3>
+        <ul>
+          <li>Mỗi câu có <strong>3 gợi ý</strong> dần được hé lộ</li>
+          <li>Đoán đúng sau gợi ý 1: <strong>+3 điểm</strong></li>
+          <li>Đoán đúng sau gợi ý 2: <strong>+2 điểm</strong></li>
+          <li>Đoán đúng sau gợi ý 3: <strong>+1 điểm</strong></li>
+          <li>Sai: <strong>0 điểm</strong>, hiện đáp án</li>
+        </ul>
+      </article>
+      <article class="game-info-card">
+        <span class="game-info-icon">🏆</span>
+        <h3>Xếp hạng điểm</h3>
+        <ul>
+          <li>27–30 điểm: <strong>Sử gia xuất sắc ⭐⭐⭐</strong></li>
+          <li>20–26 điểm: <strong>Học giả lịch sử ⭐⭐</strong></li>
+          <li>10–19 điểm: <strong>Người yêu sử ⭐</strong></li>
+          <li>Dưới 10: <strong>Cần ôn luyện thêm 📚</strong></li>
+        </ul>
+      </article>
+      <article class="game-info-card">
+        <span class="game-info-icon">📚</span>
+        <h3>Nhân vật trong game</h3>
+        <ul>
+          <li>Hai Bà Trưng, Bà Triệu, Ngô Quyền</li>
+          <li>Trần Hưng Đạo, Nguyễn Trãi, Lê Lợi</li>
+          <li>Quang Trung, Lý Thường Kiệt</li>
+          <li>Hồ Chí Minh, Võ Nguyên Giáp</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <div class="container" style="padding:2rem 0 3rem">
+    <a href="/#games" class="text-link">← Quay lại danh sách trò chơi</a>
+  </div>
+</main>
+
+<%- include('../partials/footer', { brand, resources: [] }) %>
+
+<!-- ══════════════════════════════════════════════════════
+     STYLES
+══════════════════════════════════════════════════════ -->
+<style>
+.alnv-page { background: linear-gradient(180deg,#fff8f2,#fff); }
+.alnv-section { padding: 48px 0 56px; }
+
+/* ── App wrapper ─────────────────────────────────────── */
+#alnvApp { max-width: 860px; margin: 0 auto; }
+
+/* ── Splash screen ───────────────────────────────────── */
+.alnv-splash {
+  text-align: center;
+  padding: 56px 32px 48px;
+  background: #fff;
+  border-radius: 28px;
+  border: 1px solid rgba(255,122,26,.1);
+  box-shadow: 0 18px 48px rgba(255,122,26,.1);
+  animation: fadeSlideUp .5s ease;
+}
+.alnv-splash-icon { font-size: 4rem; display:block; margin-bottom: 16px; }
+.alnv-splash h1 { font-size:2.2rem; color:#1f2937; margin-bottom:12px; }
+.alnv-splash p  { color:#475467; font-size:1.05rem; max-width:500px; margin:0 auto 32px; }
+.alnv-char-preview {
+  display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 36px;
+}
+.alnv-char-preview-item {
+  width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(135deg,var(--orange-200),var(--orange-400));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;box-shadow:0 6px 16px rgba(255,122,26,.2);
+  transition:transform .2s;
+}
+.alnv-char-preview-item:hover { transform:scale(1.12) rotate(-5deg); }
+.btn-start-game {
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#ff7a1a,#e96508);
+  color:#fff;padding:14px 40px;border-radius:999px;
+  font-size:1.1rem;font-weight:700;border:none;cursor:pointer;
+  box-shadow:0 12px 32px rgba(255,122,26,.35);
+  transition:transform .25s,box-shadow .25s;
+}
+.btn-start-game:hover { transform:translateY(-3px);box-shadow:0 18px 40px rgba(255,122,26,.45); }
+.btn-start-game .arrow { font-size:1.3rem; transition:transform .2s; }
+.btn-start-game:hover .arrow { transform:translateX(4px); }
+
+/* ── HUD ─────────────────────────────────────────────── */
+.alnv-hud {
+  display:flex;align-items:center;justify-content:space-between;
+  background:#fff;border:1px solid rgba(255,122,26,.12);
+  border-radius:18px;padding:14px 22px;margin-bottom:24px;
+  box-shadow:0 6px 20px rgba(255,122,26,.06);
+  gap:16px;flex-wrap:wrap;
+}
+.hud-item { text-align:center; }
+.hud-value {
+  font-size:1.6rem;font-weight:800;
+  background:linear-gradient(135deg,#ff7a1a,#bf4f04);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;display:block;line-height:1;
+}
+.hud-label { font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:#667085;font-weight:600; }
+.hud-progress {
+  flex:1;min-width:180px;
+}
+.hud-prog-bar {
+  height:8px;background:#f2f4f7;border-radius:999px;overflow:hidden;margin-top:6px;
+}
+.hud-prog-fill {
+  height:100%;background:linear-gradient(90deg,#ff7a1a,#ffb067);
+  border-radius:999px;transition:width .5s ease;
+}
+.hud-timer-ring { position:relative;width:52px;height:52px;margin:0 auto; }
+.hud-timer-ring svg { transform:rotate(-90deg); }
+.hud-timer-val {
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;font-weight:800;color:#ff7a1a;
+}
+
+/* ── Game card ───────────────────────────────────────── */
+.alnv-card {
+  background:#fff;border-radius:28px;overflow:hidden;
+  border:1px solid rgba(255,122,26,.1);
+  box-shadow:0 18px 48px rgba(255,122,26,.1);
+  animation:fadeSlideUp .45s ease;
+}
+.alnv-card-top {
+  background:linear-gradient(135deg,#fff5eb,#ffe7cc);
+  padding:36px 40px 28px;
+  display:flex;align-items:center;gap:28px;
+}
+.alnv-avatar {
+  width:120px;height:120px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(145deg,#ff9738,#e96508);
+  display:flex;align-items:center;justify-content:center;
+  font-size:3.8rem;
+  box-shadow:0 12px 32px rgba(255,122,26,.3);
+  position:relative;overflow:hidden;
+  transition:transform .3s;
+}
+.alnv-avatar.revealed { background:linear-gradient(145deg,#2ecc71,#27ae60); }
+.alnv-avatar.wrong-reveal { background:linear-gradient(145deg,#e74c3c,#c0392b); }
+.alnv-avatar-silhouette {
+  filter:brightness(0) invert(0);
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:3.8rem;
+}
+.alnv-card-header { flex:1; }
+.alnv-round-badge {
+  display:inline-block;background:rgba(255,122,26,.12);color:#bf4f04;
+  font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 12px;border-radius:999px;margin-bottom:10px;
+}
+.alnv-question-title { font-size:1.4rem;font-weight:700;color:#1f2937;margin-bottom:6px; }
+.alnv-clue-counter { font-size:.85rem;color:#667085; }
+.alnv-clue-counter span { font-weight:700;color:#ff7a1a; }
+
+/* ── Clues ───────────────────────────────────────────── */
+.alnv-clues { padding:28px 40px 20px; border-bottom:1px solid #f2f4f7; }
+.alnv-clue {
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 18px;border-radius:14px;margin-bottom:10px;
+  background:#f9fafb;border:1px solid #eaecf0;
+  opacity:0;transform:translateX(-16px);
+  transition:opacity .4s ease,transform .4s ease,background .3s;
+}
+.alnv-clue.visible { opacity:1;transform:translateX(0); }
+.alnv-clue.active-clue { background:#fff5eb;border-color:rgba(255,122,26,.2); }
+.alnv-clue-num {
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#ff7a1a,#bf4f04);
+  color:#fff;font-size:.75rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;margin-top:1px;
+}
+.alnv-clue-text { font-size:.95rem;color:#344054;line-height:1.55; }
+.alnv-clue-text strong { color:#1f2937; }
+
+/* Locked clue */
+.alnv-clue.locked {
+  background:#f9fafb;opacity:1;transform:none;
+}
+.alnv-clue.locked .alnv-clue-text { color:#d0d5dd; }
+.alnv-clue.locked .alnv-clue-num { background:#d0d5dd; }
+
+/* ── Options ─────────────────────────────────────────── */
+.alnv-options { padding:20px 40px 30px; }
+.alnv-options-label {
+  font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;
+  color:#667085;font-weight:700;margin-bottom:14px;
+}
+.alnv-opts-grid {
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+}
+.alnv-opt {
+  padding:14px 18px;border-radius:14px;
+  border:2px solid #eaecf0;background:#fff;
+  font-size:.95rem;font-weight:600;color:#344054;
+  cursor:pointer;text-align:left;
+  transition:all .2s;
+  display:flex;align-items:center;gap:10px;
+}
+.alnv-opt:hover:not(:disabled) {
+  border-color:#ff7a1a;background:#fff5eb;color:#bf4f04;
+  transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,122,26,.12);
+}
+.alnv-opt:disabled { cursor:not-allowed; }
+.alnv-opt.correct {
+  border-color:#2ecc71;background:#f0fdf4;color:#166534;
+  animation:correctPop .4s ease;
+}
+.alnv-opt.wrong {
+  border-color:#e74c3c;background:#fef2f2;color:#991b1b;
+}
+.alnv-opt .opt-letter {
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  background:#f2f4f7;font-size:.75rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s,color .2s;
+}
+.alnv-opt.correct .opt-letter { background:#2ecc71;color:#fff; }
+.alnv-opt.wrong   .opt-letter { background:#e74c3c;color:#fff; }
+.alnv-opt:hover:not(:disabled) .opt-letter { background:#ff7a1a;color:#fff; }
+
+/* ── Action bar ──────────────────────────────────────── */
+.alnv-action {
+  padding:0 40px 32px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.alnv-feedback {
+  font-size:.9rem;font-weight:700;padding:8px 16px;border-radius:10px;min-height:40px;
+  display:flex;align-items:center;gap:8px;
+}
+.alnv-feedback.correct-fb { background:#f0fdf4;color:#166534; }
+.alnv-feedback.wrong-fb   { background:#fef2f2;color:#991b1b; }
+.btn-next-clue, .btn-next-q, .btn-reveal {
+  padding:10px 24px;border-radius:999px;font-size:.9rem;font-weight:700;
+  cursor:pointer;border:none;transition:all .2s;
+}
+.btn-next-clue {
+  background:linear-gradient(135deg,#ff7a1a,#e96508);color:#fff;
+  box-shadow:0 6px 18px rgba(255,122,26,.3);
+}
+.btn-next-clue:hover { transform:translateY(-2px);box-shadow:0 10px 24px rgba(255,122,26,.4); }
+.btn-next-q {
+  background:linear-gradient(135deg,#1f2937,#344054);color:#fff;
+  box-shadow:0 6px 18px rgba(31,41,55,.2);
+}
+.btn-next-q:hover { transform:translateY(-2px); }
+.btn-reveal { background:#f2f4f7;color:#475467; }
+.btn-reveal:hover { background:#eaecf0; }
+.btn-disabled { opacity:.4;pointer-events:none; }
+
+/* ── Result screen ───────────────────────────────────── */
+.alnv-result {
+  background:#fff;border-radius:28px;overflow:hidden;
+  border:1px solid rgba(255,122,26,.1);
+  box-shadow:0 18px 48px rgba(255,122,26,.1);
+  animation:fadeSlideUp .5s ease;
+  text-align:center;padding:56px 40px 48px;
+}
+.alnv-result-trophy { font-size:5rem;display:block;margin-bottom:16px;animation:trophyBounce 1s ease; }
+.alnv-result-score {
+  font-size:4.5rem;font-weight:900;
+  background:linear-gradient(135deg,#ff7a1a,#bf4f04);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1;margin-bottom:6px;
+}
+.alnv-result-max { font-size:1rem;color:#667085;margin-bottom:20px; }
+.alnv-result-rank {
+  display:inline-block;padding:10px 28px;border-radius:999px;
+  background:linear-gradient(135deg,#fff5eb,#ffe7cc);
+  color:#bf4f04;font-weight:800;font-size:1.1rem;
+  border:2px solid rgba(255,122,26,.2);margin-bottom:32px;
+}
+.alnv-result-breakdown {
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  max-width:480px;margin:0 auto 36px;
+}
+.result-stat { background:#f9fafb;border-radius:14px;padding:16px 12px; }
+.result-stat-val { font-size:1.8rem;font-weight:800;color:#ff7a1a;display:block;line-height:1; }
+.result-stat-lbl { font-size:.72rem;color:#667085;text-transform:uppercase;letter-spacing:.08em;font-weight:600; }
+.alnv-result-actions { display:flex;gap:14px;justify-content:center;flex-wrap:wrap; }
+.btn-play-again {
+  background:linear-gradient(135deg,#ff7a1a,#e96508);color:#fff;
+  padding:12px 32px;border-radius:999px;font-weight:700;font-size:1rem;
+  border:none;cursor:pointer;box-shadow:0 8px 24px rgba(255,122,26,.3);
+  transition:all .25s;
+}
+.btn-play-again:hover { transform:translateY(-3px);box-shadow:0 14px 32px rgba(255,122,26,.4); }
+.btn-back-home {
+  background:#fff;color:#344054;border:1.5px solid #eaecf0;
+  padding:12px 32px;border-radius:999px;font-weight:700;font-size:1rem;
+  cursor:pointer;transition:all .25s;text-decoration:none;
+  display:inline-flex;align-items:center;
+}
+.btn-back-home:hover { border-color:#ff7a1a;color:#ff7a1a;transform:translateY(-2px); }
+
+/* ── Round review list ───────────────────────────────── */
+.alnv-rounds-list {
+  max-width:560px;margin:0 auto 32px;text-align:left;
+}
+.alnv-rounds-list h4 {
+  font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:#667085;
+  font-weight:700;margin-bottom:12px;text-align:center;
+}
+.round-row {
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;border-radius:12px;margin-bottom:6px;
+  background:#f9fafb;
+}
+.round-row.row-ok  { background:#f0fdf4; }
+.round-row.row-bad { background:#fef2f2; }
+.round-row-icon { font-size:1.2rem; }
+.round-row-name { flex:1;font-weight:600;font-size:.9rem;color:#1f2937; }
+.round-row-pts {
+  font-size:.85rem;font-weight:700;
+  padding:3px 10px;border-radius:999px;background:#fff;
+}
+.row-ok  .round-row-pts { color:#166534;border:1px solid #bbf7d0; }
+.row-bad .round-row-pts { color:#991b1b;border:1px solid #fecaca; }
+
+/* ── Animations ──────────────────────────────────────── */
+@keyframes fadeSlideUp {
+  from { opacity:0;transform:translateY(24px); }
+  to   { opacity:1;transform:translateY(0); }
+}
+@keyframes correctPop {
+  0%   { transform:scale(1); }
+  40%  { transform:scale(1.06); }
+  100% { transform:scale(1); }
+}
+@keyframes trophyBounce {
+  0%,100% { transform:scale(1) rotate(0); }
+  25%      { transform:scale(1.2) rotate(-8deg); }
+  75%      { transform:scale(1.2) rotate(8deg); }
+}
+@keyframes timerPulse {
+  0%,100% { color:#ff7a1a; }
+  50%      { color:#e74c3c; }
+}
+.timer-urgent .hud-timer-val { animation:timerPulse .6s infinite; }
+
+/* Mobile */
+@media(max-width:600px){
+  .alnv-card-top  { flex-direction:column;align-items:flex-start;padding:24px 20px; }
+  .alnv-clues, .alnv-options, .alnv-action { padding-left:20px;padding-right:20px; }
+  .alnv-opts-grid { grid-template-columns:1fr; }
+  .alnv-result-breakdown { grid-template-columns:1fr 1fr; }
+  .alnv-result { padding:36px 24px; }
+}
+</style>
+
+<!-- ══════════════════════════════════════════════════════
+     GAME ENGINE
+══════════════════════════════════════════════════════ -->
+<script>
+/* =========================================================
+   AI LÀ NHÂN VẬT? — Educational Guessing Game
+   Việt Sử Quest | FPT Schools Huế
+   ========================================================= */
+
+// ── Characters data ───────────────────────────────────────
+const CHARS = [
+  {
+    name: 'Hai Bà Trưng',
+    emoji: '⚔️',
+    clues: [
+      'Hai chị em người Mê Linh, xuất thân dòng dõi Lạc tướng',
+      'Lãnh đạo cuộc khởi nghĩa vào năm 40 sau Công nguyên',
+      'Lập ra nhà nước tự chủ đầu tiên, trị vì năm 40–43, được thờ ở Đền Hai Bà Trưng (Hà Nội)'
+    ],
+    wrong: ['Bà Triệu', 'Dương Vân Nga', 'Ỷ Lan'],
+    fact: 'Hai Bà Trưng khởi nghĩa năm 40, lập nhà nước tự chủ đầu tiên của người Việt, trị vì 3 năm trước khi tuẫn tiết trước quân Hán.'
+  },
+  {
+    name: 'Ngô Quyền',
+    emoji: '🛡️',
+    clues: [
+      'Người huyện Đường Lâm (nay thuộc Hà Nội), kế vị Nam Tấn Vương',
+      'Dùng chiến thuật đóng cọc nhọn dưới lòng sông để tiêu diệt hạm đội địch',
+      'Chiến thắng năm 938 trên sông Bạch Đằng kết thúc hơn 1000 năm Bắc thuộc'
+    ],
+    wrong: ['Đinh Bộ Lĩnh', 'Lê Hoàn', 'Trần Nhân Tông'],
+    fact: 'Ngô Quyền (898–944) đánh tan quân Nam Hán năm 938, mở ra kỷ nguyên độc lập tự chủ cho dân tộc Việt Nam.'
+  },
+  {
+    name: 'Đinh Bộ Lĩnh',
+    emoji: '👑',
+    clues: [
+      'Thuở nhỏ ở Hoa Lư (Ninh Bình), dùng bông lau làm cờ tập trận cùng trẻ chăn trâu',
+      'Dẹp loạn 12 sứ quân, thống nhất đất nước vào năm 968',
+      'Lên ngôi Hoàng đế, đặt tên nước là Đại Cồ Việt, đặt đô tại Hoa Lư'
+    ],
+    wrong: ['Ngô Quyền', 'Lê Hoàn', 'Lý Công Uẩn'],
+    fact: 'Đinh Bộ Lĩnh (924–979) dẹp loạn 12 sứ quân, thống nhất đất nước, lập triều Đinh — nền móng đầu tiên của nhà nước phong kiến Việt Nam.'
+  },
+  {
+    name: 'Lý Thường Kiệt',
+    emoji: '🌊',
+    clues: [
+      'Thái uý nhà Lý, người quản lý quân đội tài ba trong triều',
+      'Tác giả câu thơ bất hủ: "Nam quốc sơn hà Nam đế cư…"',
+      'Lập phòng tuyến trên sông Như Nguyệt (1077), đánh tan đại quân Tống xâm lược'
+    ],
+    wrong: ['Lý Công Uẩn', 'Trần Hưng Đạo', 'Lê Hoàn'],
+    fact: 'Lý Thường Kiệt (1019–1105) là Thái uý nhà Lý, chặn đứng quân Tống xâm lược tại sông Như Nguyệt. Bài thơ của ông được coi là bản tuyên ngôn độc lập đầu tiên.'
+  },
+  {
+    name: 'Trần Hưng Đạo',
+    emoji: '🔱',
+    clues: [
+      'Quốc công Tiết chế, chỉ huy tối cao của quân đội nhà Trần',
+      'Viết "Hịch tướng sĩ" — áng hùng văn bất hủ kêu gọi tinh thần chiến đấu',
+      'Ba lần đánh thắng quân Nguyên Mông (1258, 1285, 1288), được nhân dân tôn là Đức Thánh Trần'
+    ],
+    wrong: ['Trần Nhân Tông', 'Lý Thường Kiệt', 'Nguyễn Trãi'],
+    fact: 'Hưng Đạo Vương Trần Quốc Tuấn (1228–1300) ba lần lãnh đạo kháng chiến thắng quân Nguyên Mông. Được người đời sau thờ là vị thần hộ mệnh dân tộc.'
+  },
+  {
+    name: 'Nguyễn Trãi',
+    emoji: '✍️',
+    clues: [
+      'Người Hải Dương, từng bị quân Minh giam cầm nhưng thoát ra giúp Lê Lợi',
+      'Tác giả "Bình Ngô đại cáo" — được gọi là "thiên cổ hùng văn"',
+      'Danh nhân văn hóa thế giới được UNESCO công nhận, hy sinh năm 1442'
+    ],
+    wrong: ['Lê Lợi', 'Nguyễn Du', 'Lê Thánh Tông'],
+    fact: 'Nguyễn Trãi (1380–1442) là nhà chính trị, nhà thơ kiệt xuất. Bình Ngô đại cáo khẳng định nền văn hiến Đại Việt và quyền độc lập dân tộc.'
+  },
+  {
+    name: 'Lê Lợi',
+    emoji: '🏆',
+    clues: [
+      'Người Lam Sơn (Thanh Hóa), hào trưởng địa phương, trả gươm thần ở Hồ Hoàn Kiếm',
+      'Lãnh đạo 10 năm "nếm mật nằm gai" kháng chiến chống quân Minh đô hộ',
+      'Lên ngôi năm 1428, lập triều đại Hậu Lê — triều đại thịnh trị nhất Việt Nam'
+    ],
+    wrong: ['Nguyễn Trãi', 'Lê Thánh Tông', 'Đinh Bộ Lĩnh'],
+    fact: 'Lê Lợi (Lê Thái Tổ, 1385–1433) lãnh đạo khởi nghĩa Lam Sơn 10 năm đánh đuổi quân Minh, lập triều Hậu Lê kéo dài hơn 360 năm.'
+  },
+  {
+    name: 'Quang Trung',
+    emoji: '⚡',
+    clues: [
+      'Tên thật là Nguyễn Huệ, sinh ở Tây Sơn (Bình Định), em của Nguyễn Nhạc',
+      'Hành quân thần tốc hàng trăm km trong mùa đông khắc nghiệt',
+      'Tết Kỷ Dậu 1789, chỉ 5 ngày đại phá 29 vạn quân Thanh, giải phóng Thăng Long'
+    ],
+    wrong: ['Nguyễn Ánh', 'Lê Chiêu Thống', 'Trần Quang Diệu'],
+    fact: 'Hoàng đế Quang Trung (1753–1792) là thiên tài quân sự. Chiến thắng Ngọc Hồi – Đống Đa 1789 là một trong những trang sử hào hùng nhất dân tộc.'
+  },
+  {
+    name: 'Hồ Chí Minh',
+    emoji: '⭐',
+    clues: [
+      'Sinh năm 1890 tại Kim Liên, Nghệ An; ra đi tìm đường cứu nước năm 1911 từ cảng Nhà Rồng',
+      'Sáng lập Đảng Cộng sản Việt Nam năm 1930 tại Hương Cảng',
+      'Ngày 2/9/1945 đọc Tuyên ngôn Độc lập tại Quảng trường Ba Đình, khai sinh VNDCCH'
+    ],
+    wrong: ['Trường Chinh', 'Phạm Văn Đồng', 'Võ Nguyên Giáp'],
+    fact: 'Chủ tịch Hồ Chí Minh (1890–1969) là lãnh tụ vĩ đại của cách mạng Việt Nam. Câu nói "Không có gì quý hơn độc lập, tự do" vẫn sống mãi với dân tộc.'
+  },
+  {
+    name: 'Võ Nguyên Giáp',
+    emoji: '🎖️',
+    clues: [
+      'Sinh năm 1911 tại Quảng Bình, từng là thầy giáo dạy sử trước khi làm cách mạng',
+      'Được Hồ Chí Minh giao xây dựng lực lượng vũ trang nhân dân từ 34 người ban đầu',
+      'Đại tướng đầu tiên, chỉ huy chiến dịch Điện Biên Phủ 1954 vang lẫy năm châu'
+    ],
+    wrong: ['Nguyễn Chí Thanh', 'Văn Tiến Dũng', 'Lê Đức Anh'],
+    fact: 'Đại tướng Võ Nguyên Giáp (1911–2013) được thế giới tôn vinh là một trong những vị tướng vĩ đại nhất thế kỷ 20. Ông ra đi năm 102 tuổi.'
+  }
+];
+
+// ── Game state ────────────────────────────────────────────
+let state = {
+  phase: 'splash',   // splash | playing | result
+  order: [],         // shuffled CHARS indices
+  round: 0,          // current round index (0-9)
+  clueShown: 0,      // 1,2,3
+  answered: false,
+  correct: false,
+  score: 0,
+  rounds: [],        // {name, correct, cluesUsed, points}
+  timerVal: 20,
+  timerMax: 20,
+  timerInterval: null,
+};
+
+// ── Audio ─────────────────────────────────────────────────
+let AC;
+function beep(f,d,v=.2,t='sine',delay=0){
+  if(!AC)try{AC=new(window.AudioContext||window.webkitAudioContext)();}catch(e){return;}
+  const o=AC.createOscillator(),g=AC.createGain();
+  o.connect(g);g.connect(AC.destination);
+  o.type=t;o.frequency.value=f;
+  g.gain.setValueAtTime(v,AC.currentTime+delay);
+  g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+delay+d);
+  o.start(AC.currentTime+delay);o.stop(AC.currentTime+delay+d+.01);
+}
+function sfxCorrect(){ beep(440,.1,.2,'sine');beep(550,.1,.2,'sine',.1);beep(660,.2,.2,'sine',.2); }
+function sfxWrong()  { beep(220,.3,.2,'sawtooth'); }
+function sfxClick()  { beep(600,.05,.1,'sine'); }
+function sfxReveal() { beep(330,.08,.12,'sine'); }
+function sfxWin()    {
+  [523,659,784,1047,784,1047].forEach((f,i)=>beep(f,.15,.2,'sine',i*.12));
+}
+
+// ── Utilities ─────────────────────────────────────────────
+function shuffle(arr){ const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a; }
+function el(id){ return document.getElementById(id); }
+const app = document.getElementById('alnvApp');
+
+// ── RENDER: Splash ────────────────────────────────────────
+function renderSplash(){
+  stopTimer();
+  const previews = CHARS.map(c=>`<div class="alnv-char-preview-item" title="${c.name}">${c.emoji}</div>`).join('');
+  app.innerHTML = `
+  <div class="alnv-splash">
+    <span class="alnv-splash-icon">🕵️</span>
+    <h1>Ai là nhân vật?</h1>
+    <p>Đọc từng gợi ý và đoán tên anh hùng lịch sử Việt Nam.<br>Đoán càng sớm, điểm càng cao!</p>
+    <div class="alnv-char-preview">${previews}</div>
+    <button class="btn-start-game" onclick="startGame()">
+      Bắt đầu ngay <span class="arrow">→</span>
+    </button>
+  </div>`;
+}
+
+// ── Start game ────────────────────────────────────────────
+function startGame(){
+  sfxClick();
+  try{ if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)(); }catch(e){}
+  state.order = shuffle(CHARS.map((_,i)=>i));
+  state.round  = 0;
+  state.score  = 0;
+  state.rounds = [];
+  state.phase  = 'playing';
+  renderRound();
+}
+
+// ── RENDER: Round ─────────────────────────────────────────
+function renderRound(){
+  stopTimer();
+  const ci   = state.order[state.round];
+  const char = CHARS[ci];
+  state.clueShown = 1;
+  state.answered  = false;
+  state.correct   = false;
+  state.timerVal  = state.timerMax;
+
+  // Build wrong options pool + correct mixed
+  const opts = shuffle([char.name, ...char.wrong.slice(0,3)]);
+  const letters = ['A','B','C','D'];
+
+  // Clue rows (all 3, locked/visible)
+  const clueHTML = char.clues.map((c,i)=>`
+    <div class="alnv-clue ${i===0?'visible active-clue':'locked'}" id="clue${i}">
+      <div class="alnv-clue-num">${i+1}</div>
+      <div class="alnv-clue-text">${i===0?c:'<em>Gợi ý '+(i+1)+' — chưa mở khóa...</em>'}</div>
+    </div>`).join('');
+
+  const optsHTML = opts.map((o,i)=>`
+    <button class="alnv-opt" id="opt${i}" onclick="answer('${o.replace(/'/g,"\\'")}',this)">
+      <span class="opt-letter">${letters[i]}</span>
+      ${o}
+    </button>`).join('');
+
+  const pct = (state.round / CHARS.length) * 100;
+
+  app.innerHTML = `
+  <!-- HUD -->
+  <div class="alnv-hud">
+    <div class="hud-item">
+      <span class="hud-value" id="hudScore">${state.score}</span>
+      <span class="hud-label">Điểm</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-value">${state.round+1}/${CHARS.length}</span>
+      <span class="hud-label">Câu</span>
+    </div>
+    <div class="hud-progress">
+      <div class="hud-label" style="margin-bottom:2px">Tiến độ</div>
+      <div class="hud-prog-bar"><div class="hud-prog-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-timer-ring" id="timerRing">
+        <svg width="52" height="52" viewBox="0 0 52 52">
+          <circle cx="26" cy="26" r="22" fill="none" stroke="#f2f4f7" stroke-width="4"/>
+          <circle id="timerCircle" cx="26" cy="26" r="22" fill="none" stroke="#ff7a1a"
+            stroke-width="4" stroke-dasharray="${2*Math.PI*22}"
+            stroke-dashoffset="0" stroke-linecap="round"/>
+        </svg>
+        <div class="hud-timer-val" id="timerVal">${state.timerVal}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="alnv-card" id="alnvCard">
+    <div class="alnv-card-top">
+      <div class="alnv-avatar" id="charAvatar">${char.emoji}</div>
+      <div class="alnv-card-header">
+        <div class="alnv-round-badge">Câu ${state.round+1} / ${CHARS.length}</div>
+        <div class="alnv-question-title">Đây là nhân vật lịch sử nào?</div>
+        <div class="alnv-clue-counter">Đang hiện: <span id="clueCount">1</span>/3 gợi ý</div>
+      </div>
+    </div>
+    <div class="alnv-clues">${clueHTML}</div>
+    <div class="alnv-options">
+      <div class="alnv-options-label">Chọn câu trả lời của bạn:</div>
+      <div class="alnv-opts-grid">${optsHTML}</div>
+    </div>
+    <div class="alnv-action" id="alnvAction">
+      <div class="alnv-feedback" id="alnvFeedback" style="visibility:hidden">–</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-reveal" id="btnReveal" onclick="revealNext()">💡 Gợi ý tiếp theo</button>
+        <button class="btn-next-q btn-disabled" id="btnNext" onclick="nextQuestion()">Câu tiếp →</button>
+      </div>
+    </div>
+  </div>`;
+
+  startTimer(char.name);
+}
+
+// ── Timer ─────────────────────────────────────────────────
+function startTimer(correctName){
+  const totalLen = 2 * Math.PI * 22;
+  state.timerVal = state.timerMax;
+  state.timerInterval = setInterval(()=>{
+    if(state.answered){ stopTimer(); return; }
+    state.timerVal--;
+    const valEl  = el('timerVal');
+    const circle = el('timerCircle');
+    const ring   = el('timerRing');
+    if(!valEl) return stopTimer();
+    valEl.textContent = state.timerVal;
+    const pct = state.timerVal / state.timerMax;
+    circle.setAttribute('stroke-dashoffset', totalLen*(1-pct));
+    circle.setAttribute('stroke', state.timerVal<=5?'#e74c3c':'#ff7a1a');
+    if(state.timerVal<=5) ring.classList.add('timer-urgent');
+    if(state.timerVal<=0){
+      stopTimer();
+      if(!state.answered) timeOut(correctName);
+    }
+  },1000);
+}
+function stopTimer(){ clearInterval(state.timerInterval); }
+function timeOut(correctName){
+  state.answered=true;
+  state.rounds.push({name:correctName,correct:false,cluesUsed:state.clueShown,points:0});
+  const fb=el('alnvFeedback');
+  if(fb){ fb.className='alnv-feedback wrong-fb';fb.style.visibility='visible';fb.textContent='⏰ Hết giờ! Đáp án: '+correctName; }
+  document.querySelectorAll('.alnv-opt').forEach(b=>{b.disabled=true;if(b.textContent.trim()===correctName)b.classList.add('correct');});
+  const avatar=el('charAvatar');if(avatar)avatar.classList.add('wrong-reveal');
+  el('btnNext')?.classList.remove('btn-disabled');
+  el('btnReveal')?.classList.add('btn-disabled');
+  sfxWrong();
+}
+
+// ── Answer ────────────────────────────────────────────────
+function answer(chosen, btn){
+  if(state.answered) return;
+  sfxClick();
+  stopTimer();
+  state.answered = true;
+  const ci   = state.order[state.round];
+  const char = CHARS[ci];
+  const isOk = chosen === char.name;
+  state.correct = isOk;
+
+  // Points: 3 for clue 1, 2 for clue 2, 1 for clue 3, 0 wrong
+  const pts = isOk ? Math.max(1, 4 - state.clueShown) : 0;
+  state.score += pts;
+  state.rounds.push({name:char.name,correct:isOk,cluesUsed:state.clueShown,points:pts});
+
+  // Style buttons
+  document.querySelectorAll('.alnv-opt').forEach(b=>{
+    b.disabled=true;
+    if(b.textContent.trim()===char.name) b.classList.add('correct');
+  });
+  if(!isOk) btn.classList.add('wrong');
+
+  // Feedback
+  const fb = el('alnvFeedback');
+  if(isOk){
+    fb.className='alnv-feedback correct-fb';
+    fb.textContent=`✅ Chính xác! +${pts} điểm 🎉`;
+    el('charAvatar')?.classList.add('revealed');
+    sfxCorrect();
+  } else {
+    fb.className='alnv-feedback wrong-fb';
+    fb.textContent=`❌ Sai rồi. Đúng là: ${char.name}`;
+    el('charAvatar')?.classList.add('wrong-reveal');
+    sfxWrong();
+  }
+  fb.style.visibility='visible';
+
+  // Update HUD score
+  const hs=el('hudScore'); if(hs) hs.textContent=state.score;
+
+  // Reveal all remaining clues
+  char.clues.forEach((_,i)=>{
+    const cEl=el('clue'+i);
+    if(cEl&&cEl.classList.contains('locked')){
+      cEl.classList.remove('locked');
+      cEl.querySelector('.alnv-clue-text').textContent=char.clues[i];
+      setTimeout(()=>cEl.classList.add('visible'),i*150);
+    }
+    cEl?.classList.remove('active-clue');
+  });
+
+  el('btnNext')?.classList.remove('btn-disabled');
+  el('btnReveal')?.classList.add('btn-disabled');
+}
+
+// ── Reveal next clue ──────────────────────────────────────
+function revealNext(){
+  if(state.answered || state.clueShown>=3) return;
+  sfxReveal();
+  state.clueShown++;
+  el('clueCount').textContent=state.clueShown;
+
+  const ci   = state.order[state.round];
+  const char = CHARS[ci];
+  const idx  = state.clueShown-1;
+  const cEl  = el('clue'+idx);
+  if(cEl){
+    cEl.classList.remove('locked');
+    cEl.querySelector('.alnv-clue-text').textContent=char.clues[idx];
+    setTimeout(()=>{
+      cEl.classList.add('visible','active-clue');
+      // remove active from previous
+      if(idx>0) el('clue'+(idx-1))?.classList.remove('active-clue');
+    },50);
+  }
+  if(state.clueShown>=3) el('btnReveal')?.classList.add('btn-disabled');
+}
+
+// ── Next question ─────────────────────────────────────────
+function nextQuestion(){
+  sfxClick();
+  state.round++;
+  if(state.round>=CHARS.length) renderResult();
+  else renderRound();
+}
+
+// ── RENDER: Result ────────────────────────────────────────
+function renderResult(){
+  stopTimer();
+  state.phase='result';
+  sfxWin();
+
+  const maxScore = CHARS.length * 3;
+  const pct = state.score / maxScore;
+  let trophy='🥉', rank='Cần ôn luyện thêm 📚';
+  if(pct>=0.9){trophy='🏆';rank='Sử gia xuất sắc ⭐⭐⭐';}
+  else if(pct>=0.67){trophy='🥇';rank='Học giả lịch sử ⭐⭐';}
+  else if(pct>=0.33){trophy='🥈';rank='Người yêu sử ⭐';}
+
+  const correct=state.rounds.filter(r=>r.correct).length;
+  const avgClues=(state.rounds.reduce((s,r)=>s+r.cluesUsed,0)/state.rounds.length).toFixed(1);
+
+  const rowsHTML = state.rounds.map((r,i)=>`
+    <div class="round-row ${r.correct?'row-ok':'row-bad'}">
+      <span class="round-row-icon">${r.correct?'✅':'❌'}</span>
+      <span class="round-row-name">${CHARS[state.order[i]].emoji} ${r.name}</span>
+      <span class="round-row-pts">${r.correct?'+'+r.points+' điểm':'0 điểm'}</span>
+    </div>`).join('');
+
+  app.innerHTML=`
+  <div class="alnv-result">
+    <span class="alnv-result-trophy">${trophy}</span>
+    <div class="alnv-result-score">${state.score}</div>
+    <div class="alnv-result-max">/ ${maxScore} điểm</div>
+    <div class="alnv-result-rank">${rank}</div>
+
+    <div class="alnv-result-breakdown">
+      <div class="result-stat">
+        <span class="result-stat-val">${correct}</span>
+        <span class="result-stat-lbl">Trả lời đúng</span>
+      </div>
+      <div class="result-stat">
+        <span class="result-stat-val">${CHARS.length-correct}</span>
+        <span class="result-stat-lbl">Trả lời sai</span>
+      </div>
+      <div class="result-stat">
+        <span class="result-stat-val">${avgClues}</span>
+        <span class="result-stat-lbl">Gợi ý TB</span>
+      </div>
+    </div>
+
+    <div class="alnv-rounds-list">
+      <h4>Chi tiết từng câu</h4>
+      ${rowsHTML}
+    </div>
+
+    <div class="alnv-result-actions">
+      <button class="btn-play-again" onclick="startGame()">🔄 Chơi lại</button>
+      <a href="/#games" class="btn-back-home">← Danh sách game</a>
+    </div>
+  </div>`;
+}
+
+// ── Init ──────────────────────────────────────────────────
+renderSplash();
+</script>
+
+</body>
+</html>

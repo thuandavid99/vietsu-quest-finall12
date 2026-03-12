@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <%- include('partials/head', { pageTitle, siteName }) %>
+  <body>
+    <%- include('partials/header', { brand: data.brand }) %>
+    <main>
+
+      <section class="hero-section">
+        <div class="container hero-grid">
+          <div class="hero-copy reveal">
+            <div class="hero-eyebrow-wrap"><span class="eyebrow-dot"></span><p class="eyebrow">Nền tảng học sử bằng trải nghiệm</p></div>
+            <h1><%= data.hero.title %></h1>
+            <p class="hero-text"><%= data.hero.subtitle %></p>
+            <div class="hero-actions">
+              <a href="#courses" class="button button-primary pulse-glow"><%= data.hero.primaryAction %> →</a>
+              <a href="#games" class="button button-secondary">🎮 <%= data.hero.secondaryAction %></a>
+            </div>
+            <div class="hero-tags">
+              <span>📚 Lớp 6-12</span><span>🎮 Mini game</span><span>🗺️ Bản đồ</span><span>🤖 AI demo</span>
+            </div>
+          </div>
+          <div class="hero-visual reveal" style="transition-delay:.15s">
+            <div class="hero-panel main-panel">
+              <div class="panel-top">
+                <span class="panel-pill">🏆 Việt Sử Quest</span>
+                <span class="panel-note">Platform EdTech</span>
+              </div>
+              <h3>Học Sử theo cách mới</h3>
+              <p>Học theo lớp, theo thời kỳ và theo phương pháp phù hợp với học sinh THCS - THPT.</p>
+              <div class="hero-mini-grid">
+                <div><strong data-val="7">7</strong><span>khóa học</span></div>
+                <div><strong data-val="40">40+</strong><span>game & quiz</span></div>
+                <div><strong data-val="120">120+</strong><span>tài liệu</span></div>
+                <div><strong>24/7</strong><span>AI demo</span></div>
+              </div>
+            </div>
+            <div class="floating-card card-a"><span class="floating-icon">⭐</span><div><strong>Timeline</strong><small>Học theo mốc</small></div></div>
+            <div class="floating-card card-b"><span class="floating-icon">🗺️</span><div><strong>Bản đồ</strong><small>Gắn địa danh</small></div></div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- Trust ticker -->
+      <div class="trust-ticker" aria-hidden="true">
+        <div class="trust-ticker-inner">
+          &nbsp;⭐ Việt Sử Quest &nbsp;·&nbsp; 🎮 3 game lịch sử đang hoạt động &nbsp;·&nbsp; 📚 7 khóa học lớp 6-12 &nbsp;·&nbsp; 🃏 Flashcard kiểu Quizlet &nbsp;·&nbsp; 🗺️ Bản đồ tương tác &nbsp;·&nbsp; 🤖 Chatbot AI hỗ trợ 24/7 &nbsp;·&nbsp; 🇻🇳 Lịch sử Việt Nam sinh động &nbsp;·&nbsp; ⭐ Việt Sử Quest &nbsp;·&nbsp; 🎮 3 game lịch sử đang hoạt động &nbsp;·&nbsp; 📚 7 khóa học lớp 6-12 &nbsp;·&nbsp; 🃏 Flashcard kiểu Quizlet &nbsp;·&nbsp; 🗺️ Bản đồ tương tác &nbsp;·&nbsp; 🤖 Chatbot AI hỗ trợ 24/7 &nbsp;·&nbsp; 🇻🇳 Lịch sử Việt Nam sinh động &nbsp;&nbsp;
+        </div>
+      </div>
+
+      <section class="highlights-section">
+        <div class="container">
+          <div class="cards-grid four-col">
+            <% data.highlights.forEach((item, i) => { %>
+              <article class="info-card reveal" style="transition-delay:<%=i*0.07%>s">
+                <span class="card-icon"><%= item.icon %></span>
+                <h3><%= item.title %></h3>
+                <p><%= item.description %></p>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="courses" class="section">
+        <div class="container">
+          <div class="section-head reveal">
+            <div><p class="eyebrow">Khóa học theo lớp</p><h2>Lịch sử 6, 7, 8, 9, 10, 11, 12</h2></div>
+            <p class="section-note">Thiết kế rõ ràng như nền tảng edtech, dễ mở rộng nội dung về sau.</p>
+          </div>
+          <div class="tabs reveal" data-tabs>
+            <% data.courseTabs.forEach((tab, index) => { %>
+              <button class="tab-button <%= index === 0 ? 'active' : '' %>" data-filter="<%= tab.id %>"><%= tab.label %></button>
+            <% }) %>
+          </div>
+          <div class="cards-grid courses-grid">
+            <% data.courses.forEach((course, i) => { %>
+              <article class="course-card reveal" style="transition-delay:<%=i*0.06%>s"
+                data-level="<%= course.level %>"
+                data-course="<%- JSON.stringify(course).replace(/"/g,'&quot;') %>">
+                <div class="course-top">
+                  <span class="grade-badge">Lớp <%= course.grade %></span>
+                  <span class="theme-tag"><%= course.theme %></span>
+                </div>
+                <h3><%= course.title %></h3>
+                <p><%= course.description %></p>
+                <div class="course-meta">
+                  <span><strong><%= course.lessons %></strong> bài học</span>
+                  <span><strong><%= course.quizzes %></strong> quiz</span>
+                </div>
+                <button class="btn-course-open text-link-btn">Xem chi tiết →</button>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="methods" class="section section-soft">
+        <div class="container">
+          <div class="section-head centered reveal">
+            <p class="eyebrow">Phương pháp học môn Lịch sử</p>
+            <h2>Hiểu – Xâu chuỗi – Ghi nhớ – Luyện tập</h2>
+            <p class="section-note center-note">Không chỉ có nội dung — còn dạy học sinh cách học Sử sao cho nhớ lâu và bớt chán.</p>
+          </div>
+          <div class="method-steps">
+            <% data.methods.forEach((method, index) => { %>
+              <article class="step-card step-<%= index + 1 %> reveal" style="transition-delay:<%=index*0.1%>s">
+                <p class="step-label"><%= method.step %></p>
+                <h3><%= method.title %></h3>
+                <p><%= method.description %></p>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container timeline-wrapper">
+          <div class="section-head reveal">
+            <div><p class="eyebrow">Học theo dòng thời gian</p><h2>Trục timeline dễ nhớ, dễ liên kết</h2></div>
+            <a href="#chatbot" class="text-link">Nhờ AI tóm tắt</a>
+          </div>
+          <p class="timeline-hint reveal" style="transition-delay:.1s">👆 Click vào mỗi mốc để xem chi tiết</p>
+          <div class="timeline-row">
+            <% data.timeline.forEach((item, i) => { %>
+              <article class="timeline-card reveal" style="transition-delay:<%=i*0.06%>s">
+                <div class="tl-icon"><%= item.icon %></div>
+                <span class="timeline-year"><%= item.year %></span>
+                <h3><%= item.title %></h3>
+                <p class="tl-desc"><%= item.description %></p>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="games" class="section section-soft">
+        <div class="container">
+          <div class="section-head reveal">
+            <div><p class="eyebrow">Trung tâm trò chơi</p><h2>Game lịch sử để học sinh vừa chơi vừa nhớ bài</h2></div>
+            <p class="section-note">Mỗi trò chơi gắn với bài học và mốc thời gian cụ thể.</p>
+          </div>
+          <div class="cards-grid four-col">
+            <% data.games.forEach((game, i) => { %>
+              <article class="game-card <%= game.href ? 'game-card--live' : '' %> reveal" style="transition-delay:<%=i*0.08%>s">
+                <div class="game-card-top">
+                  <span class="pill"><%= game.type %></span>
+                  <% if (game.badge) { %><span class="pill pill-badge <%= game.badge==='SẮP RA'?'pill-soon':'' %>"><%= game.badge %></span><% } %>
+                </div>
+                <div class="game-emoji"><%= game.emoji %></div>
+                <h3><%= game.name %></h3>
+                <p><%= game.description %></p>
+                <div class="game-detail"><small><%= game.detail %></small></div>
+                <% if (game.href) { %>
+                  <a href="<%= game.href %>" class="button button-primary small-button game-play-btn">▶ Chơi ngay</a>
+                <% } else { %>
+                  <button class="button button-secondary small-button" style="opacity:.52;cursor:not-allowed" onclick="showToast('🕐 Game này sắp ra mắt! Hãy chờ nhé.')">Sắp ra mắt</button>
+                <% } %>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="map" class="section">
+        <div class="container map-layout">
+          <div class="reveal">
+            <p class="eyebrow">Bản đồ lịch sử Việt Nam</p>
+            <h2>Gắn địa danh với sự kiện để học trực quan hơn</h2>
+            <p class="section-note narrow-note">Click vào điểm đỏ trên bản đồ hoặc thẻ bên dưới để xem sự kiện.</p>
+            <div class="map-spots">
+              <% data.mapSpots.forEach((spot) => { %>
+                <article class="spot-card" style="cursor:pointer" onclick="document.querySelector('.map-dot[data-id=\'<%= spot.title %>\']')?.click()">
+                  <span class="spot-region" style="background:<%=spot.color%>22;color:<%=spot.color%>"><%= spot.region %></span>
+                  <h3><%= spot.title %></h3>
+                  <p class="spot-period"><%= spot.period %></p>
+                  <p><%= spot.note %></p>
+                </article>
+              <% }) %>
+            </div>
+          </div>
+
+          <div class="map-card reveal" style="transition-delay:.15s">
+            <div class="map-card-top">
+              <span class="panel-pill">Khám phá</span>
+              <span class="panel-note">👆 Click điểm màu</span>
+            </div>
+            <div class="map-visual" aria-label="Bản đồ Việt Nam">
+              <svg viewBox="0 0 220 500" role="img">
+                <defs>
+                  <linearGradient id="mapGrad" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#ffb067"/><stop offset="100%" stop-color="#ff7a1a"/>
+                  </linearGradient>
+                  <filter id="dotGlow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                </defs>
+                <path d="M120 20 C150 38,162 58,160 88 C157 118,129 135,126 160 C122 186,146 205,145 232 C144 262,110 280,106 305 C100 338,124 357,118 386 C111 420,84 435,88 470 C65 452,55 428,60 395 C65 362,78 338,80 308 C82 276,68 256,72 225 C76 193,101 174,105 146 C109 115,89 92,94 61 C98 42,106 30,120 20 Z" fill="url(#mapGrad)" opacity=".9"/>
+                <% data.mapSpots.forEach((spot) => { %>
+                  <circle cx="<%= spot.cx %>" cy="<%= spot.cy %>" r="11" fill="<%= spot.color %>" opacity=".18" class="map-dot-ring"/>
+                  <circle class="map-dot" cx="<%= spot.cx %>" cy="<%= spot.cy %>" r="6"
+                    fill="<%= spot.color %>" filter="url(#dotGlow)"
+                    data-id="<%= spot.title %>"
+                    data-spot='<%- JSON.stringify({title:spot.title,region:spot.region,period:spot.period,note:spot.note,events:spot.events,color:spot.color}).replace(/'/g,"&#39;") %>'
+                  />
+                <% }) %>
+              </svg>
+              <div class="map-pin pin-1" style="--pc:#e67e22">Hà Nội</div>
+              <div class="map-pin pin-2" style="--pc:#9b59b6">Huế</div>
+              <div class="map-pin pin-3" style="--pc:#27ae60">TP.HCM</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="resources" class="section section-soft">
+        <div class="container">
+          <div class="section-head reveal">
+            <div><p class="eyebrow">Thư viện tài liệu</p><h2>Tài liệu để học sinh tự ôn tập tốt hơn</h2></div>
+            <button class="text-link text-link-btn" onclick="showToast('📚 Thư viện đầy đủ sắp ra mắt! Theo dõi để nhận thông báo.')">Xem toàn bộ →</button>
+          </div>
+          <div class="cards-grid four-col">
+            <% data.resources.forEach((item, i) => { %>
+              <article class="resource-card reveal" style="transition-delay:<%=i*0.08%>s"
+                data-resource="<%- JSON.stringify(item).replace(/"/g,'&quot;') %>">
+                <div class="resource-meta">
+                  <span class="pill"><%= item.type %></span>
+                  <span class="resource-grade">Lớp <%= item.grade %></span>
+                </div>
+                <div class="resource-icon-big"><%= item.icon %></div>
+                <h3><%= item.title %></h3>
+                <p><%= item.description %></p>
+                <button class="btn-resource-open text-link text-link-btn">Xem chi tiết →</button>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="chatbot" class="section">
+        <div class="container chatbot-layout">
+          <div class="chatbot-copy reveal">
+            <p class="eyebrow">Trợ lý AI demo</p>
+            <h2>Chatbot hỗ trợ học môn Lịch sử</h2>
+            <p class="section-note narrow-note">Demo dùng Express route <code>/api/chat-demo</code>. Có thể nâng cấp lên Claude / OpenAI API và lưu chat bằng MongoDB.</p>
+            <div class="suggestion-list">
+              <% data.chatbotSuggestions.forEach((item) => { %>
+                <button class="suggestion-chip" type="button"><%= item %></button>
+              <% }) %>
+            </div>
+          </div>
+          <div class="chatbot-card reveal" style="transition-delay:.12s">
+            <div class="chatbot-header">
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="font-size:1.5rem">🤖</span>
+                <div><strong>Sử Việt Bot</strong><small><%= dbEnabled ? 'MongoDB đã kết nối' : 'Dữ liệu mẫu' %></small></div>
+              </div>
+              <span class="status-dot">Online</span>
+            </div>
+            <div class="chat-window" id="chatWindow">
+              <div class="message bot-message">👋 Xin chào! Mình là chatbot demo. Hỏi về Bạch Đằng, Cách mạng tháng Tám, Lịch sử 9 hoặc mẹo học mốc thời gian nhé.</div>
+            </div>
+            <form class="chat-form" id="chatForm">
+              <input type="text" id="chatInput" name="message" placeholder="Ví dụ: Giải thích chiến thắng Bạch Đằng..." autocomplete="off"/>
+              <button class="button button-primary" type="submit">Gửi</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="section stats-section">
+        <div class="container stats-grid">
+          <% data.stats.forEach((item, i) => { %>
+            <article class="stat-card reveal" style="transition-delay:<%=i*0.08%>s">
+              <strong class="stat-number"><%= item.value %></strong>
+              <span><%= item.label %></span>
+            </article>
+          <% }) %>
+        </div>
+      </section>
+
+      <section class="section section-soft">
+        <div class="container">
+          <div class="section-head reveal">
+            <div><p class="eyebrow">Góc học tập</p><h2>Bài viết hỗ trợ học tốt hơn</h2></div>
+            <p class="section-note">Phương pháp, mẹo ghi nhớ và chiến lược ôn tập.</p>
+          </div>
+          <div class="cards-grid three-col">
+            <% data.articles.forEach((article, i) => { %>
+              <article class="article-card reveal" style="transition-delay:<%=i*0.1%>s"
+                data-article="<%- JSON.stringify(article).replace(/"/g,'&quot;') %>">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+                  <span class="pill"><%= article.category %></span>
+                  <span style="font-size:.78rem;color:#667085">⏱ <%= article.readTime %></span>
+                </div>
+                <h3><%= article.title %></h3>
+                <p><%= article.excerpt %></p>
+                <button class="btn-article-open text-link text-link-btn">Đọc bài viết →</button>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section class="section final-cta-section">
+        <div class="container final-cta reveal">
+          <div>
+            <p class="eyebrow">Sẵn sàng trải nghiệm?</p>
+            <h2>Bắt đầu hành trình khám phá lịch sử Việt Nam ngay hôm nay</h2>
+          </div>
+          <div class="hero-actions">
+            <a href="#courses" class="button button-primary">📚 Xem khóa học</a>
+            <a href="/games/ai-la-nhan-vat" class="button button-secondary">🎮 Chơi game ngay</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <%- include('partials/footer', { brand: data.brand, resources: data.resources }) %>
+
+    <div id="vsModal" class="vs-modal-overlay" role="dialog" aria-modal="true">
+      <div id="vsModalBox" class="vs-modal-box"></div>
+      <button id="vsModalClose" class="vs-modal-close" aria-label="Đóng">✕</button>
+    </div>
+  </body>
+</html>
