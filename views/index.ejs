@@ -186,23 +186,21 @@
               <span class="panel-note">👆 Click điểm màu</span>
             </div>
             <div class="map-visual" aria-label="Bản đồ Việt Nam">
-              <svg viewBox="0 0 220 500" role="img">
-                <defs>
-                  <linearGradient id="mapGrad" x1="0" x2="1" y1="0" y2="1">
-                    <stop offset="0%" stop-color="#ffb067"/><stop offset="100%" stop-color="#ff7a1a"/>
-                  </linearGradient>
-                  <filter id="dotGlow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                </defs>
-                <path d="M120 20 C150 38,162 58,160 88 C157 118,129 135,126 160 C122 186,146 205,145 232 C144 262,110 280,106 305 C100 338,124 357,118 386 C111 420,84 435,88 470 C65 452,55 428,60 395 C65 362,78 338,80 308 C82 276,68 256,72 225 C76 193,101 174,105 146 C109 115,89 92,94 61 C98 42,106 30,120 20 Z" fill="url(#mapGrad)" opacity=".9"/>
-                <% data.mapSpots.forEach((spot) => { %>
-                  <circle cx="<%= spot.cx %>" cy="<%= spot.cy %>" r="11" fill="<%= spot.color %>" opacity=".18" class="map-dot-ring"/>
-                  <circle class="map-dot" cx="<%= spot.cx %>" cy="<%= spot.cy %>" r="6"
-                    fill="<%= spot.color %>" filter="url(#dotGlow)"
-                    data-id="<%= spot.title %>"
-                    data-spot='<%- JSON.stringify({title:spot.title,region:spot.region,period:spot.period,note:spot.note,events:spot.events,color:spot.color}).replace(/'/g,"&#39;") %>'
-                  />
-                <% }) %>
-              </svg>
+              <div style="position:relative; width:100%;">
+  <img 
+    src="/images/ban-do-lich-su.jpg" 
+    alt="Bản đồ lịch sử Việt Nam"
+    style="width:100%; border-radius:16px; display:block;"
+  />
+  <% data.mapSpots.forEach((spot) => { %>
+    <div class="map-dot-custom"
+      style="top:<%= spot.cy/5 %>%; left:<%= spot.cx/2.2 %>%"
+      onclick='showMapSpot(<%- JSON.stringify({title:spot.title,region:spot.region,period:spot.period,note:spot.note,events:spot.events}) %>)'>
+      <div class="mdc-ring" style="background:<%= spot.color %>"></div>
+      <div class="mdc-label"><%= spot.title %></div>
+    </div>
+  <% }) %>
+</div>
               <div class="map-pin pin-1" style="--pc:#e67e22">Hà Nội</div>
               <div class="map-pin pin-2" style="--pc:#9b59b6">Huế</div>
               <div class="map-pin pin-3" style="--pc:#27ae60">TP.HCM</div>
