@@ -46,7 +46,7 @@ module.exports = {
     { name: 'Điện Biên Phủ 1954', type: 'Adventure Game', badge: 'MỚI', href: '/games/dien-bien-phu', emoji: '🪖', description: 'Trải nghiệm 3 cấp độ: kéo pháo, đào chiến hào và cắm cờ chiến thắng. Kèm quiz 6 câu và hệ thống điểm.', detail: 'Phù hợp lớp 6-9 · ~15 phút · Có cảm ứng mobile' },
     { name: 'Ai là nhân vật?', type: 'Guessing Game', badge: 'MỚI', href: '/games/ai-la-nhan-vat', emoji: '🕵️', description: 'Đoán anh hùng lịch sử qua từng gợi ý. Đoán sớm để nhận điểm cao, có đồng hồ đếm ngược!', detail: 'Phù hợp lớp 6-12 · 10 nhân vật · Timer 20s' },
     { name: 'Flashcard Quizlet', type: 'Flashcard', badge: 'MỚI', href: '/games/flashcard', emoji: '🃏', description: 'Tự tạo bộ thẻ hoặc dùng 6 bộ thẻ lịch sử sẵn có. 4 chế độ: Lật thẻ, Trắc nghiệm, Ghép đôi, Tốc độ.', detail: 'Phù hợp lớp 6-12 · Tự tải nội dung · Quizlet-style' },
-    { name: 'Đấu trường quiz', type: 'Quiz Arena', badge: 'SẮP RA', href: null, emoji: '🏆', description: 'Thi trắc nghiệm nhanh theo cấp độ dễ, trung bình, khó và nhận huy hiệu danh dự.', detail: 'Phù hợp lớp 6-12 · 5 chủ đề · Sắp ra mắt' }
+    { name: 'Hào Khí Đại Việt', type: 'Hand Tracking', badge: 'MỚI', href: '/hand-tracking.html', emoji: '🤚', description: 'Dùng tay điều khiển không gian 3D lịch sử. Giơ tay, nắm tay, pinch để khám phá.', detail: 'Tất cả lớp · MediaPipe · Cần camera' }
   ],
   mapSpots: [
     { region: 'Tây Bắc', title: 'Điện Biên Phủ', period: '1954', note: 'Biểu tượng chiến thắng lẫy lừng, kết thúc cuộc kháng chiến chống Pháp.', cx: 52, cy: 80, events: ['Chiến dịch 13/3–7/5/1954','Đại tướng Võ Nguyên Giáp chỉ huy','56 ngày đêm chiến đấu anh dũng'], color: '#e74c3c' },
