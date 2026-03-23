@@ -53,3 +53,4 @@ app.listen(PORT, () => {
     ? 'Đã bật kết nối MongoDB.'
     : 'Đang chạy ở chế độ demo data. Bạn có thể thêm MONGODB_URI sau.');
 });
+module.exports = app;
