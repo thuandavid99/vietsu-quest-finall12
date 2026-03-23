@@ -233,7 +233,7 @@
           <div class="chatbot-copy reveal">
             <p class="eyebrow">Trợ lý AI demo</p>
             <h2>Chatbot hỗ trợ học môn Lịch sử</h2>
-            <p class="section-note narrow-note">Demo dùng Express route <code>/api/chat-demo</code>. Có thể nâng cấp lên Claude / OpenAI API và lưu chat bằng MongoDB.</p>
+            <p class="section-note narrow-note">Được hỗ trợ bởi <strong>Google Gemini AI</strong> — hỏi bất cứ điều gì về Lịch sử Việt Nam!</p>
             <div class="suggestion-list">
               <% data.chatbotSuggestions.forEach((item) => { %>
                 <button class="suggestion-chip" type="button"><%= item %></button>
@@ -244,12 +244,12 @@
             <div class="chatbot-header">
               <div style="display:flex;align-items:center;gap:10px">
                 <span style="font-size:1.5rem">🤖</span>
-                <div><strong>Sử Việt Bot</strong><small><%= dbEnabled ? 'MongoDB đã kết nối' : 'Dữ liệu mẫu' %></small></div>
+                <div><strong>Sử Việt Bot</strong><small><%= dbEnabled ? 'MongoDB đã kết nối' : 'Gemini AI' %></small></div>
               </div>
               <span class="status-dot">Online</span>
             </div>
             <div class="chat-window" id="chatWindow">
-              <div class="message bot-message">👋 Xin chào! Mình là chatbot demo. Hỏi về Bạch Đằng, Cách mạng tháng Tám, Lịch sử 9 hoặc mẹo học mốc thời gian nhé.</div>
+              <div class="message bot-message">🤖 Xin chào! Mình là Sử Thần AI, được hỗ trợ bởi Google Gemini. Hỏi mình bất cứ điều gì về Lịch sử Việt Nam nhé!</div>
             </div>
             <form class="chat-form" id="chatForm">
               <input type="text" id="chatInput" name="message" placeholder="Ví dụ: Giải thích chiến thắng Bạch Đằng..." autocomplete="off"/>
