@@ -6,7 +6,7 @@ const ChatLog   = require('../models/ChatLog');
 const router = express.Router();
 
 /* ═══════════════════════════════════════════════════════
-   GEMINI AI HELPER
+   GEMINI AI HELPERR
 ═══════════════════════════════════════════════════════ */
 async function callGemini(userMessage, customSystemPrompt) {
   const apiKey = process.env.GEMINI_API_KEY;
