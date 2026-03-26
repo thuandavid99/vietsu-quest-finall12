@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="vi">
+<%- include('../partials/head', { pageTitle, siteName }) %>
+<body>
+<%- include('../partials/header', { brand }) %>
+
+<main class="ls6-page">
+
+  <!-- ── HERO ──────────────────────────────────────────── -->
+  <div class="ls6-hero">
+    <div class="ls6-hero-bg"></div>
+    <div class="container ls6-hero-inner">
+      <nav class="ls6-breadcrumb">
+        <a href="/">Trang chủ</a> › <a href="/#courses">Khóa học</a> › <span>Lịch sử 6</span>
+      </nav>
+      <div class="ls6-hero-content">
+        <div class="ls6-hero-left">
+          <span class="ls6-badge">Lớp 6 · THCS</span>
+          <h1 class="ls6-title">🏺 Lịch sử 6</h1>
+          <p class="ls6-subtitle">Buổi đầu dựng nước – từ thủa hồng hoang đến ngàn năm Bắc thuộc</p>
+          <p class="ls6-desc">Chương trình <strong>Kết nối tri thức</strong> · 5 chương · 18 bài học · Sơ đồ tư duy từng bài</p>
+          <div class="ls6-tags">
+            <span>📖 18 bài học</span>
+            <span>🧠 Sơ đồ tư duy</span>
+            <span>🎯 54 câu quiz</span>
+            <span>🤖 AI tóm tắt</span>
+          </div>
+        </div>
+        <div class="ls6-hero-stats">
+          <div class="ls6-stat"><span class="ls6-stat-num">5</span><span class="ls6-stat-lbl">Chương</span></div>
+          <div class="ls6-stat"><span class="ls6-stat-num">18</span><span class="ls6-stat-lbl">Bài học</span></div>
+          <div class="ls6-stat"><span class="ls6-stat-num">54</span><span class="ls6-stat-lbl">Câu quiz</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CHAPTER LIST ──────────────────────────────────── -->
+  <div class="container ls6-body">
+
+    <!-- Progress bar -->
+    <div class="ls6-progress-bar">
+      <div class="ls6-pb-label">Tiến độ học: <span id="progressPct">0%</span></div>
+      <div class="ls6-pb-track"><div class="ls6-pb-fill" id="pbFill" style="width:0%"></div></div>
+      <div class="ls6-pb-count"><span id="doneLessons">0</span>/18 bài hoàn thành</div>
+    </div>
+
+    <!-- Chapter cards -->
+    <div class="ls6-chapters" id="chaptersWrap">
+
+      <!-- ═══ CHƯƠNG 1 ═══ -->
+      <div class="ls6-chapter" id="ch1">
+        <div class="ls6-ch-header" onclick="toggleChapter(1)">
+          <div class="ls6-ch-num">01</div>
+          <div class="ls6-ch-info">
+            <div class="ls6-ch-title">Lịch sử và cuộc sống</div>
+            <div class="ls6-ch-meta">3 bài học · Nền tảng tư duy lịch sử</div>
+          </div>
+          <div class="ls6-ch-tags">
+            <span class="ls6-tag">Nhập môn</span>
+          </div>
+          <div class="ls6-ch-chevron" id="ch1-icon">▶</div>
+        </div>
+        <div class="ls6-ch-body" id="ch1-body">
+          <div class="ls6-lessons-grid">
+
+            <!-- Bài 1 -->
+            <div class="ls6-lesson-card" onclick="openLesson('b1')">
+              <div class="ls6-lesson-header">
+                <span class="ls6-lesson-num">Bài 1</span>
+                <span class="ls6-lesson-check" id="check-b1">○</span>
+              </div>
+              <div class="ls6-lesson-title">Lịch sử là gì?</div>
+              <div class="ls6-lesson-sub">Khái niệm · Ý nghĩa · Môn học lịch sử</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+
+            <!-- Bài 2 -->
+            <div class="ls6-lesson-card" onclick="openLesson('b2')">
+              <div class="ls6-lesson-header">
+                <span class="ls6-lesson-num">Bài 2</span>
+                <span class="ls6-lesson-check" id="check-b2">○</span>
+              </div>
+              <div class="ls6-lesson-title">Dựa vào đâu để biết lịch sử?</div>
+              <div class="ls6-lesson-sub">Tư liệu hiện vật · Chữ viết · Truyền khẩu</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+
+            <!-- Bài 3 -->
+            <div class="ls6-lesson-card" onclick="openLesson('b3')">
+              <div class="ls6-lesson-header">
+                <span class="ls6-lesson-num">Bài 3</span>
+                <span class="ls6-lesson-check" id="check-b3">○</span>
+              </div>
+              <div class="ls6-lesson-title">Thời gian trong lịch sử</div>
+              <div class="ls6-lesson-sub">Dương lịch · Âm lịch · Thập kỷ · Thế kỷ · TCN/SCN</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ CHƯƠNG 2 ═══ -->
+      <div class="ls6-chapter" id="ch2">
+        <div class="ls6-ch-header" onclick="toggleChapter(2)">
+          <div class="ls6-ch-num">02</div>
+          <div class="ls6-ch-info">
+            <div class="ls6-ch-title">Xã hội nguyên thủy</div>
+            <div class="ls6-ch-meta">3 bài học · Nguồn gốc loài người và xã hội đầu tiên</div>
+          </div>
+          <div class="ls6-ch-tags"><span class="ls6-tag">Tiến hóa</span></div>
+          <div class="ls6-ch-chevron" id="ch2-icon">▶</div>
+        </div>
+        <div class="ls6-ch-body" id="ch2-body">
+          <div class="ls6-lessons-grid">
+            <div class="ls6-lesson-card" onclick="openLesson('b4')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 4</span><span class="ls6-lesson-check" id="check-b4">○</span></div>
+              <div class="ls6-lesson-title">Nguồn gốc loài người</div>
+              <div class="ls6-lesson-sub">Vượn người → Người tối cổ → Người tinh khôn</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+            <div class="ls6-lesson-card" onclick="openLesson('b5')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 5</span><span class="ls6-lesson-check" id="check-b5">○</span></div>
+              <div class="ls6-lesson-title">Xã hội nguyên thủy</div>
+              <div class="ls6-lesson-sub">Bầy người · Thị tộc · Bộ lạc · Công cụ đá</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+            <div class="ls6-lesson-card" onclick="openLesson('b6')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 6</span><span class="ls6-lesson-check" id="check-b6">○</span></div>
+              <div class="ls6-lesson-title">Sự tan rã của xã hội nguyên thủy</div>
+              <div class="ls6-lesson-sub">Kim loại · Tư hữu · Phân hóa giai cấp · Nhà nước</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ CHƯƠNG 3 ═══ -->
+      <div class="ls6-chapter" id="ch3">
+        <div class="ls6-ch-header" onclick="toggleChapter(3)">
+          <div class="ls6-ch-num">03</div>
+          <div class="ls6-ch-info">
+            <div class="ls6-ch-title">Xã hội cổ đại</div>
+            <div class="ls6-ch-meta">4 bài học · Văn minh cổ đại phương Đông và phương Tây</div>
+          </div>
+          <div class="ls6-ch-tags"><span class="ls6-tag">Văn minh</span></div>
+          <div class="ls6-ch-chevron" id="ch3-icon">▶</div>
+        </div>
+        <div class="ls6-ch-body" id="ch3-body">
+          <div class="ls6-lessons-grid">
+            <div class="ls6-lesson-card" onclick="openLesson('b7')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 7</span><span class="ls6-lesson-check" id="check-b7">○</span></div>
+              <div class="ls6-lesson-title">Ai Cập và Lưỡng Hà cổ đại</div>
+              <div class="ls6-lesson-sub">Kim tự tháp · Chữ tượng hình · Bộ luật Hammurabi</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+            <div class="ls6-lesson-card" onclick="openLesson('b8')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 8</span><span class="ls6-lesson-check" id="check-b8">○</span></div>
+              <div class="ls6-lesson-title">Ấn Độ cổ đại</div>
+              <div class="ls6-lesson-sub">Văn minh sông Ấn · Chữ số 0 · Phật giáo · Hindu</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+            <div class="ls6-lesson-card" onclick="openLesson('b9')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 9</span><span class="ls6-lesson-check" id="check-b9">○</span></div>
+              <div class="ls6-lesson-title">Trung Quốc từ thời cổ đại đến TK VII</div>
+              <div class="ls6-lesson-sub">Hoàng Hà · Chữ Hán · Tứ đại phát minh · Nho giáo</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+            <div class="ls6-lesson-card" onclick="openLesson('b10')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 10</span><span class="ls6-lesson-check" id="check-b10">○</span></div>
+              <div class="ls6-lesson-title">Hi Lạp và La Mã cổ đại</div>
+              <div class="ls6-lesson-sub">Dân chủ Athens · Olympic · Đế quốc La Mã</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ CHƯƠNG 4 ═══ -->
+      <div class="ls6-chapter" id="ch4">
+        <div class="ls6-ch-header" onclick="toggleChapter(4)">
+          <div class="ls6-ch-num">04</div>
+          <div class="ls6-ch-info">
+            <div class="ls6-ch-title">Đông Nam Á từ những thế kỷ đầu đến thế kỷ X</div>
+            <div class="ls6-ch-meta">4 bài học · Điều kiện tự nhiên và các vương quốc cổ</div>
+          </div>
+          <div class="ls6-ch-tags"><span class="ls6-tag">Khu vực</span></div>
+          <div class="ls6-ch-chevron" id="ch4-icon">▶</div>
+        </div>
+        <div class="ls6-ch-body" id="ch4-body">
+          <div class="ls6-lessons-grid">
+            <div class="ls6-lesson-card" onclick="openLesson('b11')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 11</span><span class="ls6-lesson-check" id="check-b11">○</span></div>
+              <div class="ls6-lesson-title">Điều kiện tự nhiên và dân cư Đông Nam Á</div>
+              <div class="ls6-lesson-sub">Vị trí địa lý · Khí hậu nhiệt đới · Đa dân tộc</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+            <div class="ls6-lesson-card" onclick="openLesson('b12')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 12</span><span class="ls6-lesson-check" id="check-b12">○</span></div>
+              <div class="ls6-lesson-title">Sự hình thành các vương quốc cổ ở Đông Nam Á</div>
+              <div class="ls6-lesson-sub">Phù Nam · Chăm-pa · Angkor · Pagan</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+            <div class="ls6-lesson-card" onclick="openLesson('b13')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 13</span><span class="ls6-lesson-check" id="check-b13">○</span></div>
+              <div class="ls6-lesson-title">Giao lưu thương mại và văn hóa ở Đông Nam Á</div>
+              <div class="ls6-lesson-sub">Con đường tơ lụa · Phật giáo · Hindu giáo lan rộng</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+            <div class="ls6-lesson-card" onclick="openLesson('b14')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 14</span><span class="ls6-lesson-check" id="check-b14">○</span></div>
+              <div class="ls6-lesson-title">Vương quốc Phù Nam</div>
+              <div class="ls6-lesson-sub">Óc Eo · Đồng bằng Nam Bộ · Thương cảng cổ</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ CHƯƠNG 5 ═══ -->
+      <div class="ls6-chapter" id="ch5">
+        <div class="ls6-ch-header" onclick="toggleChapter(5)">
+          <div class="ls6-ch-num">05</div>
+          <div class="ls6-ch-info">
+            <div class="ls6-ch-title">Việt Nam từ khoảng TK VII TCN đến đầu TK X</div>
+            <div class="ls6-ch-meta">4 bài học · Văn Lang – Âu Lạc – ngàn năm Bắc thuộc</div>
+          </div>
+          <div class="ls6-ch-tags"><span class="ls6-tag ls6-tag-vn">🇻🇳 Việt Nam</span></div>
+          <div class="ls6-ch-chevron" id="ch5-icon">▶</div>
+        </div>
+        <div class="ls6-ch-body" id="ch5-body">
+          <div class="ls6-lessons-grid">
+            <div class="ls6-lesson-card ls6-lesson-vn" onclick="openLesson('b15')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 15</span><span class="ls6-lesson-check" id="check-b15">○</span></div>
+              <div class="ls6-lesson-title">Nhà nước Văn Lang – Âu Lạc</div>
+              <div class="ls6-lesson-sub">Hùng Vương · Trống đồng · Thành Cổ Loa</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+            <div class="ls6-lesson-card ls6-lesson-vn" onclick="openLesson('b16')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 16</span><span class="ls6-lesson-check" id="check-b16">○</span></div>
+              <div class="ls6-lesson-title">Chính sách cai trị của phong kiến phương Bắc</div>
+              <div class="ls6-lesson-sub">1000 năm Bắc thuộc · Đồng hóa · Bóc lột</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+            <div class="ls6-lesson-card ls6-lesson-vn" onclick="openLesson('b17')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 17</span><span class="ls6-lesson-check" id="check-b17">○</span></div>
+              <div class="ls6-lesson-title">Các cuộc đấu tranh giành độc lập trước TK X</div>
+              <div class="ls6-lesson-sub">Hai Bà Trưng · Lý Nam Đế · Bà Triệu · Triệu Quang Phục</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+            <div class="ls6-lesson-card ls6-lesson-vn ls6-lesson-star" onclick="openLesson('b18')">
+              <div class="ls6-lesson-header"><span class="ls6-lesson-num">Bài 18</span><span class="ls6-lesson-check" id="check-b18">○</span></div>
+              <div class="ls6-lesson-title">Bước ngoặt lịch sử đầu TK X ⭐</div>
+              <div class="ls6-lesson-sub">Ngô Quyền · Bạch Đằng 938 · Kết thúc Bắc thuộc</div>
+              <div class="ls6-lesson-btn">Xem sơ đồ tư duy →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /chapters -->
+  </div><!-- /container -->
+
+</main>
+
+<!-- ═══ LESSON MODAL ═══════════════════════════════════ -->
+<div class="ls6-modal-bg" id="lessonModal" onclick="closeLessonModal(event)">
+  <div class="ls6-modal-box" id="lessonBox">
+    <button class="ls6-modal-close" onclick="closeLessonModal()">✕</button>
+    <div id="lessonContent"></div>
+  </div>
+</div>
+
+<%- include('../partials/footer', { brand, resources: [] }) %>
+
+<!-- ════════════════════════════════════════════════════
+     STYLES
+════════════════════════════════════════════════════ -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');
+*{box-sizing:border-box}
+.ls6-page{font-family:'Be Vietnam Pro',sans-serif;background:#fffdf9;min-height:100vh}
+
+/* ── HERO ────────────────────────────────────────── */
+.ls6-hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#1f2937 0%,#344054 100%);padding:52px 0 44px;color:#fff}
+.ls6-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(255,122,26,.18),transparent);pointer-events:none}
+.ls6-hero-inner{position:relative;z-index:1}
+.ls6-breadcrumb{font-size:.8rem;color:rgba(255,255,255,.55);margin-bottom:18px}
+.ls6-breadcrumb a{color:rgba(255,176,103,.9);font-weight:600}
+.ls6-hero-content{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center}
+.ls6-badge{display:inline-block;background:rgba(255,122,26,.25);color:#ffb067;border:1px solid rgba(255,122,26,.4);padding:4px 14px;border-radius:999px;font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.ls6-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin:0 0 8px;color:#fff}
+.ls6-subtitle{font-size:1rem;font-weight:600;color:#ffb067;margin:0 0 8px;font-style:italic}
+.ls6-desc{font-size:.88rem;color:rgba(255,255,255,.65);margin:0 0 16px}
+.ls6-tags{display:flex;gap:8px;flex-wrap:wrap}
+.ls6-tags span{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);padding:5px 12px;border-radius:999px;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.85)}
+.ls6-hero-stats{display:flex;flex-direction:column;gap:12px}
+.ls6-stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 24px;text-align:center;min-width:90px}
+.ls6-stat-num{font-size:2rem;font-weight:900;color:#ffb067;display:block;line-height:1}
+.ls6-stat-lbl{font-size:.7rem;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+
+/* ── BODY ────────────────────────────────────────── */
+.ls6-body{padding:36px 0 80px}
+
+/* ── PROGRESS BAR ────────────────────────────────── */
+.ls6-progress-bar{background:#fff;border-radius:16px;border:1.5px solid #eaecf0;padding:16px 22px;margin-bottom:28px;display:flex;align-items:center;gap:16px;box-shadow:0 4px 14px rgba(0,0,0,.04);flex-wrap:wrap}
+.ls6-pb-label{font-size:.82rem;font-weight:700;color:#667085;flex-shrink:0}
+.ls6-pb-track{flex:1;height:8px;background:#f2f4f7;border-radius:999px;overflow:hidden;min-width:120px}
+.ls6-pb-fill{height:100%;background:linear-gradient(90deg,#ff7a1a,#ffb067);border-radius:999px;transition:width .5s ease}
+.ls6-pb-count{font-size:.82rem;font-weight:700;color:#ff7a1a;flex-shrink:0}
+
+/* ── CHAPTER ─────────────────────────────────────── */
+.ls6-chapter{background:#fff;border-radius:20px;border:1.5px solid #eaecf0;margin-bottom:16px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.04);transition:box-shadow .2s}
+.ls6-chapter:hover{box-shadow:0 8px 28px rgba(255,122,26,.08)}
+.ls6-ch-header{display:flex;align-items:center;gap:16px;padding:20px 24px;cursor:pointer;transition:background .2s;user-select:none}
+.ls6-ch-header:hover{background:#fff8f2}
+.ls6-ch-num{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#ff7a1a,#e96508);color:#fff;font-size:1rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(255,122,26,.3)}
+.ls6-ch-info{flex:1}
+.ls6-ch-title{font-size:1.05rem;font-weight:800;color:#1f2937;margin-bottom:3px}
+.ls6-ch-meta{font-size:.78rem;color:#667085;font-weight:600}
+.ls6-ch-tags{display:flex;gap:6px;flex-shrink:0}
+.ls6-tag{background:#fff5eb;color:#bf4f04;border:1px solid rgba(255,122,26,.2);padding:4px 10px;border-radius:999px;font-size:.72rem;font-weight:700}
+.ls6-tag-vn{background:#fef2f2;color:#991b1b;border-color:rgba(220,38,38,.2)}
+.ls6-ch-chevron{font-size:.9rem;color:#667085;transition:transform .3s;flex-shrink:0;width:24px;text-align:center}
+.ls6-ch-chevron.open{transform:rotate(90deg);color:#ff7a1a}
+
+.ls6-ch-body{display:none;border-top:1.5px solid #f2f4f7;padding:20px 24px;animation:slideDown .3s ease}
+.ls6-ch-body.open{display:block}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── LESSON GRID ─────────────────────────────────── */
+.ls6-lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.ls6-lesson-card{background:#f9fafb;border:1.5px solid #eaecf0;border-radius:16px;padding:16px;cursor:pointer;transition:all .22s;position:relative}
+.ls6-lesson-card:hover{border-color:#ff7a1a;background:#fff5eb;transform:translateY(-3px);box-shadow:0 8px 24px rgba(255,122,26,.12)}
+.ls6-lesson-vn{border-left:4px solid #e74c3c !important}
+.ls6-lesson-star{background:linear-gradient(135deg,#fff5eb,#fff) !important;border-color:rgba(255,122,26,.3) !important}
+.ls6-lesson-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.ls6-lesson-num{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#ff7a1a;background:rgba(255,122,26,.1);padding:3px 8px;border-radius:6px}
+.ls6-lesson-check{font-size:1rem;color:#d0d5dd;transition:all .2s}
+.ls6-lesson-check.done{color:#2ecc71}
+.ls6-lesson-title{font-weight:700;font-size:.92rem;color:#1f2937;margin-bottom:5px;line-height:1.4}
+.ls6-lesson-sub{font-size:.75rem;color:#667085;line-height:1.5;margin-bottom:10px}
+.ls6-lesson-btn{font-size:.75rem;font-weight:700;color:#ff7a1a;display:flex;align-items:center;gap:4px;transition:gap .2s}
+.ls6-lesson-card:hover .ls6-lesson-btn{gap:8px}
+
+/* ── MODAL ───────────────────────────────────────── */
+.ls6-modal-bg{position:fixed;inset:0;z-index:1000;background:rgba(15,20,30,.6);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
+.ls6-modal-bg.open{opacity:1;pointer-events:all}
+.ls6-modal-box{background:#fff;border-radius:24px;max-width:800px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 32px 80px rgba(0,0,0,.22);transform:translateY(24px) scale(.97);transition:all .26s;opacity:0}
+.ls6-modal-bg.open .ls6-modal-box{transform:none;opacity:1}
+.ls6-modal-close{position:sticky;top:14px;left:calc(100% - 50px);width:38px;height:38px;border-radius:50%;border:1.5px solid #eaecf0;background:#fff;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;z-index:10;transition:all .2s;float:right;margin:14px 14px -14px 0}
+.ls6-modal-close:hover{background:#fef2f2;border-color:#e74c3c;color:#e74c3c;transform:rotate(90deg)}
+
+/* ── LESSON DETAIL inside modal ──────────────────── */
+.ld-header{padding:28px 32px 20px;border-bottom:1.5px solid #f2f4f7;background:linear-gradient(135deg,#fffdf9,#fff5eb)}
+.ld-badge{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#ff7a1a;background:rgba(255,122,26,.1);padding:3px 10px;border-radius:6px;margin-bottom:10px;display:inline-block}
+.ld-title{font-size:1.4rem;font-weight:800;color:#1f2937;margin-bottom:6px}
+.ld-subtitle{font-size:.88rem;color:#667085}
+.ld-body{padding:24px 32px}
+.ld-section-title{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#667085;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.ld-section-title::after{content:'';flex:1;height:1px;background:#eaecf0}
+
+/* ── MIND MAP ────────────────────────────────────── */
+.mindmap{background:linear-gradient(135deg,#f9fafb,#fff);border:1.5px solid #eaecf0;border-radius:20px;padding:28px 20px;margin-bottom:20px;overflow-x:auto}
+.mm-center{display:flex;flex-direction:column;align-items:center}
+.mm-root{background:linear-gradient(135deg,#ff7a1a,#e96508);color:#fff;padding:12px 28px;border-radius:999px;font-weight:800;font-size:1rem;box-shadow:0 6px 20px rgba(255,122,26,.3);margin-bottom:0;position:relative;z-index:2;text-align:center}
+.mm-branches{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;padding-top:8px;position:relative}
+.mm-branches::before{content:'';position:absolute;top:0;left:50%;width:2px;height:16px;background:#ff7a1a;transform:translateX(-50%)}
+.mm-branch{display:flex;flex-direction:column;align-items:center;min-width:120px;max-width:160px;position:relative}
+.mm-branch::before{content:'';position:absolute;top:0;left:50%;width:2px;height:20px;background:#eaecf0;transform:translateX(-50%)}
+.mm-node{background:#fff;border:2px solid;padding:8px 14px;border-radius:12px;font-weight:700;font-size:.82rem;margin-top:20px;text-align:center;position:relative;z-index:2;transition:transform .2s;cursor:default}
+.mm-node:hover{transform:scale(1.05)}
+.mm-node.color1{border-color:#3498db;color:#1a5f7a;background:#eff6ff}
+.mm-node.color2{border-color:#2ecc71;color:#065f46;background:#f0fdf4}
+.mm-node.color3{border-color:#e74c3c;color:#991b1b;background:#fef2f2}
+.mm-node.color4{border-color:#9b59b6;color:#5b21b6;background:#faf5ff}
+.mm-node.color5{border-color:#f39c12;color:#92400e;background:#fffbeb}
+.mm-node.color6{border-color:#1abc9c;color:#065f46;background:#ecfdf5}
+.mm-leaves{display:flex;flex-direction:column;gap:5px;margin-top:6px;width:100%}
+.mm-leaf{background:#f9fafb;border:1px solid #eaecf0;padding:4px 10px;border-radius:8px;font-size:.72rem;color:#475467;text-align:center;transition:background .2s}
+.mm-leaf:hover{background:#fff5eb;border-color:rgba(255,122,26,.2)}
+
+/* ── KEY POINTS ──────────────────────────────────── */
+.ld-keypoints{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:20px}
+.ld-kp{background:#f9fafb;border-radius:12px;padding:12px 14px;border-left:4px solid #ff7a1a;font-size:.85rem;color:#344054;font-weight:600;line-height:1.5}
+.ld-kp strong{color:#1f2937;display:block;margin-bottom:2px}
+
+/* ── TIMELINE inside modal ───────────────────────── */
+.ld-timeline{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.ld-tl-item{display:flex;gap:14px;align-items:flex-start}
+.ld-tl-year{background:linear-gradient(135deg,#ff7a1a,#e96508);color:#fff;padding:4px 12px;border-radius:999px;font-size:.75rem;font-weight:800;flex-shrink:0;min-width:70px;text-align:center;margin-top:2px}
+.ld-tl-text{font-size:.88rem;color:#344054;font-weight:600;line-height:1.5;padding:4px 0;border-bottom:1px dashed #f2f4f7;flex:1}
+
+/* ── DONE BUTTON ─────────────────────────────────── */
+.ld-footer{padding:16px 32px 24px;border-top:1.5px solid #f2f4f7;display:flex;gap:12px;justify-content:flex-end;align-items:center}
+.ld-btn-done{background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;padding:10px 24px;border-radius:999px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;transition:all .2s;box-shadow:0 4px 14px rgba(46,204,113,.3)}
+.ld-btn-done:hover{transform:translateY(-2px)}
+.ld-btn-done.already{background:#f0fdf4;color:#166534;border:1.5px solid #bbf7d0;box-shadow:none}
+.ld-btn-close{background:#f2f4f7;color:#344054;padding:10px 20px;border-radius:999px;font-weight:700;border:none;cursor:pointer;font-size:.9rem;transition:all .2s}
+.ld-btn-close:hover{background:#eaecf0}
+
+/* ── FUNFACT box ─────────────────────────────────── */
+.ld-funfact{background:linear-gradient(135deg,#1f2937,#344054);color:#fff;border-radius:16px;padding:16px 20px;margin-bottom:20px;display:flex;gap:12px;align-items:flex-start}
+.ld-funfact-icon{font-size:1.6rem;flex-shrink:0}
+.ld-funfact-text{font-size:.88rem;line-height:1.6;color:rgba(255,255,255,.88)}
+.ld-funfact-label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#ffb067;margin-bottom:4px}
+
+@media(max-width:768px){
+  .ls6-hero-content{grid-template-columns:1fr}
+  .ls6-hero-stats{flex-direction:row}
+  .ls6-stat{flex:1}
+  .ld-header,.ld-body,.ld-footer{padding-left:18px;padding-right:18px}
+  .ls6-modal-box{border-radius:18px 18px 0 0;max-height:95vh}
+  .ls6-modal-bg{align-items:flex-end;padding:0}
+}
+</style>
+
+<!-- ════════════════════════════════════════════════════
+     SCRIPT
+════════════════════════════════════════════════════ -->
+<script>
+/* ── Chapter toggle ─────────────────────────────── */
+function toggleChapter(n) {
+  const body  = document.getElementById('ch'+n+'-body');
+  const icon  = document.getElementById('ch'+n+'-icon');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  icon.classList.toggle('open', !isOpen);
+  icon.textContent = isOpen ? '▶' : '▼';
+}
+
+/* ── Progress tracking ─────────────────────────── */
+const TOTAL = 18;
+let doneSt = JSON.parse(localStorage.getItem('ls6_done') || '{}');
+function updateProgress() {
+  const n = Object.values(doneSt).filter(Boolean).length;
+  document.getElementById('progressPct').textContent = Math.round(n/TOTAL*100) + '%';
+  document.getElementById('pbFill').style.width = (n/TOTAL*100) + '%';
+  document.getElementById('doneLessons').textContent = n;
+  // update check icons
+  Object.keys(doneSt).forEach(id => {
+    const el = document.getElementById('check-' + id);
+    if (el) { el.textContent = doneSt[id] ? '✓' : '○'; el.classList.toggle('done', !!doneSt[id]); }
+  });
+}
+updateProgress();
+
+/* ── Lesson data (mind maps) ─────────────────────── */
+const LESSONS = {
+
+  b1: {
+    num: 'Bài 1', title: 'Lịch sử là gì?', chapter: 'Chương 1: Lịch sử và cuộc sống',
+    funfact: { icon: '📜', text: 'Từ "Lịch sử" trong tiếng Việt có gốc từ chữ Hán: 歷史 (Lịch = trải qua, Sử = ghi chép). Herodotus người Hi Lạp được coi là "Cha đẻ của Sử học"!' },
+    timeline: [
+      { year: 'TK V TCN', text: 'Herodotus viết tác phẩm lịch sử đầu tiên – Historiai' },
+      { year: 'TK XIII', text: 'Lê Văn Hưu viết Đại Việt Sử ký – bộ quốc sử đầu tiên của Việt Nam' },
+      { year: '1479', text: 'Ngô Sĩ Liên hoàn thành Đại Việt Sử ký Toàn thư' },
+    ],
+    keypoints: [
+      { title: 'Lịch sử là gì?', text: 'Là toàn bộ quá khứ diễn ra của xã hội loài người, là môn khoa học nghiên cứu về quá khứ đó' },
+      { title: 'Tại sao học Sử?', text: 'Biết cội nguồn, rút bài học, định hướng tương lai, xây dựng tinh thần yêu nước' },
+      { title: 'Hiện thực lịch sử', text: 'Những gì đã xảy ra trong quá khứ – khách quan, không thay đổi được' },
+      { title: 'Nhận thức lịch sử', text: 'Những gì con người hiểu, ghi chép về lịch sử – có thể khác nhau' },
+    ],
+    mindmap: {
+      root: '📚 Lịch sử là gì?',
+      branches: [
+        { label: 'Khái niệm', color: 'color1', leaves: ['Quá khứ xã hội loài người', 'Khoa học nghiên cứu quá khứ', 'Hiện thực ≠ Nhận thức'] },
+        { label: 'Ý nghĩa', color: 'color2', leaves: ['Biết cội nguồn', 'Rút bài học', 'Yêu nước', 'Định hướng TL'] },
+        { label: 'Lịch sử VN', color: 'color3', leaves: ['4000 năm văn hiến', 'Sử học từ TK XIII', 'Lê Văn Hưu'] },
+        { label: 'Nhà sử học', color: 'color4', leaves: ['Herodotus – Hi Lạp', 'Tư Mã Thiên – TQ', 'Lê Văn Hưu – VN'] },
+      ]
+    }
+  },
+
+  b2: {
+    num: 'Bài 2', title: 'Dựa vào đâu để biết lịch sử?', chapter: 'Chương 1: Lịch sử và cuộc sống',
+    funfact: { icon: '🏺', text: 'Trống đồng Đông Sơn được tìm thấy năm 1924 tại Thanh Hóa là tư liệu hiện vật quý giá, giúp ta biết về nền văn minh Việt cổ từ 2500 năm trước!' },
+    keypoints: [
+      { title: 'Tư liệu hiện vật', text: 'Công cụ, vũ khí, đồ gốm, công trình kiến trúc còn tồn tại đến ngày nay' },
+      { title: 'Tư liệu chữ viết', text: 'Văn bản, sách, bia ký, giấy tờ ghi chép bằng chữ viết của người xưa' },
+      { title: 'Tư liệu truyền khẩu', text: 'Thần thoại, truyền thuyết, ca dao, huyền thoại được truyền miệng qua nhiều thế hệ' },
+      { title: 'Tư liệu gốc', text: 'Có giá trị cao nhất – được tạo ra cùng thời điểm xảy ra sự kiện lịch sử' },
+    ],
+    mindmap: {
+      root: '🔍 Nguồn tư liệu lịch sử',
+      branches: [
+        { label: 'Hiện vật', color: 'color1', leaves: ['Trống đồng', 'Công cụ đá', 'Đồ gốm', 'Kiến trúc'] },
+        { label: 'Chữ viết', color: 'color2', leaves: ['Văn bản', 'Bia ký', 'Sách cổ', 'Giấy tờ'] },
+        { label: 'Truyền khẩu', color: 'color3', leaves: ['Thần thoại', 'Truyền thuyết', 'Ca dao', 'Huyền thoại'] },
+        { label: 'Đặc điểm', color: 'color5', leaves: ['Tư liệu gốc = quý', 'Cần đối chiếu', 'Phê phán nguồn'] },
+      ]
+    }
+  },
+
+  b3: {
+    num: 'Bài 3', title: 'Thời gian trong lịch sử', chapter: 'Chương 1: Lịch sử và cuộc sống',
+    funfact: { icon: '📅', text: 'Dương lịch (lịch Gregorian) được Giáo hoàng Gregory XIII ban hành năm 1582 để sửa sai lịch Julian. Việt Nam chính thức dùng từ năm 1954!' },
+    keypoints: [
+      { title: 'Dương lịch', text: 'Lịch phổ biến toàn cầu, dựa vào chuyển động của Trái Đất quanh Mặt Trời, 365/366 ngày' },
+      { title: 'Âm lịch', text: 'Dựa vào chu kỳ Mặt Trăng, phổ biến ở châu Á, dùng cho ngày lễ tết truyền thống' },
+      { title: 'Thập kỷ/Thế kỷ', text: '1 thập kỷ = 10 năm | 1 thế kỷ = 100 năm | 1 thiên niên kỷ = 1000 năm' },
+      { title: 'TCN / SCN', text: 'Trước Công nguyên (Before Common Era) / Sau Công nguyên – mốc năm 1 SCN' },
+    ],
+    timeline: [
+      { year: '46 TCN', text: 'Julius Caesar lập Lịch Julian – cơ sở của lịch hiện đại' },
+      { year: '1582', text: 'Lịch Gregorian ra đời, sửa lỗi lịch Julian' },
+      { year: 'Năm 1 SCN', text: 'Mốc tính thời gian Công nguyên theo lịch phương Tây' },
+    ],
+    mindmap: {
+      root: '🗓️ Thời gian lịch sử',
+      branches: [
+        { label: 'Dương lịch', color: 'color1', leaves: ['365/366 ngày', 'Mặt Trời', 'Toàn cầu dùng', 'Gregorian'] },
+        { label: 'Âm lịch', color: 'color2', leaves: ['Mặt Trăng', 'Châu Á', 'Tết cổ truyền', '354 ngày'] },
+        { label: 'Đơn vị', color: 'color3', leaves: ['Thập kỷ=10 năm', 'Thế kỷ=100 năm', 'TNK=1000 năm'] },
+        { label: 'TCN/SCN', color: 'color4', leaves: ['TCN: trước CN', 'SCN: sau CN', 'Mốc năm 1', 'Đếm ngược TCN'] },
+      ]
+    }
+  },
+
+  b4: {
+    num: 'Bài 4', title: 'Nguồn gốc loài người', chapter: 'Chương 2: Xã hội nguyên thủy',
+    funfact: { icon: '🦴', text: 'Người tối cổ đầu tiên xuất hiện ở châu Phi khoảng 3-4 triệu năm trước. Người tinh khôn (Homo Sapiens) đến Việt Nam khoảng 30.000-40.000 năm trước!' },
+    keypoints: [
+      { title: 'Vượn người (Homo)', text: '5-6 triệu năm TCN: biết đi thẳng, tay tự do, não phát triển hơn vượn' },
+      { title: 'Người tối cổ', text: '3-4 triệu năm TCN: Australopithecus → Homo Habilis, biết dùng công cụ đá' },
+      { title: 'Người tinh khôn', text: '200.000 năm TCN: Homo Sapiens, hình dạng như người hiện đại, biết nói, sáng tạo' },
+      { title: 'Phân bố', text: 'Xuất phát từ châu Phi, di cư ra toàn thế giới theo nhiều con đường khác nhau' },
+    ],
+    mindmap: {
+      root: '🦴 Nguồn gốc loài người',
+      branches: [
+        { label: 'Vượn người', color: 'color1', leaves: ['5-6 triệu năm', 'Đi thẳng', 'Não lớn hơn', 'Tay tự do'] },
+        { label: 'Người tối cổ', color: 'color2', leaves: ['3-4 triệu năm', 'Australopithecus', 'Homo Habilis', 'Công cụ đá đơn giản'] },
+        { label: 'Người tinh khôn', color: 'color3', leaves: ['200.000 năm', 'Homo Sapiens', 'Như người hiện đại', 'Biết nói, vẽ'] },
+        { label: 'Tiến hóa', color: 'color5', leaves: ['Châu Phi khởi nguồn', 'Di cư toàn TG', 'Đến Việt Nam ~30.000 năm'] },
+      ]
+    }
+  },
+
+  b5: {
+    num: 'Bài 5', title: 'Xã hội nguyên thủy', chapter: 'Chương 2: Xã hội nguyên thủy',
+    funfact: { icon: '🔥', text: 'Loài người phát hiện ra lửa khoảng 1,5-2 triệu năm trước tại châu Phi. Lửa giúp nấu chín thức ăn, sưởi ấm, xua đuổi thú dữ – một bước tiến vĩ đại!' },
+    keypoints: [
+      { title: 'Bầy người nguyên thủy', text: 'Sống theo bầy, săn bắt hái lượm, dùng công cụ đá ghè, lấy lửa tự nhiên' },
+      { title: 'Thị tộc', text: 'Tổ chức theo huyết thống, cùng chung sống, lao động, sở hữu chung mọi thứ' },
+      { title: 'Bộ lạc', text: 'Nhiều thị tộc liên kết lại, có lãnh thổ riêng, phong tục chung' },
+      { title: 'Công cụ lao động', text: 'Đá ghè thô → đá mài nhẵn → cung tên → đồ gốm → trồng trọt chăn nuôi' },
+    ],
+    mindmap: {
+      root: '🏕️ Xã hội nguyên thủy',
+      branches: [
+        { label: 'Tổ chức', color: 'color1', leaves: ['Bầy người', 'Thị tộc', 'Bộ lạc', 'Mẫu hệ → Phụ hệ'] },
+        { label: 'Kinh tế', color: 'color2', leaves: ['Săn bắt', 'Hái lượm', 'Trồng trọt sơ khai', 'Thuần hóa vật nuôi'] },
+        { label: 'Công cụ', color: 'color3', leaves: ['Đá ghè thô', 'Đá mài nhẵn', 'Xương, sừng', 'Cung tên'] },
+        { label: 'Đặc điểm', color: 'color4', leaves: ['Sở hữu chung', 'Bình đẳng', 'Không giai cấp', 'Không nhà nước'] },
+      ]
+    }
+  },
+
+  b6: {
+    num: 'Bài 6', title: 'Sự tan rã của xã hội nguyên thủy', chapter: 'Chương 2: Xã hội nguyên thủy',
+    funfact: { icon: '⚒️', text: 'Đồ đồng xuất hiện ở vùng Lưỡng Hà khoảng 3500 TCN. Ở Việt Nam, trống đồng Đông Sơn là đỉnh cao của nền văn minh đồ đồng, được đúc cách đây hơn 2500 năm!' },
+    keypoints: [
+      { title: 'Nguyên nhân tan rã', text: 'Phát hiện kim loại (đồng, sắt) → năng suất tăng → của cải dư thừa → tư hữu' },
+      { title: 'Phân hóa giai cấp', text: 'Người giàu – người nghèo, chủ – nô lệ, thống trị – bị trị xuất hiện' },
+      { title: 'Nhà nước ra đời', text: 'Khi giai cấp hình thành, cần công cụ để duy trì trật tự → nhà nước xuất hiện' },
+      { title: 'Ý nghĩa', text: 'Bước chuyển lớn của lịch sử: từ nguyên thủy → xã hội có giai cấp' },
+    ],
+    timeline: [
+      { year: '~3500 TCN', text: 'Đồ đồng xuất hiện ở Lưỡng Hà – bước tiến vĩ đại của nhân loại' },
+      { year: '~1200 TCN', text: 'Đồ sắt xuất hiện – năng suất lao động tăng mạnh' },
+      { year: '~3000 TCN', text: 'Các nhà nước đầu tiên hình thành ở Ai Cập, Lưỡng Hà' },
+    ],
+    mindmap: {
+      root: '⚒️ Tan rã xã hội nguyên thủy',
+      branches: [
+        { label: 'Nguyên nhân', color: 'color1', leaves: ['Kim loại xuất hiện', 'Năng suất tăng', 'Của cải dư thừa', 'Tư hữu hình thành'] },
+        { label: 'Phân hóa', color: 'color3', leaves: ['Giàu – nghèo', 'Chủ – nô lệ', 'Thống trị – bị trị'] },
+        { label: 'Nhà nước', color: 'color4', leaves: ['Ra đời khi có g/c', 'Bộ máy cai trị', 'Luật pháp', 'Quân đội'] },
+        { label: 'Ý nghĩa', color: 'color2', leaves: ['Xã hội tiến lên', 'Nền văn minh', 'Chữ viết', 'Kiến trúc'] },
+      ]
+    }
+  },
+
+  b7: {
+    num: 'Bài 7', title: 'Ai Cập và Lưỡng Hà cổ đại', chapter: 'Chương 3: Xã hội cổ đại',
+    funfact: { icon: '🏛️', text: 'Kim tự tháp Giza được xây dựng khoảng 2560 TCN, nặng 6,5 triệu tấn đá và là công trình kiến trúc cao nhất thế giới suốt 3800 năm!' },
+    keypoints: [
+      { title: 'Ai Cập cổ đại', text: 'Bên bờ sông Nile, Pharaoh là vua-thần, chữ tượng hình, kim tự tháp vĩ đại' },
+      { title: 'Lưỡng Hà', text: 'Giữa sông Tigris và Euphrates (Iraq), chữ hình nêm, Bộ luật Hammurabi' },
+      { title: 'Thành tựu', text: 'Chữ viết, toán học, thiên văn, kiến trúc vĩ đại, hệ thống thủy lợi' },
+      { title: 'Ý nghĩa', text: 'Hai nền văn minh cổ xưa nhất thế giới, đặt nền tảng cho nhiều lĩnh vực khoa học' },
+    ],
+    mindmap: {
+      root: '🏛️ Ai Cập & Lưỡng Hà',
+      branches: [
+        { label: 'Ai Cập', color: 'color5', leaves: ['Sông Nile', 'Pharaoh', 'Kim tự tháp', 'Chữ tượng hình', 'Giấy papyrus'] },
+        { label: 'Lưỡng Hà', color: 'color1', leaves: ['Tigris-Euphrates', 'Sumer', 'Chữ hình nêm', 'Luật Hammurabi'] },
+        { label: 'Thành tựu chung', color: 'color2', leaves: ['Chữ viết', 'Toán học', 'Thiên văn', 'Kiến trúc'] },
+        { label: 'Đặc điểm', color: 'color4', leaves: ['Kinh tế nông nghiệp', 'Nhà nước quân chủ', 'Tôn giáo đa thần'] },
+      ]
+    }
+  },
+
+  b8: {
+    num: 'Bài 8', title: 'Ấn Độ cổ đại', chapter: 'Chương 3: Xã hội cổ đại',
+    funfact: { icon: '🕌', text: 'Người Ấn Độ cổ đại phát minh ra số 0 và hệ thập phân – nền tảng của toán học và công nghệ hiện đại mà cả thế giới đang sử dụng mỗi ngày!' },
+    keypoints: [
+      { title: 'Sông Ấn (Indus)', text: '2500 TCN – văn minh Harappa, thành phố quy hoạch, hệ thống thoát nước hiện đại' },
+      { title: 'Ấn Độ giáo', text: 'Brahman, Vishnu, Shiva – 3 vị thần chính. Luật karma và tái sinh' },
+      { title: 'Phật giáo', text: 'Siddhartha Gautama (563-483 TCN), Tứ diệu đế, Bát chánh đạo, lan sang châu Á' },
+      { title: 'Đẳng cấp', text: 'Brahmin, Kshatriya, Vaishya, Shudra – 4 đẳng cấp xã hội Ấn Độ cổ đại' },
+    ],
+    mindmap: {
+      root: '🕌 Ấn Độ cổ đại',
+      branches: [
+        { label: 'Địa lý', color: 'color1', leaves: ['Sông Ấn', 'Sông Hằng', 'Bán đảo Deccan'] },
+        { label: 'Tôn giáo', color: 'color4', leaves: ['Ấn Độ giáo', 'Phật giáo', 'Kỳ Na giáo', 'Karma'] },
+        { label: 'Thành tựu', color: 'color2', leaves: ['Số 0', 'Hệ thập phân', 'Thiên văn', 'Y học'] },
+        { label: 'Xã hội', color: 'color3', leaves: ['4 đẳng cấp', 'Brahmin=tăng lữ', 'Shudra=nô lệ', 'Untouchables'] },
+      ]
+    }
+  },
+
+  b9: {
+    num: 'Bài 9', title: 'Trung Quốc từ thời cổ đại đến TK VII', chapter: 'Chương 3: Xã hội cổ đại',
+    funfact: { icon: '🐲', text: 'Tứ đại phát minh của Trung Quốc: giấy (105 SCN), la bàn (~200 SCN), thuốc súng (~850 SCN), in ấn (868 SCN) – đã thay đổi hoàn toàn lịch sử nhân loại!' },
+    keypoints: [
+      { title: 'Văn minh Hoàng Hà', text: '2000 TCN – nhà nước Hạ, Thương, Chu. Chữ Hán ra đời thời Thương (~1300 TCN)' },
+      { title: 'Chế độ phong kiến', text: 'Tần Thủy Hoàng thống nhất TQ 221 TCN, lập chế độ phong kiến trung ương tập quyền' },
+      { title: 'Nho giáo', text: 'Khổng Tử (551-479 TCN) – Nhân, Lễ, Nghĩa, Trí, Tín. Ảnh hưởng sâu xa đến Việt Nam' },
+      { title: 'Tứ đại phát minh', text: 'Giấy, la bàn, thuốc súng, in ấn – 4 phát minh thay đổi thế giới' },
+    ],
+    mindmap: {
+      root: '🐲 Trung Quốc cổ đại',
+      branches: [
+        { label: 'Thời kỳ', color: 'color1', leaves: ['Hạ (~2100 TCN)', 'Thương (~1600 TCN)', 'Chu (1046 TCN)', 'Tần–Hán'] },
+        { label: 'Nho giáo', color: 'color2', leaves: ['Khổng Tử', 'Nhân-Lễ-Nghĩa', 'Ngũ luân', 'Ảnh hưởng VN'] },
+        { label: '4 phát minh', color: 'color3', leaves: ['Giấy (105)', 'La bàn (~200)', 'Thuốc súng (850)', 'In ấn (868)'] },
+        { label: 'Kiến trúc', color: 'color5', leaves: ['Vạn Lý Trường Thành', 'Cung điện', 'Chữ Hán', 'Tơ lụa'] },
+      ]
+    }
+  },
+
+  b10: {
+    num: 'Bài 10', title: 'Hi Lạp và La Mã cổ đại', chapter: 'Chương 3: Xã hội cổ đại',
+    funfact: { icon: '🏟️', text: 'Thế vận hội Olympic đầu tiên diễn ra năm 776 TCN tại Olympia, Hi Lạp! Và năm 2004, thế vận hội quay trở lại Athens sau 2780 năm!' },
+    keypoints: [
+      { title: 'Dân chủ Athens', text: '507 TCN – Cleisthenes lập nền dân chủ đầu tiên thế giới: công dân tự do bỏ phiếu' },
+      { title: 'Triết học Hi Lạp', text: 'Socrates, Plato, Aristotle – nền tảng triết học, khoa học, logic của nhân loại' },
+      { title: 'Đế quốc La Mã', text: 'Từ thành phố nhỏ → đế quốc hùng mạnh nhất, luật La Mã ảnh hưởng pháp luật TG' },
+      { title: 'Thành tựu', text: 'Kiến trúc (cột đá, vòm), triết học, dân chủ, Olympic, thần thoại phong phú' },
+    ],
+    mindmap: {
+      root: '🏛️ Hi Lạp & La Mã',
+      branches: [
+        { label: 'Hi Lạp', color: 'color1', leaves: ['Athens dân chủ', 'Triết học', 'Olympic', 'Homer-Iliad'] },
+        { label: 'La Mã', color: 'color3', leaves: ['Đế quốc rộng lớn', 'Luật La Mã', 'Kiến trúc vòm', 'Colosseum'] },
+        { label: 'Triết học', color: 'color4', leaves: ['Socrates', 'Plato', 'Aristotle', 'Thales'] },
+        { label: 'Ảnh hưởng', color: 'color2', leaves: ['Dân chủ phương Tây', 'Pháp luật', 'Kiến trúc', 'Văn học'] },
+      ]
+    }
+  },
+
+  b11: {
+    num: 'Bài 11', title: 'Điều kiện tự nhiên và dân cư Đông Nam Á', chapter: 'Chương 4: Đông Nam Á',
+    funfact: { icon: '🌴', text: 'Đông Nam Á được ví là "ngã tư đường" của thế giới – nằm giữa hai đại dương, hai lục địa lớn. Việt Nam có hơn 3.000 km bờ biển!' },
+    keypoints: [
+      { title: 'Vị trí chiến lược', text: 'Nằm giữa Ấn Độ Dương và Thái Bình Dương, giữa châu Á và châu Úc, "ngã tư" TG' },
+      { title: 'Điều kiện tự nhiên', text: 'Khí hậu nhiệt đới gió mùa, nhiều sông lớn, đất phù sa màu mỡ, nông nghiệp phát triển' },
+      { title: 'Dân cư', text: 'Đa dạng chủng tộc, ngôn ngữ, văn hóa. Ngữ hệ Nam Á, Thái-Kadai, Nam Đảo...' },
+      { title: 'Giao thương', text: 'Vị trí địa lý thuận lợi cho buôn bán biển, giao lưu văn hóa từ rất sớm' },
+    ],
+    mindmap: {
+      root: '🌏 Đông Nam Á',
+      branches: [
+        { label: 'Vị trí', color: 'color1', leaves: ['Ngã tư TG', 'Giữa 2 đại dương', 'Cầu nối văn hóa'] },
+        { label: 'Tự nhiên', color: 'color2', leaves: ['Nhiệt đới gió mùa', 'Sông lớn', 'Đồng bằng rộng', 'Rừng nhiệt đới'] },
+        { label: 'Dân cư', color: 'color4', leaves: ['Đa chủng tộc', 'Đa ngôn ngữ', 'Nông nghiệp lúa nước'] },
+        { label: 'Lục địa & Hải đảo', color: 'color3', leaves: ['ĐNA lục địa', 'ĐNA hải đảo', '11 quốc gia', 'ASEAN'] },
+      ]
+    }
+  },
+
+  b12: {
+    num: 'Bài 12', title: 'Sự hình thành các vương quốc cổ ở Đông Nam Á', chapter: 'Chương 4: Đông Nam Á',
+    funfact: { icon: '🕌', text: 'Angkor Wat ở Campuchia là công trình tôn giáo lớn nhất thế giới, xây từ thế kỷ XII với diện tích 400ha – lớn hơn cả nhiều thành phố!' },
+    keypoints: [
+      { title: 'Quá trình hình thành', text: 'Từ TK I-X: nhóm cư dân nông nghiệp liên kết → làng xã → vương quốc' },
+      { title: 'Phù Nam', text: 'Vương quốc ở đồng bằng Nam Bộ TK I-VII, thương cảng lớn trên con đường biển' },
+      { title: 'Chăm-pa', text: 'Miền Trung Việt Nam TK II-XV, văn hóa Ấn Độ, kiến trúc tháp Chàm đặc sắc' },
+      { title: 'Angkor', text: 'Đế quốc Khmer TK IX-XV, Angkor Wat hùng vĩ, hệ thống thủy lợi phức tạp' },
+    ],
+    mindmap: {
+      root: '🏯 Vương quốc cổ ĐNA',
+      branches: [
+        { label: 'Phù Nam', color: 'color5', leaves: ['TK I-VII', 'Nam Bộ VN', 'Thương cảng', 'Văn hóa Óc Eo'] },
+        { label: 'Chăm-pa', color: 'color3', leaves: ['TK II-XV', 'Miền Trung VN', 'Tháp Chàm', 'Ấn Độ giáo'] },
+        { label: 'Angkor/Khmer', color: 'color4', leaves: ['TK IX-XV', 'Campuchia', 'Angkor Wat', 'Thủy lợi'] },
+        { label: 'Pagan', color: 'color1', leaves: ['TK IX-XIII', 'Myanmar', 'Phật giáo', 'Nghìn chùa'] },
+      ]
+    }
+  },
+
+  b13: {
+    num: 'Bài 13', title: 'Giao lưu thương mại và văn hóa ở Đông Nam Á', chapter: 'Chương 4: Đông Nam Á',
+    funfact: { icon: '⛵', text: 'Con đường tơ lụa trên biển đi qua Đông Nam Á đã hoạt động từ TK I, kết nối La Mã–Ấn Độ–Trung Quốc. Thương nhân đã đem theo cả Phật giáo và Hindu giáo!' },
+    keypoints: [
+      { title: 'Vị trí trung gian', text: 'ĐNA nằm trên con đường biển nối Ấn Độ–Trung Quốc, hưởng lợi từ thuế và thương mại' },
+      { title: 'Hàng hóa trao đổi', text: 'Tơ lụa TQ, gia vị ĐNA, vải bông Ấn Độ, đồ thủy tinh La Mã, vàng bạc' },
+      { title: 'Phật giáo lan rộng', text: 'Từ Ấn Độ theo thương nhân vào ĐNA TK I-II, được các vua coi là quốc giáo' },
+      { title: 'Ảnh hưởng văn hóa', text: 'Chữ viết, kiến trúc, điêu khắc, tôn giáo Ấn Độ và Trung Quốc ảnh hưởng mạnh' },
+    ],
+    mindmap: {
+      root: '⛵ Giao lưu ĐNA',
+      branches: [
+        { label: 'Thương mại', color: 'color1', leaves: ['Con đường biển', 'Tơ lụa-Gia vị', 'Thương cảng', 'Thuế giao dịch'] },
+        { label: 'Phật giáo', color: 'color2', leaves: ['Từ Ấn Độ TK I', 'Theo thương nhân', 'Quốc giáo', 'Chùa-Tháp'] },
+        { label: 'Hindu giáo', color: 'color3', leaves: ['Brahma-Vishnu-Shiva', 'Đền tháp', 'Chữ Sanskrit', 'Vũ điệu Apsara'] },
+        { label: 'Ảnh hưởng TQ', color: 'color4', leaves: ['Chữ viết', 'Nho giáo VN', 'Kỹ thuật nông nghiệp'] },
+      ]
+    }
+  },
+
+  b14: {
+    num: 'Bài 14', title: 'Vương quốc Phù Nam', chapter: 'Chương 4: Đông Nam Á',
+    funfact: { icon: '🏺', text: 'Óc Eo (An Giang) là thương cảng của Phù Nam, nơi các nhà khảo cổ tìm thấy đồng tiền La Mã thế kỷ II – bằng chứng giao thương Phù Nam với tận châu Âu!' },
+    keypoints: [
+      { title: 'Vị trí', text: 'Đồng bằng Nam Bộ (Việt Nam ngày nay) và vùng đất thấp Campuchia – từ TK I đến TK VII' },
+      { title: 'Kinh tế', text: 'Thương cảng Óc Eo sầm uất, buôn bán với Ấn Độ, La Mã, Trung Quốc và các nước ĐNA' },
+      { title: 'Văn hóa', text: 'Chịu ảnh hưởng Hindu giáo và Phật giáo từ Ấn Độ, kiến trúc Ấn Độ hóa' },
+      { title: 'Sụp đổ', text: 'TK VII bị Chân Lạp (Khmer) thôn tính, nền văn hóa Óc Eo kết thúc' },
+    ],
+    mindmap: {
+      root: '🏝️ Vương quốc Phù Nam',
+      branches: [
+        { label: 'Địa lý', color: 'color2', leaves: ['Nam Bộ VN', 'Campuchia thấp', 'Ven biển, sông ngòi'] },
+        { label: 'Kinh tế', color: 'color5', leaves: ['Thương cảng Óc Eo', 'Hàng hải', 'Lúa nước', 'Thủ công'] },
+        { label: 'Văn hóa', color: 'color4', leaves: ['Ấn Độ hóa', 'Hindu-Phật giáo', 'Chữ Sanskrit', 'Điêu khắc'] },
+        { label: 'Di tích', color: 'color1', leaves: ['Óc Eo (An Giang)', 'Đồng tiền La Mã', 'Tượng thần', 'UNESCO'] },
+      ]
+    }
+  },
+
+  b15: {
+    num: 'Bài 15', title: 'Nhà nước Văn Lang – Âu Lạc', chapter: 'Chương 5: Việt Nam cổ đại',
+    funfact: { icon: '🥁', text: 'Trống đồng Đông Sơn là biểu tượng văn minh Việt cổ, có niên đại hơn 2500 năm! Năm 2020, bộ trống đồng của VN được UNESCO công nhận là Di sản văn hóa phi vật thể nhân loại.' },
+    timeline: [
+      { year: '~TK VII TCN', text: 'Nhà nước Văn Lang ra đời, Hùng Vương lên ngôi, đô Phong Châu (Phú Thọ)' },
+      { year: '257 TCN', text: 'Thục Phán lập nước Âu Lạc, xây thành Cổ Loa, đặt ra nỏ thần Liên Châu' },
+      { year: '179 TCN', text: 'Triệu Đà chinh phục Âu Lạc bằng mưu kế, bắt đầu thời Bắc thuộc' },
+    ],
+    keypoints: [
+      { title: 'Văn Lang', text: 'Nhà nước đầu tiên của VN, 18 đời Hùng Vương, kinh đô Phong Châu (Phú Thọ)' },
+      { title: 'Âu Lạc', text: 'An Dương Vương Thục Phán 257 TCN, thành Cổ Loa (Hà Nội), nỏ thần huyền thoại' },
+      { title: 'Trống đồng', text: 'Biểu tượng văn hóa Đông Sơn, phản ánh đời sống, tín ngưỡng người Việt cổ' },
+      { title: 'Tổ chức', text: 'Vua Hùng – Lạc hầu – Lạc tướng – Lạc dân. Phân cấp nhưng còn đơn giản' },
+    ],
+    mindmap: {
+      root: '🥁 Văn Lang – Âu Lạc',
+      branches: [
+        { label: 'Văn Lang', color: 'color3', leaves: ['TK VII TCN', '18 đời Hùng Vương', 'Đô Phong Châu', 'Lạc Việt'] },
+        { label: 'Âu Lạc', color: 'color1', leaves: ['257 TCN', 'An Dương Vương', 'Thành Cổ Loa', 'Nỏ thần'] },
+        { label: 'Văn hóa', color: 'color2', leaves: ['Trống đồng ĐS', 'Lúa nước', 'Đúc đồng', 'Bánh chưng-giầy'] },
+        { label: 'Tổ chức', color: 'color4', leaves: ['Vua Hùng', 'Lạc hầu-tướng', 'Lạc dân', '15 bộ lạc'] },
+      ]
+    }
+  },
+
+  b16: {
+    num: 'Bài 16', title: 'Chính sách cai trị của phong kiến phương Bắc', chapter: 'Chương 5: Việt Nam cổ đại',
+    funfact: { icon: '⛓️', text: '1000 năm Bắc thuộc (179 TCN – 938 SCN) là thời kỳ đen tối nhưng không khuất phục được người Việt! Ngôn ngữ, phong tục, ý chí độc lập vẫn được gìn giữ qua bao thế hệ.' },
+    keypoints: [
+      { title: 'Bóc lột kinh tế', text: 'Cống phẩm nặng nề, thu thuế cao, cưỡng bức lao động, khai thác tài nguyên' },
+      { title: 'Đồng hóa văn hóa', text: 'Bắt học chữ Hán, theo phong tục TQ, phổ biến Nho giáo, phá bỏ phong tục Việt' },
+      { title: 'Chính sách cai trị', text: 'Đưa quan lại TQ sang, chia nhỏ lãnh thổ, kiểm soát chặt người Việt' },
+      { title: 'Sức đề kháng', text: 'Người Việt vẫn giữ tiếng Việt, phong tục, ngầm chống đối, nhiều lần nổi dậy' },
+    ],
+    mindmap: {
+      root: '⛓️ 1000 năm Bắc thuộc',
+      branches: [
+        { label: 'Bóc lột', color: 'color3', leaves: ['Cống nặng', 'Thuế cao', 'Lao dịch', 'Khai thác TN'] },
+        { label: 'Đồng hóa', color: 'color1', leaves: ['Bắt học Hán', 'Nho giáo', 'Phong tục TQ', 'Phá đền thờ'] },
+        { label: 'Cai trị', color: 'color4', leaves: ['Quan lại TQ', 'Chia tách lãnh thổ', 'Kiểm soát gắt'] },
+        { label: 'Kháng cự', color: 'color2', leaves: ['Giữ tiếng Việt', 'Phong tục bản địa', 'Nhiều cuộc nổi dậy'] },
+      ]
+    }
+  },
+
+  b17: {
+    num: 'Bài 17', title: 'Các cuộc đấu tranh giành độc lập trước TK X', chapter: 'Chương 5: Việt Nam cổ đại',
+    funfact: { icon: '⚔️', text: 'Khởi nghĩa Hai Bà Trưng năm 40 là cuộc khởi nghĩa đầu tiên trong lịch sử Việt Nam do phụ nữ lãnh đạo. Trưng Vương trị vì 3 năm trước khi tuẫn tiết năm 43!' },
+    timeline: [
+      { year: '40 SCN', text: 'Khởi nghĩa Hai Bà Trưng – giành độc lập 3 năm, lập đô Mê Linh' },
+      { year: '248 SCN', text: 'Bà Triệu khởi nghĩa tại Thanh Hóa: "Cưỡi cơn gió mạnh, đạp luồng sóng dữ..."' },
+      { year: '544 SCN', text: 'Lý Bí lập nước Vạn Xuân, lên ngôi Lý Nam Đế, đặt đô Long Biên' },
+      { year: '722 SCN', text: 'Mai Thúc Loan khởi nghĩa, xưng Mai Hắc Đế, đánh đuổi quân Đường' },
+      { year: '776–791', text: 'Phùng Hưng khởi nghĩa, được nhân dân gọi là Bố Cái Đại Vương' },
+    ],
+    keypoints: [
+      { title: 'Hai Bà Trưng (40)', text: 'Trưng Trắc–Trưng Nhị khởi nghĩa tại Mê Linh, trị vì 3 năm, tuẫn tiết năm 43' },
+      { title: 'Bà Triệu (248)', text: '"Tôi muốn cưỡi cơn gió mạnh..." – khởi nghĩa tại Thanh Hóa, hy sinh trẻ' },
+      { title: 'Lý Nam Đế (544)', text: 'Lập nước Vạn Xuân, xưng đế, đặt nền tảng cho ý thức độc lập' },
+      { title: 'Phùng Hưng (776)', text: 'Bố Cái Đại Vương, cai trị độc lập 7 năm, được dân thờ như thần' },
+    ],
+    mindmap: {
+      root: '⚔️ Đấu tranh giành độc lập',
+      branches: [
+        { label: 'Hai Bà Trưng', color: 'color3', leaves: ['Năm 40', 'Mê Linh', 'Trị vì 3 năm', 'Tuẫn tiết 43'] },
+        { label: 'Bà Triệu', color: 'color4', leaves: ['Năm 248', 'Thanh Hóa', '"Cưỡi gió mạnh"', 'Hy sinh trẻ'] },
+        { label: 'Lý Nam Đế', color: 'color1', leaves: ['Năm 544', 'Vạn Xuân', 'Lý Bí', 'Long Biên'] },
+        { label: 'Phùng Hưng', color: 'color2', leaves: ['776-791', 'Bố Cái ĐV', 'Tự trị 7 năm', 'Thờ như thần'] },
+      ]
+    }
+  },
+
+  b18: {
+    num: 'Bài 18 ⭐', title: 'Bước ngoặt lịch sử đầu thế kỷ X', chapter: 'Chương 5: Việt Nam cổ đại',
+    funfact: { icon: '🚣', text: 'Trận Bạch Đằng năm 938 là một trong những chiến thắng vĩ đại nhất lịch sử Việt Nam! Ngô Quyền dùng kế cắm cọc nhọn – tiêu diệt toàn bộ hạm đội Nam Hán, kết thúc hơn 1.000 năm Bắc thuộc!' },
+    timeline: [
+      { year: '905', text: 'Khúc Thừa Dụ giành quyền tự chủ, cai trị như người Việt dù danh nghĩa thuộc Đường' },
+      { year: '906-917', text: 'Khúc Hạo cải cách hành chính, giảm thuế, phát triển kinh tế' },
+      { year: '930', text: 'Nam Hán chiếm lại, bắt Khúc Thừa Mỹ. Kiều Công Tiễn làm phản' },
+      { year: '938', text: 'Ngô Quyền đánh tan hạm đội Nam Hán trên sông Bạch Đằng – Độc lập!' },
+    ],
+    keypoints: [
+      { title: 'Họ Khúc tự trị', text: 'Khúc Thừa Dụ 905 – lần đầu người Việt tự cai trị sau 1000 năm, dù chưa độc lập hoàn toàn' },
+      { title: 'Khúc Hạo cải cách', text: 'Con Khúc Thừa Dụ, cải cách thuế má, hành chính – người dân đỡ khổ' },
+      { title: 'Ngô Quyền', text: 'Người Đường Lâm (Hà Nội), con rể Dương Đình Nghệ, rửa hận cho cha vợ' },
+      { title: 'Bạch Đằng 938', text: 'Cắm cọc nhọn bịt sắt dưới sông, dụ thuyền Nam Hán vào lúc triều xuống – đại thắng!' },
+    ],
+    mindmap: {
+      root: '⭐ Bước ngoặt TK X',
+      branches: [
+        { label: 'Họ Khúc', color: 'color1', leaves: ['K. Thừa Dụ 905', 'Tự trị không độc lập', 'K. Hạo cải cách', 'K. Thừa Mỹ bị bắt'] },
+        { label: 'Ngô Quyền', color: 'color3', leaves: ['Người Đường Lâm', 'Con rể Dương ĐN', 'Chiến lược thiên tài'] },
+        { label: 'Bạch Đằng 938', color: 'color2', leaves: ['Cọc nhọn sắt', 'Triều xuống', 'Dụ vào bẫy', 'Đại thắng'] },
+        { label: 'Ý nghĩa', color: 'color4', leaves: ['Kết thúc Bắc thuộc', 'Mở kỷ nguyên độc lập', 'Tiền đề nhà nước ĐL'] },
+      ]
+    }
+  },
+
+};
+
+/* ── Open lesson modal ──────────────────────────── */
+function openLesson(id) {
+  const L = LESSONS[id]; if (!L) return;
+  const isDone = !!doneSt[id];
+
+  // Build mind map HTML
+  const mm = L.mindmap;
+  const branchesHTML = mm.branches.map(br => `
+    <div class="mm-branch">
+      <div class="mm-node ${br.color}">${br.label}</div>
+      <div class="mm-leaves">
+        ${br.leaves.map(l => `<div class="mm-leaf">${l}</div>`).join('')}
+      </div>
+    </div>`).join('');
+
+  // Timeline
+  const tlHTML = L.timeline ? `
+    <div class="ld-section-title">📅 Timeline</div>
+    <div class="ld-timeline">
+      ${L.timeline.map(t => `<div class="ld-tl-item"><div class="ld-tl-year">${t.year}</div><div class="ld-tl-text">${t.text}</div></div>`).join('')}
+    </div>` : '';
+
+  // Key points
+  const kpHTML = L.keypoints ? `
+    <div class="ld-section-title">🔑 Kiến thức trọng tâm</div>
+    <div class="ld-keypoints">
+      ${L.keypoints.map(k => `<div class="ld-kp"><strong>${k.title}</strong>${k.text}</div>`).join('')}
+    </div>` : '';
+
+  document.getElementById('lessonContent').innerHTML = `
+    <div class="ld-header">
+      <div class="ld-badge">${L.chapter}</div>
+      <div class="ld-title">${L.num} – ${L.title}</div>
+      <div class="ld-subtitle">${L.mindmap.root}</div>
+    </div>
+    <div class="ld-body">
+      <div class="ld-funfact">
+        <div class="ld-funfact-icon">${L.funfact.icon}</div>
+        <div><div class="ld-funfact-label">💡 Biết chưa?</div><div class="ld-funfact-text">${L.funfact.text}</div></div>
+      </div>
+
+      <div class="ld-section-title">🧠 Sơ đồ tư duy</div>
+      <div class="mindmap">
+        <div class="mm-center">
+          <div class="mm-root">${mm.root}</div>
+          <div class="mm-branches">${branchesHTML}</div>
+        </div>
+      </div>
+
+      ${kpHTML}
+      ${tlHTML}
+    </div>
+    <div class="ld-footer">
+      <span style="font-size:.8rem;color:#9ca3af">Bài ${id.replace('b','')}/18</span>
+      <button class="ld-btn-close" onclick="closeLessonModal()">Đóng</button>
+      <button class="ld-btn-done ${isDone?'already':''}" id="doneBtn" onclick="markDone('${id}')">
+        ${isDone ? '✓ Đã hoàn thành' : '✓ Đánh dấu xong'}
+      </button>
+    </div>`;
+
+  document.getElementById('lessonModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLessonModal(e) {
+  if (e && e.target !== document.getElementById('lessonModal')) return;
+  document.getElementById('lessonModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function markDone(id) {
+  doneSt[id] = !doneSt[id];
+  localStorage.setItem('ls6_done', JSON.stringify(doneSt));
+  updateProgress();
+  const btn = document.getElementById('doneBtn');
+  if (btn) { btn.textContent = doneSt[id] ? '✓ Đã hoàn thành' : '✓ Đánh dấu xong'; btn.classList.toggle('already', !!doneSt[id]); }
+}
+
+// Open chapter 5 by default (most important for lớp 6)
+toggleChapter(5);
+</script>
+</body>
+</html>
