@@ -26,11 +26,5 @@ router.get('/games/flashcard', (req, res) => {
     brand: siteData.brand
   });
 });
-router.get('/games/lich-su-6', (req, res) => {
-  res.render('games/lich-su-6', {
-    pageTitle: 'Lịch sử 6 – Sơ đồ tư duy',
-    brand: siteData.brand
-  });
-});
 
 module.exports = router;
