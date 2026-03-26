@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<%- include('../partials/head') %>
+<body>
+<%- include('../partials/header') %>
+
+<style>
+  /* ===== LỊCH SỬ 6 — KIẾN TRÚC THÔNG MINH ===== */
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --ls6-gold: #c8a84b;
+    --ls6-gold-light: #f0d88a;
+    --ls6-brown: #6b4c2a;
+    --ls6-cream: #fdf6e9;
+    --ls6-ink: #1a1208;
+    --ls6-slate: #4a5568;
+    --ls6-red: #c0392b;
+    --ch1: #e67e22; --ch1-bg: #fef3e2;
+    --ch2: #27ae60; --ch2-bg: #e8f8ef;
+    --ch3: #2980b9; --ch3-bg: #e8f4fc;
+    --ch4: #8e44ad; --ch4-bg: #f3e8fc;
+    --ch5: #c0392b; --ch5-bg: #fde8e6;
+  }
+
+  .ls6-page { font-family: 'Be Vietnam Pro', sans-serif; background: var(--ls6-cream); min-height: 100vh; }
+
+  /* HERO */
+  .ls6-hero {
+    background: linear-gradient(135deg, #1a0a02 0%, #3d1f06 40%, #6b3d12 100%);
+    padding: 64px 0 48px;
+    position: relative; overflow: hidden;
+  }
+  .ls6-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8a84b' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .ls6-hero .container { position: relative; }
+  .ls6-breadcrumb { color: rgba(200,168,75,0.7); font-size: 13px; margin-bottom: 16px; }
+  .ls6-breadcrumb a { color: var(--ls6-gold-light); text-decoration: none; }
+  .ls6-breadcrumb a:hover { text-decoration: underline; }
+  .ls6-hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(200,168,75,0.15); border: 1px solid rgba(200,168,75,0.4);
+    color: var(--ls6-gold-light); padding: 6px 14px; border-radius: 20px;
+    font-size: 13px; font-weight: 500; margin-bottom: 20px;
+  }
+  .ls6-hero h1 {
+    font-family: 'Crimson Pro', serif;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    color: #fff; font-weight: 700; line-height: 1.15;
+    margin: 0 0 12px;
+  }
+  .ls6-hero h1 span { color: var(--ls6-gold); }
+  .ls6-hero-sub { color: rgba(255,255,255,0.7); font-size: 16px; max-width: 560px; margin: 0; line-height: 1.6; }
+  .ls6-hero-stats {
+    display: flex; gap: 32px; margin-top: 32px; flex-wrap: wrap;
+  }
+  .ls6-stat { text-align: left; }
+  .ls6-stat-num { font-family: 'Crimson Pro', serif; font-size: 2rem; font-weight: 700; color: var(--ls6-gold); line-height: 1; }
+  .ls6-stat-label { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+  /* INSTRUCTIONS */
+  .ls6-instructions {
+    background: #fff; border-bottom: 1px solid #ede8df;
+    padding: 16px 0;
+  }
+  .ls6-instructions-inner {
+    display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+  }
+  .ls6-step {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--ls6-slate);
+  }
+  .ls6-step-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--ls6-gold); color: white;
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .ls6-step-arrow { color: #ccc; font-size: 16px; }
+
+  /* CHAPTERS GRID */
+  .ls6-body { padding: 48px 0 80px; }
+  .ls6-section-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.5rem; font-weight: 700; color: var(--ls6-ink);
+    margin: 0 0 24px; display: flex; align-items: center; gap: 10px;
+  }
+  .ls6-section-title::after {
+    content: ''; flex: 1; height: 1px; background: linear-gradient(to right, #d4c4a0, transparent);
+  }
+
+  .chapters-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px; margin-bottom: 48px;
+  }
+  .chapter-card {
+    background: #fff;
+    border: 1.5px solid #ede8df;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+  .chapter-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); border-color: var(--ch-color, var(--ls6-gold)); }
+  .chapter-card.active { border-color: var(--ch-color, var(--ls6-gold)); box-shadow: 0 0 0 3px rgba(200,168,75,0.15); }
+  .chapter-card[data-ch="1"] { --ch-color: var(--ch1); --ch-bg: var(--ch1-bg); }
+  .chapter-card[data-ch="2"] { --ch-color: var(--ch2); --ch-bg: var(--ch2-bg); }
+  .chapter-card[data-ch="3"] { --ch-color: var(--ch3); --ch-bg: var(--ch3-bg); }
+  .chapter-card[data-ch="4"] { --ch-color: var(--ch4); --ch-bg: var(--ch4-bg); }
+  .chapter-card[data-ch="5"] { --ch-color: var(--ch5); --ch-bg: var(--ch5-bg); }
+
+  .chapter-card-top {
+    background: var(--ch-bg); padding: 20px;
+    display: flex; align-items: flex-start; gap: 14px;
+  }
+  .chapter-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--ch-color); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .chapter-num {
+    font-size: 11px; font-weight: 600; color: var(--ch-color);
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;
+  }
+  .chapter-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem; font-weight: 700; color: var(--ls6-ink);
+    line-height: 1.35; margin: 0;
+  }
+  .chapter-card-bottom {
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .chapter-lessons {
+    font-size: 12px; color: var(--ls6-slate);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .chapter-lessons span {
+    background: var(--ch-bg); color: var(--ch-color);
+    padding: 3px 8px; border-radius: 10px; font-weight: 600; font-size: 11px;
+  }
+  .chapter-arrow {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1.5px solid #ede8df;
+    display: flex; align-items: center; justify-content: center;
+    color: #aaa; font-size: 12px;
+    transition: all 0.2s;
+  }
+  .chapter-card:hover .chapter-arrow, .chapter-card.active .chapter-arrow {
+    background: var(--ch-color); border-color: var(--ch-color); color: white;
+  }
+  .chapter-card.active .chapter-arrow { transform: rotate(90deg); }
+
+  /* LESSONS PANEL */
+  .lessons-panel {
+    display: none; margin-bottom: 32px;
+    background: #fff; border: 1.5px solid #ede8df; border-radius: 16px;
+    overflow: hidden; animation: slideDown 0.3s ease;
+  }
+  .lessons-panel.open { display: block; }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .lessons-panel-header {
+    padding: 16px 24px; border-bottom: 1px solid #f0ebe0;
+    display: flex; align-items: center; gap: 12px;
+    background: var(--panel-bg, #fdf6e9);
+  }
+  .lessons-panel-title {
+    font-family: 'Crimson Pro', serif; font-size: 1.1rem; font-weight: 700; color: var(--ls6-ink);
+  }
+  .lessons-panel-sub { font-size: 12px; color: var(--ls6-slate); }
+  .lessons-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1px; background: #f0ebe0;
+  }
+  .lesson-btn {
+    background: #fff; padding: 16px 18px;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 10px;
+    border: none; text-align: left;
+  }
+  .lesson-btn:hover { background: var(--btn-bg, #fef9f0); }
+  .lesson-btn.active { background: var(--btn-active-bg, #fef3e2); }
+  .lesson-num {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: var(--btn-color, var(--ls6-gold)); color: white;
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .lesson-name { font-size: 13px; color: var(--ls6-ink); font-weight: 500; line-height: 1.3; }
+
+  /* MINDMAP VIEWER */
+  .mindmap-viewer {
+    display: none; border-top: 1px solid #f0ebe0;
+    animation: slideDown 0.3s ease;
+  }
+  .mindmap-viewer.open { display: block; }
+  .mindmap-viewer-header {
+    padding: 16px 24px 0;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  .mindmap-viewer-title {
+    font-family: 'Crimson Pro', serif; font-size: 1.2rem; font-weight: 700; color: var(--ls6-ink);
+  }
+  .mindmap-viewer-title small { font-family: 'Be Vietnam Pro', sans-serif; font-size: 12px; color: var(--ls6-slate); font-weight: 400; margin-left: 8px; }
+  .mindmap-actions { display: flex; gap: 8px; }
+  .mindmap-btn {
+    padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    border: 1.5px solid #ede8df; background: white; cursor: pointer; transition: all 0.2s;
+    color: var(--ls6-slate);
+  }
+  .mindmap-btn:hover { border-color: var(--ls6-gold); color: var(--ls6-brown); }
+  .mindmap-btn.primary { background: var(--ls6-gold); border-color: var(--ls6-gold); color: white; }
+  .mindmap-btn.primary:hover { background: var(--ls6-brown); border-color: var(--ls6-brown); }
+
+  .mindmap-container {
+    padding: 24px;
+    overflow-x: auto;
+    background: linear-gradient(135deg, #fafaf8 0%, #f5f0e8 100%);
+    min-height: 320px;
+  }
+  .mindmap-placeholder {
+    text-align: center; padding: 48px 24px;
+    color: var(--ls6-slate);
+  }
+  .mindmap-placeholder-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+  .mindmap-placeholder p { font-size: 14px; margin: 0; }
+  .mindmap-placeholder .update-note {
+    margin-top: 16px; padding: 12px 20px;
+    background: rgba(200,168,75,0.08); border: 1px dashed rgba(200,168,75,0.4);
+    border-radius: 10px; font-size: 13px; color: var(--ls6-brown);
+    display: inline-block;
+  }
+
+  /* ACTUAL MINDMAP SVG STYLES */
+  .mindmap-wrap { width: 100%; overflow-x: auto; }
+  .mindmap-svg { display: block; margin: 0 auto; max-width: 100%; }
+  .mm-center { fill: #3d1f06; }
+  .mm-center-text { fill: white; font-family: 'Crimson Pro', serif; font-weight: 700; font-size: 13px; }
+  .mm-branch { fill: none; stroke-width: 2; opacity: 0.6; }
+  .mm-node { rx: 8; }
+  .mm-text { font-family: 'Be Vietnam Pro', sans-serif; font-size: 11px; fill: white; font-weight: 600; }
+  .mm-sub { font-family: 'Be Vietnam Pro', sans-serif; font-size: 10px; fill: #444; }
+  .mm-sub-box { fill: white; stroke-width: 1; rx: 5; }
+
+  /* EDIT HINT */
+  .edit-hint {
+    background: linear-gradient(to right, #1a0a02, #3d1f06);
+    border-radius: 12px; padding: 20px 24px;
+    display: flex; align-items: flex-start; gap: 16px;
+    margin-top: 32px;
+  }
+  .edit-hint-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+  .edit-hint h4 { color: var(--ls6-gold); font-size: 15px; margin: 0 0 6px; font-family: 'Crimson Pro', serif; }
+  .edit-hint p { color: rgba(255,255,255,0.7); font-size: 13px; margin: 0; line-height: 1.6; }
+  .edit-hint code { background: rgba(200,168,75,0.2); color: var(--ls6-gold-light); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+</style>
+
+<main class="ls6-page">
+
+  <!-- HERO -->
+  <section class="ls6-hero">
+    <div class="container">
+      <div class="ls6-breadcrumb">
+        <a href="/">Trang chủ</a> › <a href="/#courses">Khóa học</a> › Lịch sử 6
+      </div>
+      <div class="ls6-hero-badge">📖 SGK Kết nối tri thức với cuộc sống</div>
+      <h1>Lịch sử & Địa lí <span>Lớp 6</span></h1>
+      <p class="ls6-hero-sub">Học từng bài qua sơ đồ tư duy trực quan. Chọn chương → chọn bài → xem tóm tắt ngay.</p>
+      <div class="ls6-hero-stats">
+        <div class="ls6-stat"><div class="ls6-stat-num">5</div><div class="ls6-stat-label">Chương học</div></div>
+        <div class="ls6-stat"><div class="ls6-stat-num">20</div><div class="ls6-stat-label">Bài học (Lịch sử)</div></div>
+        <div class="ls6-stat"><div class="ls6-stat-num">20</div><div class="ls6-stat-label">Sơ đồ tư duy</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO USE -->
+  <section class="ls6-instructions">
+    <div class="container">
+      <div class="ls6-instructions-inner">
+        <div class="ls6-step"><div class="ls6-step-num">1</div> Chọn một chương bên dưới</div>
+        <div class="ls6-step-arrow">→</div>
+        <div class="ls6-step"><div class="ls6-step-num">2</div> Chọn bài học cụ thể</div>
+        <div class="ls6-step-arrow">→</div>
+        <div class="ls6-step"><div class="ls6-step-num">3</div> Xem sơ đồ tư duy tóm tắt</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN BODY -->
+  <section class="ls6-body">
+    <div class="container">
+      <h2 class="ls6-section-title">📚 5 Chương học — Phần Lịch Sử</h2>
+
+      <!-- CHAPTERS GRID -->
+      <div class="chapters-grid">
+
+        <div class="chapter-card" data-ch="1" onclick="toggleChapter(1)">
+          <div class="chapter-card-top">
+            <div class="chapter-icon">🤔</div>
+            <div>
+              <div class="chapter-num">Chương 1</div>
+              <p class="chapter-title">Vì sao phải học Lịch sử?</p>
+            </div>
+          </div>
+          <div class="chapter-card-bottom">
+            <div class="chapter-lessons">📘 <span>3 bài</span> Bài 1 → 3</div>
+            <div class="chapter-arrow">▶</div>
+          </div>
+        </div>
+
+        <div class="chapter-card" data-ch="2" onclick="toggleChapter(2)">
+          <div class="chapter-card-top">
+            <div class="chapter-icon">🦴</div>
+            <div>
+              <div class="chapter-num">Chương 2</div>
+              <p class="chapter-title">Xã hội nguyên thuỷ</p>
+            </div>
+          </div>
+          <div class="chapter-card-bottom">
+            <div class="chapter-lessons">📘 <span>3 bài</span> Bài 4 → 6</div>
+            <div class="chapter-arrow">▶</div>
+          </div>
+        </div>
+
+        <div class="chapter-card" data-ch="3" onclick="toggleChapter(3)">
+          <div class="chapter-card-top">
+            <div class="chapter-icon">🏛️</div>
+            <div>
+              <div class="chapter-num">Chương 3</div>
+              <p class="chapter-title">Xã hội cổ đại</p>
+            </div>
+          </div>
+          <div class="chapter-card-bottom">
+            <div class="chapter-lessons">📘 <span>4 bài</span> Bài 7 → 10</div>
+            <div class="chapter-arrow">▶</div>
+          </div>
+        </div>
+
+        <div class="chapter-card" data-ch="4" onclick="toggleChapter(4)">
+          <div class="chapter-card-top">
+            <div class="chapter-icon">🗺️</div>
+            <div>
+              <div class="chapter-num">Chương 4</div>
+              <p class="chapter-title">Đông Nam Á từ những thế kỉ tiếp giáp đầu CN đến thế kỉ X</p>
+            </div>
+          </div>
+          <div class="chapter-card-bottom">
+            <div class="chapter-lessons">📘 <span>3 bài</span> Bài 11 → 13</div>
+            <div class="chapter-arrow">▶</div>
+          </div>
+        </div>
+
+        <div class="chapter-card" data-ch="5" onclick="toggleChapter(5)">
+          <div class="chapter-card-top">
+            <div class="chapter-icon">🇻🇳</div>
+            <div>
+              <div class="chapter-num">Chương 5</div>
+              <p class="chapter-title">Việt Nam từ thế kỉ VII TCN đến đầu thế kỉ X</p>
+            </div>
+          </div>
+          <div class="chapter-card-bottom">
+            <div class="chapter-lessons">📘 <span>7 bài</span> Bài 14 → 20</div>
+            <div class="chapter-arrow">▶</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- LESSONS PANELS (one per chapter) -->
+
+      <!-- CH1 -->
+      <div class="lessons-panel" id="panel-ch1" style="--panel-bg: var(--ch1-bg)">
+        <div class="lessons-panel-header">
+          <div class="chapter-icon" style="background: var(--ch1); width:36px; height:36px; font-size:16px; border-radius:8px; display:flex; align-items:center; justify-content:center;">🤔</div>
+          <div>
+            <div class="lessons-panel-title">Chương 1 — Vì sao phải học Lịch sử?</div>
+            <div class="lessons-panel-sub">Chọn bài để xem sơ đồ tư duy tóm tắt</div>
+          </div>
+        </div>
+        <div class="lessons-grid" style="--btn-color: var(--ch1); --btn-bg: #fef3e2; --btn-active-bg: #fde8c8">
+          <button class="lesson-btn" onclick="showMindmap('ch1','b1','Lịch sử và cuộc sống')">
+            <div class="lesson-num">1</div>
+            <div class="lesson-name">Lịch sử và cuộc sống</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch1','b2','Dựa vào đâu để biết và phục dựng lại lịch sử?')">
+            <div class="lesson-num">2</div>
+            <div class="lesson-name">Dựa vào đâu để biết và phục dựng lại lịch sử?</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch1','b3','Thời gian trong lịch sử')">
+            <div class="lesson-num">3</div>
+            <div class="lesson-name">Thời gian trong lịch sử</div>
+          </button>
+        </div>
+        <div class="mindmap-viewer" id="mm-ch1"></div>
+      </div>
+
+      <!-- CH2 -->
+      <div class="lessons-panel" id="panel-ch2" style="--panel-bg: var(--ch2-bg)">
+        <div class="lessons-panel-header">
+          <div class="chapter-icon" style="background: var(--ch2); width:36px; height:36px; font-size:16px; border-radius:8px; display:flex; align-items:center; justify-content:center;">🦴</div>
+          <div>
+            <div class="lessons-panel-title">Chương 2 — Xã hội nguyên thuỷ</div>
+            <div class="lessons-panel-sub">Chọn bài để xem sơ đồ tư duy tóm tắt</div>
+          </div>
+        </div>
+        <div class="lessons-grid" style="--btn-color: var(--ch2); --btn-bg: #e8f8ef; --btn-active-bg: #d0f0df">
+          <button class="lesson-btn" onclick="showMindmap('ch2','b4','Nguồn gốc loài người')">
+            <div class="lesson-num" style="background:var(--ch2)">4</div>
+            <div class="lesson-name">Nguồn gốc loài người</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch2','b5','Xã hội nguyên thuỷ')">
+            <div class="lesson-num" style="background:var(--ch2)">5</div>
+            <div class="lesson-name">Xã hội nguyên thuỷ</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch2','b6','Sự chuyển biến và phân hoá của xã hội nguyên thuỷ')">
+            <div class="lesson-num" style="background:var(--ch2)">6</div>
+            <div class="lesson-name">Sự chuyển biến và phân hoá của xã hội nguyên thuỷ</div>
+          </button>
+        </div>
+        <div class="mindmap-viewer" id="mm-ch2"></div>
+      </div>
+
+      <!-- CH3 -->
+      <div class="lessons-panel" id="panel-ch3" style="--panel-bg: var(--ch3-bg)">
+        <div class="lessons-panel-header">
+          <div class="chapter-icon" style="background: var(--ch3); width:36px; height:36px; font-size:16px; border-radius:8px; display:flex; align-items:center; justify-content:center;">🏛️</div>
+          <div>
+            <div class="lessons-panel-title">Chương 3 — Xã hội cổ đại</div>
+            <div class="lessons-panel-sub">Chọn bài để xem sơ đồ tư duy tóm tắt</div>
+          </div>
+        </div>
+        <div class="lessons-grid" style="--btn-color: var(--ch3); --btn-bg: #e8f4fc; --btn-active-bg: #cce8f7">
+          <button class="lesson-btn" onclick="showMindmap('ch3','b7','Ai Cập và Lưỡng Hà cổ đại')">
+            <div class="lesson-num" style="background:var(--ch3)">7</div>
+            <div class="lesson-name">Ai Cập và Lưỡng Hà cổ đại</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch3','b8','Ấn Độ cổ đại')">
+            <div class="lesson-num" style="background:var(--ch3)">8</div>
+            <div class="lesson-name">Ấn Độ cổ đại</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch3','b9','Trung Quốc từ thời cổ đại đến thế kỉ VII')">
+            <div class="lesson-num" style="background:var(--ch3)">9</div>
+            <div class="lesson-name">Trung Quốc từ thời cổ đại đến thế kỉ VII</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch3','b10','Hy Lạp và La Mã cổ đại')">
+            <div class="lesson-num" style="background:var(--ch3)">10</div>
+            <div class="lesson-name">Hy Lạp và La Mã cổ đại</div>
+          </button>
+        </div>
+        <div class="mindmap-viewer" id="mm-ch3"></div>
+      </div>
+
+      <!-- CH4 -->
+      <div class="lessons-panel" id="panel-ch4" style="--panel-bg: var(--ch4-bg)">
+        <div class="lessons-panel-header">
+          <div class="chapter-icon" style="background: var(--ch4); width:36px; height:36px; font-size:16px; border-radius:8px; display:flex; align-items:center; justify-content:center;">🗺️</div>
+          <div>
+            <div class="lessons-panel-title">Chương 4 — Đông Nam Á từ những thế kỉ tiếp giáp đầu CN đến thế kỉ X</div>
+            <div class="lessons-panel-sub">Chọn bài để xem sơ đồ tư duy tóm tắt</div>
+          </div>
+        </div>
+        <div class="lessons-grid" style="--btn-color: var(--ch4); --btn-bg: #f3e8fc; --btn-active-bg: #e8d4f8">
+          <button class="lesson-btn" onclick="showMindmap('ch4','b11','Các quốc gia sơ kì ở Đông Nam Á')">
+            <div class="lesson-num" style="background:var(--ch4)">11</div>
+            <div class="lesson-name">Các quốc gia sơ kì ở Đông Nam Á</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch4','b12','Sự hình thành và bước đầu phát triển của các vương quốc phong kiến ở Đông Nam Á')">
+            <div class="lesson-num" style="background:var(--ch4)">12</div>
+            <div class="lesson-name">Sự hình thành các vương quốc phong kiến ở ĐNA</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch4','b13','Giao lưu văn hoá ở Đông Nam Á từ đầu CN đến thế kỉ X')">
+            <div class="lesson-num" style="background:var(--ch4)">13</div>
+            <div class="lesson-name">Giao lưu văn hoá ở Đông Nam Á từ đầu CN đến thế kỉ X</div>
+          </button>
+        </div>
+        <div class="mindmap-viewer" id="mm-ch4"></div>
+      </div>
+
+      <!-- CH5 -->
+      <div class="lessons-panel" id="panel-ch5" style="--panel-bg: var(--ch5-bg)">
+        <div class="lessons-panel-header">
+          <div class="chapter-icon" style="background: var(--ch5); width:36px; height:36px; font-size:16px; border-radius:8px; display:flex; align-items:center; justify-content:center;">🇻🇳</div>
+          <div>
+            <div class="lessons-panel-title">Chương 5 — Việt Nam từ thế kỉ VII TCN đến đầu thế kỉ X</div>
+            <div class="lessons-panel-sub">Chọn bài để xem sơ đồ tư duy tóm tắt</div>
+          </div>
+        </div>
+        <div class="lessons-grid" style="--btn-color: var(--ch5); --btn-bg: #fde8e6; --btn-active-bg: #fbd0cc">
+          <button class="lesson-btn" onclick="showMindmap('ch5','b14','Nhà nước Văn Lang – Âu Lạc')">
+            <div class="lesson-num" style="background:var(--ch5)">14</div>
+            <div class="lesson-name">Nhà nước Văn Lang – Âu Lạc</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch5','b15','Chính sách cai trị của các triều đại phong kiến phương Bắc')">
+            <div class="lesson-num" style="background:var(--ch5)">15</div>
+            <div class="lesson-name">Chính sách cai trị của phong kiến phương Bắc</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch5','b16','Các cuộc khởi nghĩa tiêu biểu giành độc lập trước thế kỉ X')">
+            <div class="lesson-num" style="background:var(--ch5)">16</div>
+            <div class="lesson-name">Các cuộc khởi nghĩa tiêu biểu trước thế kỉ X</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch5','b17','Cuộc đấu tranh bảo tồn và phát triển văn hoá dân tộc')">
+            <div class="lesson-num" style="background:var(--ch5)">17</div>
+            <div class="lesson-name">Đấu tranh bảo tồn văn hoá dân tộc</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch5','b18','Bước ngoặt lịch sử đầu thế kỉ X')">
+            <div class="lesson-num" style="background:var(--ch5)">18</div>
+            <div class="lesson-name">Bước ngoặt lịch sử đầu thế kỉ X</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch5','b19','Vương quốc Chăm-pa từ thế kỉ II đến thế kỉ X')">
+            <div class="lesson-num" style="background:var(--ch5)">19</div>
+            <div class="lesson-name">Vương quốc Chăm-pa (thế kỉ II – X)</div>
+          </button>
+          <button class="lesson-btn" onclick="showMindmap('ch5','b20','Vương quốc Phù Nam')">
+            <div class="lesson-num" style="background:var(--ch5)">20</div>
+            <div class="lesson-name">Vương quốc Phù Nam</div>
+          </button>
+        </div>
+        <div class="mindmap-viewer" id="mm-ch5"></div>
+      </div>
+
+      <!-- EDIT HINT -->
+      <div class="edit-hint">
+        <div class="edit-hint-icon">💡</div>
+        <div>
+          <h4>Cách cập nhật sơ đồ tư duy từ NotebookLM</h4>
+          <p>
+            Sau khi có nội dung từ NotebookLM, tìm hàm <code>getMindmapData(chapterId, lessonId)</code> trong file
+            <code>views/games/lich-su-6.ejs</code> và thêm/sửa data cho từng bài.
+            Mỗi bài có cấu trúc: <code>title</code>, <code>color</code>, và mảng <code>branches</code> (nhánh chính → <code>subs</code> nhánh phụ).
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<%- include('../partials/footer') %>
+
+<script>
+// ============================================================
+// DATA — Thay nội dung sơ đồ tư duy tại đây sau khi có từ NotebookLM
+// ============================================================
+const MINDMAP_DATA = {
+  'ch1-b1': {
+    title: 'Lịch sử và cuộc sống',
+    color: '#e67e22',
+    branches: [
+      {
+        label: 'Lịch sử là gì?',
+        color: '#e67e22',
+        subs: ['Tất cả những gì đã xảy ra', 'Khoa học nghiên cứu quá khứ', 'Môn học tìm hiểu quá trình phát triển']
+      },
+      {
+        label: 'Vì sao học lịch sử?',
+        color: '#d35400',
+        subs: ['Tìm hiểu cội nguồn dân tộc', 'Đúc kết bài học kinh nghiệm', 'Xây dựng tương lai tốt hơn']
+      },
+      {
+        label: 'Học lịch sử như thế nào?',
+        color: '#f39c12',
+        subs: ['Đọc sách giáo khoa', 'Tham quan di tích', 'Tìm hiểu truyền thuyết', 'Xem phim tài liệu']
+      }
+    ]
+  },
+  'ch1-b2': {
+    title: 'Dựa vào đâu để biết và phục dựng lại lịch sử?',
+    color: '#e67e22',
+    branches: [
+      {
+        label: 'Tư liệu hiện vật',
+        color: '#e67e22',
+        subs: ['Di tích, đồ vật còn lại', 'Trống đồng Ngọc Lũ', 'Công cụ đá, đồ gốm']
+      },
+      {
+        label: 'Tư liệu chữ viết',
+        color: '#d35400',
+        subs: ['Sách, văn bản ghi chép', 'Bia đá khắc chữ', 'Mang ý thức chủ quan']
+      },
+      {
+        label: 'Tư liệu truyền miệng',
+        color: '#f39c12',
+        subs: ['Thần thoại, truyền thuyết', 'Cổ tích, ca dao', 'Phản ánh hiện thực lịch sử']
+      },
+      {
+        label: 'Tư liệu gốc',
+        color: '#e74c3c',
+        subs: ['Thông tin đầu tiên, trực tiếp', 'Đáng tin cậy nhất', 'VD: Di chúc Hồ Chí Minh']
+      }
+    ]
+  },
+  'ch1-b3': {
+    title: 'Thời gian trong lịch sử',
+    color: '#e67e22',
+    branches: [
+      {
+        label: 'Tại sao phải xác định thời gian?',
+        color: '#e67e22',
+        subs: ['Sắp xếp sự kiện theo thứ tự', 'Hiểu và dựng lại lịch sử', 'Tránh nhầm lẫn mốc thời gian']
+      },
+      {
+        label: 'Âm lịch',
+        color: '#d35400',
+        subs: ['Tính theo chu kì Mặt Trăng', 'Người Ai Cập, Trung Quốc dùng', 'Còn phổ biến ở Việt Nam']
+      },
+      {
+        label: 'Dương lịch (Công lịch)',
+        color: '#f39c12',
+        subs: ['Tính theo chu kì Trái Đất', 'Thống nhất toàn cầu', 'Trước CN / Sau CN']
+      },
+      {
+        label: 'Đơn vị thời gian',
+        color: '#e74c3c',
+        subs: ['Thập kỉ = 10 năm', 'Thế kỉ = 100 năm', 'Thiên niên kỉ = 1000 năm']
+      }
+    ]
+  },
+  'ch2-b4': {
+    title: 'Nguồn gốc loài người',
+    color: '#27ae60',
+    branches: [
+      {
+        label: 'Quá trình tiến hoá',
+        color: '#27ae60',
+        subs: ['Vượn người → Người tối cổ → Người tinh khôn', '5–6 triệu năm trước: Vượn người', '4 triệu năm: Người tối cổ', '15 vạn năm: Người tinh khôn']
+      },
+      {
+        label: 'Dấu tích ở Đông Nam Á',
+        color: '#1e8449',
+        subs: ['Di cốt Vượn người ở Mi-an-ma, In-đô-nê-xi-a', 'Người tối cổ ở Thái Lan, Phi-líp-pin', 'Di chỉ An Khê (Gia Lai) — 80 vạn năm']
+      },
+      {
+        label: 'Dấu tích ở Việt Nam',
+        color: '#52be80',
+        subs: ['Răng Người tối cổ ở Thẩm Khuyên, Thẩm Hai (Lạng Sơn)', 'Công cụ đá ở An Khê, Núi Đọ, Xuân Lộc', 'Dấu tích sớm nhất: 80 vạn năm']
+      }
+    ]
+  },
+  'ch2-b5': {
+    title: 'Xã hội nguyên thuỷ',
+    color: '#27ae60',
+    branches: [
+      {
+        label: 'Bầy người nguyên thuỷ',
+        color: '#27ae60',
+        subs: ['Dạng người: Người tối cổ', 'Sống trong hang động', 'Săn bắt và hái lượm', 'Biết làm đồ trang sức, vẽ tranh']
+      },
+      {
+        label: 'Công xã thị tộc',
+        color: '#1e8449',
+        subs: ['Dạng người: Người tinh khôn', 'Biết trồng trọt, chăn nuôi', 'Tổ chức 2–3 thế hệ cùng huyết thống', 'Đời sống tinh thần phong phú hơn']
+      },
+      {
+        label: 'VN: Văn hoá Hoà Bình',
+        color: '#52be80',
+        subs: ['Biết mài đá tạo công cụ', 'Đồ gốm hoa văn trang trí', 'Bắt đầu biết làm nông nghiệp', 'Sống trong hang động, mái đá']
+      }
+    ]
+  },
+  'ch2-b6': {
+    title: 'Sự chuyển biến và phân hoá của xã hội nguyên thuỷ',
+    color: '#27ae60',
+    branches: [
+      {
+        label: 'Phát hiện kim loại',
+        color: '#27ae60',
+        subs: ['~3500 TCN: Người Tây Á dùng đồng đỏ', '~2000 TCN: Đồng thau phổ biến', 'Cuối TNK II – đầu TNK I TCN: Đồ sắt']
+      },
+      {
+        label: 'Thay đổi đời sống',
+        color: '#1e8449',
+        subs: ['Công cụ tốt → năng suất tăng', 'Mở rộng đất trồng trọt', 'Dư thừa của cải → phân hoá giàu nghèo']
+      },
+      {
+        label: 'Xã hội nguyên thuỷ tan rã',
+        color: '#52be80',
+        subs: ['Xuất hiện gia đình phụ hệ', 'Phân hoá kẻ giàu người nghèo', 'Hình thành giai cấp → xã hội có nhà nước']
+      },
+      {
+        label: 'VN: Đồng thau – Đồ sắt',
+        color: '#148f77',
+        subs: ['Phùng Nguyên (2000 TCN)', 'Đồng Đậu (1500 TCN)', 'Gò Mun (1000 TCN)', 'Cơ sở hình thành Văn Lang']
+      }
+    ]
+  },
+  'ch3-b7': {
+    title: 'Ai Cập và Lưỡng Hà cổ đại',
+    color: '#2980b9',
+    branches: [
+      {
+        label: 'Điều kiện tự nhiên',
+        color: '#2980b9',
+        subs: ['Sông Nin (Ai Cập) — đất phù sa màu mỡ', 'Sông Ơ-phơ-rát & Ti-gơ-rơ (Lưỡng Hà)', 'Nông nghiệp phát triển sớm']
+      },
+      {
+        label: 'Nhà nước',
+        color: '#1a5276',
+        subs: ['3200 TCN: Ai Cập thống nhất', 'Vua gọi là Pha-ra-ông', '3000 TCN: Lưỡng Hà — người Xu-me', 'Vua gọi là En-xi']
+      },
+      {
+        label: 'Thành tựu văn hoá',
+        color: '#5dade2',
+        subs: ['Chữ tượng hình (Ai Cập)', 'Chữ hình nêm (Lưỡng Hà)', 'Kim tự tháp, Tượng Nhân sư', 'Vườn treo Ba-bi-lon', 'Phát minh bánh xe, cái cày']
+      }
+    ]
+  },
+  'ch3-b8': {
+    title: 'Ấn Độ cổ đại',
+    color: '#2980b9',
+    branches: [
+      {
+        label: 'Điều kiện tự nhiên',
+        color: '#2980b9',
+        subs: ['Sông Ấn và sông Hằng', 'Đồng bằng rộng lớn, phì nhiêu', 'Dãy Hi-ma-lay-a che chắn phía Bắc']
+      },
+      {
+        label: 'Chế độ đẳng cấp Vác-na',
+        color: '#1a5276',
+        subs: ['Bra-man: tăng lữ, quý tộc', 'Ksa-tri-a: vương công, vũ sĩ', 'Vai-si-a: người bình dân', 'Su-đra: địa vị thấp kém']
+      },
+      {
+        label: 'Thành tựu văn hoá',
+        color: '#5dade2',
+        subs: ['Chữ Phạn (San-xkrít)', '10 chữ số (0–9) — dùng toàn cầu', 'Phật giáo và Ấn Độ giáo', 'Sử thi Ma-ha-bha-ra-ta & Ra-ma-y-a-na', 'Cột đá A-sô-ca, Đại bảo tháp San-chi']
+      }
+    ]
+  },
+  'ch3-b9': {
+    title: 'Trung Quốc từ thời cổ đại đến thế kỉ VII',
+    color: '#2980b9',
+    branches: [
+      {
+        label: 'Điều kiện tự nhiên',
+        color: '#2980b9',
+        subs: ['Hoàng Hà và Trường Giang', 'Đồng bằng Hoa Bắc, Hoa Trung, Hoa Nam', 'Lũ lụt nhưng đất phù sa màu mỡ']
+      },
+      {
+        label: 'Nhà Tần thống nhất (221 TCN)',
+        color: '#1a5276',
+        subs: ['Tần Thuỷ Hoàng — hoàng đế đầu tiên', 'Thống nhất chữ viết, đo lường, tiền tệ', 'Lập chế độ phong kiến tập quyền']
+      },
+      {
+        label: 'Thành tựu văn minh',
+        color: '#5dade2',
+        subs: ['4 phát minh: giấy, thuốc nổ, la bàn, kỹ thuật in', 'Chữ giáp cốt → Chữ Hán', 'Khổng Tử, Lão Tử', 'Vạn Lý Trường Thành', 'Địa động nghi — đo động đất']
+      }
+    ]
+  },
+  'ch3-b10': {
+    title: 'Hy Lạp và La Mã cổ đại',
+    color: '#2980b9',
+    branches: [
+      {
+        label: 'Điều kiện tự nhiên',
+        color: '#2980b9',
+        subs: ['Địa hình chia cắt (Hy Lạp)', 'Nhiều vũng, vịnh, cảng biển', 'Thương mại biển phát triển mạnh']
+      },
+      {
+        label: 'Nhà nước',
+        color: '#1a5276',
+        subs: ['Hy Lạp: Nhà nước thành bang', 'A-ten: dân chủ cổ đại điển hình', 'La Mã: từ cộng hoà → đế chế', 'Ốc-ta-vi-út — đế chế La Mã (27 TCN)']
+      },
+      {
+        label: 'Thành tựu văn hoá',
+        color: '#5dade2',
+        subs: ['Chữ cái La-tinh (A, B, C...)', 'Chữ số La Mã (I, V, X...)', 'Dương lịch', 'Pi-ta-go, Ta-lét, Ác-si-mét', 'Thần thoại Hy Lạp', 'Đền Pác-tê-nông, Đấu trường Cô-li-dê']
+      }
+    ]
+  },
+  'ch4-b11': {
+    title: 'Các quốc gia sơ kì ở Đông Nam Á',
+    color: '#8e44ad',
+    branches: [
+      {
+        label: 'Vị trí địa lí',
+        color: '#8e44ad',
+        subs: ['Giữa Trung Quốc và Ấn Độ', '"Ngã tư đường" của thế giới', 'ĐNA lục địa và ĐNA hải đảo']
+      },
+      {
+        label: '"Cái nôi" văn minh lúa nước',
+        color: '#6c3483',
+        subs: ['Khí hậu nhiệt đới gió mùa', 'Thích hợp trồng lúa nước', 'Quê hương cây gia vị nổi tiếng']
+      },
+      {
+        label: 'Các quốc gia sơ kì',
+        color: '#a569bd',
+        subs: ['Văn Lang – Âu Lạc (Việt Nam)', 'Chăm-pa (Việt Nam)', 'Phù Nam (Việt Nam)', 'Các quốc gia hạ lưu sông Chao Phray-a']
+      },
+      {
+        label: 'Giao thương',
+        color: '#7d3c98',
+        subs: ['Cảng Óc Eo (Việt Nam)', 'Ta-cô-la (Mã Lai)', 'Tìm thấy đồng tiền La Mã, nhẫn vàng Ấn Độ']
+      }
+    ]
+  },
+  'ch4-b12': {
+    title: 'Sự hình thành và bước đầu phát triển của các vương quốc phong kiến ở Đông Nam Á',
+    color: '#8e44ad',
+    branches: [
+      {
+        label: 'Các vương quốc hình thành',
+        color: '#8e44ad',
+        subs: ['Thế kỉ VII–X', 'Đại Cồ Việt (Bắc Việt Nam)', 'Sri Kse-tra, Pa-gan (Mi-an-ma)', 'Chân Lạp (Cam-pu-chia)', 'Sri Vi-giay-a (Xu-ma-tra)']
+      },
+      {
+        label: 'Kinh tế',
+        color: '#6c3483',
+        subs: ['Nông nghiệp lúa nước là chính', 'Thương mại biển phát triển', 'Con đường Gia vị nổi tiếng']
+      },
+      {
+        label: 'Sri Vi-giay-a',
+        color: '#a569bd',
+        subs: ['Đảo Xu-ma-tra', 'Trung tâm thương mại quan trọng', 'Gia vị, trầm hương, đàn hương']
+      }
+    ]
+  },
+  'ch4-b13': {
+    title: 'Giao lưu văn hoá ở Đông Nam Á từ đầu CN đến thế kỉ X',
+    color: '#8e44ad',
+    branches: [
+      {
+        label: 'Tín ngưỡng – Tôn giáo',
+        color: '#8e44ad',
+        subs: ['Tín ngưỡng phồn thực bản địa', 'Tiếp nhận Ấn Độ giáo', 'Tiếp nhận Phật giáo', 'Tín ngưỡng Thần–Vua']
+      },
+      {
+        label: 'Chữ viết – Văn học',
+        color: '#6c3483',
+        subs: ['Nhiều dân tộc tạo chữ từ chữ Phạn', 'Người Việt kế thừa chữ Hán', 'Ra-ma-y-a-na → Riêm Kê (Cam-pu-chia)', 'Phạ Lắc – Phạ Lam (Lào)']
+      },
+      {
+        label: 'Kiến trúc – Điêu khắc',
+        color: '#a569bd',
+        subs: ['Chịu ảnh hưởng Ấn Độ giáo & Phật giáo', 'Đền Bô-rô-bu-đua (In-đô-nê-xi-a)', 'Khu di tích Mỹ Sơn (Việt Nam)', 'Phù điêu, tượng thần, tượng Phật']
+      }
+    ]
+  },
+  'ch5-b14': {
+    title: 'Nhà nước Văn Lang – Âu Lạc',
+    color: '#c0392b',
+    branches: [
+      {
+        label: 'Nước Văn Lang',
+        color: '#c0392b',
+        subs: ['~thế kỉ VII TCN', 'Đứng đầu: Hùng Vương (Lạc hầu)', '15 bộ, chia Chiềng/chạ', 'Kinh đô: Phong Châu (Phú Thọ)', 'Chưa có pháp luật thành văn']
+      },
+      {
+        label: 'Nước Âu Lạc',
+        color: '#922b21',
+        subs: ['208 TCN — Thục Phán lập nước', 'Kinh đô: Cổ Loa (Đông Anh, Hà Nội)', 'Thành Cổ Loa hình xoáy ốc 3 vòng', 'Nỏ thần bắn nhiều tên']
+      },
+      {
+        label: 'Đời sống cư dân',
+        color: '#e74c3c',
+        subs: ['Nông nghiệp lúa nước, luyện kim', 'Nhà sàn, ăn trầu, nhuộm răng', 'Trống đồng Ngọc Lũ — biểu tượng VH', 'Thờ cúng tổ tiên, thần tự nhiên', 'Lễ hội nông nghiệp']
+      }
+    ]
+  },
+  'ch5-b15': {
+    title: 'Chính sách cai trị của phong kiến phương Bắc',
+    color: '#c0392b',
+    branches: [
+      {
+        label: 'Về bộ máy cai trị',
+        color: '#c0392b',
+        subs: ['179 TCN: Triệu Đà xâm chiếm', 'Chia thành châu – quận – huyện', 'Sau 40–43: người Hán nắm từ huyện lên', 'Xây thành Luy Lâu, Tống Bình–Đại La']
+      },
+      {
+        label: 'Về kinh tế',
+        color: '#922b21',
+        subs: ['Chiếm ruộng đất → nông nô', 'Tô thuế nặng nề', 'Độc quyền sắt và muối', 'Bắt cống nạp vải vóc, hương liệu']
+      },
+      {
+        label: 'Về văn hoá – xã hội',
+        color: '#e74c3c',
+        subs: ['Đồng hoá dân tộc Việt', 'Đưa người Hán sang ở cùng', 'Bắt theo phong tục, luật pháp Hán', 'Mâu thuẫn gay gắt → khởi nghĩa']
+      }
+    ]
+  },
+  'ch5-b16': {
+    title: 'Các cuộc khởi nghĩa tiêu biểu trước thế kỉ X',
+    color: '#c0392b',
+    branches: [
+      {
+        label: 'Hai Bà Trưng (40–43)',
+        color: '#c0392b',
+        subs: ['Trưng Trắc và Trưng Nhị', 'Đánh đuổi Tô Định', 'Giải phóng 65 thành trì', 'Trưng Trắc lên làm vua', 'Năm 43: bị Mã Viện đàn áp']
+      },
+      {
+        label: 'Bà Triệu (248)',
+        color: '#922b21',
+        subs: ['Khởi nghĩa từ Cửu Chân', 'Làm chấn động toàn Giao Châu', 'Bị quân Ngô đàn áp', '"Vung tay đánh cọp còn dễ..."']
+      },
+      {
+        label: 'Lý Bí (542–602)',
+        color: '#e74c3c',
+        subs: ['Lý Bí lên làm Lý Nam Đế', 'Lập nước Vạn Xuân (544)', 'Đóng đô: sông Tô Lịch', 'Triệu Quang Phục kháng chiến tiếp', 'Năm 602: Tuỳ đánh bại']
+      },
+      {
+        label: 'Mai Thúc Loan (713–722) & Phùng Hưng (cuối TK VIII)',
+        color: '#cb4335',
+        subs: ['Mai Thúc Loan: chiếm 32 châu', 'Phùng Hưng: "Bố Cái Đại Vương"', 'Chiếm Tống Bình, tự chủ 9 năm', 'Mở đường cho độc lập sau này']
+      }
+    ]
+  },
+  'ch5-b17': {
+    title: 'Đấu tranh bảo tồn và phát triển văn hoá dân tộc của người Việt',
+    color: '#c0392b',
+    branches: [
+      {
+        label: 'Giữ gìn văn hoá bản địa',
+        color: '#c0392b',
+        subs: ['Tiếng Việt vẫn được dạy truyền', 'Tín ngưỡng thờ tổ tiên duy trì', 'Phong tục: xăm mình, ăn trầu, búi tóc', 'Làm bánh chưng, bánh giầy']
+      },
+      {
+        label: 'Tiếp thu có chọn lọc văn hoá Trung Hoa',
+        color: '#922b21',
+        subs: ['Tiếp thu chữ Hán', 'Một số phong tục: Tết Nguyên đán, Trung thu', 'Kỹ thuật: làm giấy, đồ thuỷ tinh', 'Đón nhận Phật giáo, Đạo giáo', 'Vẫn giữ truyền thống tôn trọng phụ nữ']
+      }
+    ]
+  },
+  'ch5-b18': {
+    title: 'Bước ngoặt lịch sử đầu thế kỉ X',
+    color: '#c0392b',
+    branches: [
+      {
+        label: 'Họ Khúc dựng quyền tự chủ',
+        color: '#c0392b',
+        subs: ['905: Khúc Thừa Dụ — tiết độ sứ', 'Khúc Hạo cải cách: thuế công bằng, sổ hộ khẩu, bớt lực dịch', '"Chính sự khoan dung, dân được yên vui"']
+      },
+      {
+        label: 'Dương Đình Nghệ (931)',
+        color: '#922b21',
+        subs: ['930: quân Nam Hán xâm lược', '931: Dương Đình Nghệ đánh đuổi', 'Tự xưng Tiết độ sứ, xây dựng tự chủ']
+      },
+      {
+        label: 'Ngô Quyền & Bạch Đằng 938',
+        color: '#e74c3c',
+        subs: ['Quân Nam Hán do Hoằng Tháo chỉ huy', 'Trận địa cọc nhọn bịt sắt', 'Lợi dụng thuỷ triều lên xuống', 'Tiêu diệt quân Nam Hán', 'Chấm dứt 1000 năm Bắc thuộc ✊']
+      }
+    ]
+  },
+  'ch5-b19': {
+    title: 'Vương quốc Chăm-pa từ thế kỉ II đến thế kỉ X',
+    color: '#c0392b',
+    branches: [
+      {
+        label: 'Hình thành và phát triển',
+        color: '#c0392b',
+        subs: ['192 CN: Khu Liên lập nước Lâm Ấp', 'Vùng đất miền Trung (từ Hoành Sơn)', 'Thế kỉ VIII: chuyển kinh đô vào phía Nam', 'Kinh đô qua các thời kì: Sin-ha-pu-ra, Vi-ra-pu-ra, In-đra-pu-ra']
+      },
+      {
+        label: 'Kinh tế & xã hội',
+        color: '#922b21',
+        subs: ['Trồng lúa nước, chăn nuôi', 'Thủ công: gốm, trang sức', 'Buôn bán quốc tế: trầm hương, kì nam, ngọc trai', 'Xã hội: tăng lữ, quý tộc, dân tự do, nô lệ']
+      },
+      {
+        label: 'Văn hoá',
+        color: '#e74c3c',
+        subs: ['Chữ Chăm cổ (từ chữ Phạn)', 'Tín ngưỡng đa thần, Ấn Độ giáo, Phật giáo', 'Thánh địa Mỹ Sơn (Di sản UNESCO)', 'Lễ hội Ka-tê đặc sắc']
+      }
+    ]
+  },
+  'ch5-b20': {
+    title: 'Vương quốc Phù Nam',
+    color: '#c0392b',
+    branches: [
+      {
+        label: 'Hình thành, phát triển, suy vong',
+        color: '#c0392b',
+        subs: ['Thế kỉ I CN: ra đời tại Nam Bộ', 'TK III–V: đế chế hùng mạnh nhất ĐNA', 'Trung tâm: Óc Eo (An Giang), Ăng-co Bo-râý', 'Đầu TK VI: suy yếu', 'Đầu TK VII: bị Chân Lạp xâm chiếm']
+      },
+      {
+        label: 'Kinh tế & xã hội',
+        color: '#922b21',
+        subs: ['Trồng lúa, chăn nuôi, đánh cá', 'Thủ công: đồ gốm, trang sức thuỷ tinh', 'Buôn bán quốc tế rất phát triển', 'Cảng Óc Eo — trung tâm thương mại lớn', 'Xã hội: quý tộc, tăng lữ, thương nhân, thợ thủ công, nông dân']
+      },
+      {
+        label: 'Văn hoá',
+        color: '#e74c3c',
+        subs: ['Thờ đa thần, Phật giáo & Ấn Độ giáo', 'Nghề tạc tượng thần Ấn Độ phát triển', 'Nhà sàn trên mặt nước', 'Đồ trang sức vàng, pha lê tinh xảo']
+      }
+    ]
+  }
+};
+
+// ============================================================
+// CHAPTER COLORS CONFIG
+const CH_CONFIG = {
+  1: { color: '#e67e22', bg: '#fef3e2', btnActive: '#fde8c8' },
+  2: { color: '#27ae60', bg: '#e8f8ef', btnActive: '#d0f0df' },
+  3: { color: '#2980b9', bg: '#e8f4fc', btnActive: '#cce8f7' },
+  4: { color: '#8e44ad', bg: '#f3e8fc', btnActive: '#e8d4f8' },
+  5: { color: '#c0392b', bg: '#fde8e6', btnActive: '#fbd0cc' },
+};
+
+let activeChapter = null;
+let activeLesson = null;
+
+function toggleChapter(ch) {
+  const panel = document.getElementById('panel-ch' + ch);
+  const card = document.querySelector('.chapter-card[data-ch="' + ch + '"]');
+
+  if (activeChapter === ch) {
+    // Close
+    panel.classList.remove('open');
+    card.classList.remove('active');
+    activeChapter = null;
+    activeLesson = null;
+    return;
+  }
+
+  // Close previous
+  if (activeChapter) {
+    document.getElementById('panel-ch' + activeChapter).classList.remove('open');
+    document.querySelector('.chapter-card[data-ch="' + activeChapter + '"]').classList.remove('active');
+  }
+
+  activeChapter = ch;
+  activeLesson = null;
+  panel.classList.add('open');
+  card.classList.add('active');
+
+  // Scroll to panel
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+function showMindmap(chId, lessonId, lessonName) {
+  const key = chId + '-' + lessonId;
+  const mmViewer = document.getElementById('mm-' + chId);
+  const chNum = parseInt(chId.replace('ch',''));
+
+  // Deactivate previous lesson buttons
+  document.querySelectorAll('#panel-' + chId + ' .lesson-btn').forEach(b => b.classList.remove('active'));
+  // Activate current
+  event.currentTarget.classList.add('active');
+
+  if (activeLesson === key) {
+    mmViewer.classList.remove('open');
+    mmViewer.innerHTML = '';
+    activeLesson = null;
+    return;
+  }
+
+  activeLesson = key;
+  mmViewer.classList.add('open');
+
+  const data = MINDMAP_DATA[key];
+  const cfg = CH_CONFIG[chNum];
+
+  if (!data) {
+    mmViewer.innerHTML = `
+      <div class="mindmap-viewer-header">
+        <div class="mindmap-viewer-title">Bài ${lessonId.replace('b','')} — ${lessonName}</div>
+      </div>
+      <div class="mindmap-container">
+        <div class="mindmap-placeholder">
+          <div class="mindmap-placeholder-icon">🗂️</div>
+          <p>Sơ đồ tư duy cho bài này đang được cập nhật</p>
+          <div class="update-note">📥 Nội dung từ NotebookLM sẽ được thêm vào tại hàm <code>getMindmapData()</code></div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  mmViewer.innerHTML = `
+    <div class="mindmap-viewer-header">
+      <div>
+        <div class="mindmap-viewer-title">
+          Bài ${lessonId.replace('b','')} — ${data.title}
+          <small>Sơ đồ tư duy tóm tắt</small>
+        </div>
+      </div>
+      <div class="mindmap-actions">
+        <button class="mindmap-btn" onclick="window.print()">🖨️ In</button>
+      </div>
+    </div>
+    <div class="mindmap-container">
+      <div class="mindmap-wrap">
+        ${buildMindmapSVG(data, cfg)}
+      </div>
+    </div>`;
+
+  setTimeout(() => mmViewer.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+}
+
+function buildMindmapSVG(data, cfg) {
+  const branches = data.branches;
+  const W = Math.max(900, 200 + branches.length * 220);
+  const H = 420;
+  const cx = W / 2;
+  const cy = H / 2;
+  const branchSpacing = W / (branches.length + 1);
+
+  let svgContent = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" class="mindmap-svg" style="min-width:${W}px">
+    <defs>
+      <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.15)"/>
+      </filter>
+    </defs>`;
+
+  // Center node
+  const centerW = 160; const centerH = 56;
+  svgContent += `
+    <rect x="${cx - centerW/2}" y="${cy - centerH/2}" width="${centerW}" height="${centerH}" rx="28" fill="${cfg.color}" filter="url(#shadow)"/>
+    <text x="${cx}" y="${cy - 8}" text-anchor="middle" font-family="Crimson Pro, serif" font-weight="700" font-size="13" fill="white">${wrapText(data.title, 20, 0)}</text>
+    <text x="${cx}" y="${cy + 10}" text-anchor="middle" font-family="Crimson Pro, serif" font-weight="700" font-size="13" fill="white">${wrapText(data.title, 20, 1)}</text>`;
+
+  branches.forEach((branch, i) => {
+    const bx = branchSpacing * (i + 1);
+    const by = cy;
+    const bW = 140; const bH = 38;
+
+    // Line from center to branch
+    svgContent += `<line x1="${cx}" y1="${cy}" x2="${bx}" y2="${by}" stroke="${branch.color}" stroke-width="2.5" opacity="0.5" stroke-dasharray="5,3"/>`;
+
+    // Branch node
+    svgContent += `
+      <rect x="${bx - bW/2}" y="${by - bH/2}" width="${bW}" height="${bH}" rx="10" fill="${branch.color}" filter="url(#shadow)"/>`;
+
+    const bLabel = branch.label.length > 18 ? branch.label.substring(0, 17) + '…' : branch.label;
+    svgContent += `<text x="${bx}" y="${by + 5}" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="11" fill="white" font-weight="600">${bLabel}</text>`;
+
+    // Sub nodes — distribute vertically
+    const subsCount = branch.subs.length;
+    const subSpread = Math.min(subsCount * 42, 170);
+    branch.subs.forEach((sub, j) => {
+      const subY = by - subSpread/2 + (j / Math.max(subsCount - 1, 1)) * subSpread;
+      const subX = bx + (bx < cx ? -90 : 90);
+      const sW = 140; const sH = 28;
+
+      svgContent += `<line x1="${bx + (bx < cx ? -bW/2 : bW/2)}" y1="${by}" x2="${subX}" y2="${subY}" stroke="${branch.color}" stroke-width="1.5" opacity="0.3"/>`;
+      svgContent += `
+        <rect x="${subX - sW/2}" y="${subY - sH/2}" width="${sW}" height="${sH}" rx="6" fill="white" stroke="${branch.color}" stroke-width="1.5"/>`;
+
+      const subLabel = sub.length > 20 ? sub.substring(0, 19) + '…' : sub;
+      svgContent += `<text x="${subX}" y="${subY + 4}" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="9.5" fill="#333">${subLabel}</text>`;
+    });
+  });
+
+  svgContent += `</svg>`;
+  return svgContent;
+}
+
+function wrapText(text, maxLen, line) {
+  if (text.length <= maxLen) return line === 0 ? text : '';
+  const words = text.split(' ');
+  let line0 = '', line1 = '';
+  for (const w of words) {
+    if ((line0 + ' ' + w).trim().length <= maxLen) line0 = (line0 + ' ' + w).trim();
+    else line1 = (line1 + ' ' + w).trim();
+  }
+  return line === 0 ? line0 : line1;
+}
+</script>
+
+</body>
+</html>
