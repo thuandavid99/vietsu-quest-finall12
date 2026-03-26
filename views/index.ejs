@@ -88,11 +88,7 @@
                   <span><strong><%= course.lessons %></strong> bài học</span>
                   <span><strong><%= course.quizzes %></strong> quiz</span>
                 </div>
-               <% if (course.grade === 6) { %>
-  <a href="/games/lich-su-6" class="text-link-btn">Xem chi tiết →</a>
-<% } else { %>
-  <button class="btn-course-open text-link-btn">Xem chi tiết →</button>
-<% } %>
+                <button class="btn-course-open text-link-btn">Xem chi tiết →</button>
               </article>
             <% }) %>
           </div>
